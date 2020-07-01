@@ -1,15 +1,25 @@
 import React from 'react'
-import { useFirestore } from 'reactfire'
+import { useFirestore, useFirestoreDoc, useFirestoreDocData } from 'reactfire'
 
 interface Props {
         text: string
 }
 
 const Button: React.FC<Props> = ({ text }) => {
-        const fs = useFirestore()
-        console.log(fs)
+        const nutellaRef = useFirestore().collection('brand').doc('nutella')
+        const randomRef = useFirestore().collection('product').doc('blbl')
+        const nutella = useFirestoreDoc(nutellaRef)
 
-        return <button>{text}</button>
+        console.log(nutella.data())
+
+        const handleClick = () => {
+                nutellaRef.set({
+                        name: ';',
+                        products: randomRef,
+                })
+        }
+
+        return <button onClick={handleClick}>{text}</button>
 }
 
 export default Button
