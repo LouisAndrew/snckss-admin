@@ -35,7 +35,7 @@ function App() {
                                         fallback={<h1>Loading!</h1>}
                                         traceId="loading whatever the fuck that is"
                                 >
-                                        <Login />
+                                        {!user.isLoggedIn && <Login />}
                                         <Button text="click me!" />
                                 </SuspenseWithPerf>
                         </UserContext.Provider>
