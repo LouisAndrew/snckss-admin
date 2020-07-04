@@ -6,7 +6,7 @@ export interface Product {
         name: string
         desc: string
         PID: string
-        price: string
+        price: number
         imgs: string[]
         available: boolean
         arrivingAt: Date
