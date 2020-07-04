@@ -37,7 +37,11 @@ const Button: React.FC<Props> = ({ text }) => {
                 }
 
                 if (changeUser) {
-                        changeUser(mockUser)
+                        if (counter % 2 === 0) {
+                                changeUser()
+                        } else {
+                                changeUser(mockUser)
+                        }
                         setCounter(counter + 1)
                 }
         }

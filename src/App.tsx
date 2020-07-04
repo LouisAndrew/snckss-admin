@@ -10,12 +10,21 @@ import { Admin } from './interfaces/admin'
 function App() {
         const [user, setUser] = useState(initial)
 
-        const changeUser = ({ name, uid }: Admin) => {
-                setUser({
-                        name,
-                        uid,
-                        isLoggedIn: true,
-                })
+        /**
+         * empty params would means log out!
+         * @param info admin credentials
+         */
+        const changeUser = (info?: Admin) => {
+                if (info) {
+                        const { name, uid } = info
+                        setUser({
+                                name,
+                                uid,
+                                isLoggedIn: true,
+                        })
+                } else {
+                        setUser(initial)
+                }
         }
 
         return (

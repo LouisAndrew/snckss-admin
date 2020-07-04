@@ -7,7 +7,7 @@ export interface User extends Admin {
 
 export interface IContext {
         user: User
-        changeUser: ({ name, uid }: Admin) => void
+        changeUser: (info?: Admin) => void
 }
 
 export const initial: User = {
