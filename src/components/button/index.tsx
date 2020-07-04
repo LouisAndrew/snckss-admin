@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import { useFirestore, useFirestoreDoc, useFirestoreDocData } from 'reactfire'
-import firebase from 'firebase'
 
 import { Product } from '../../interfaces/product'
 import { UserContext } from '../../lib/user.context'
