@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard component within main scene. used to change tabs  matches snapshot 1`] = `
+<ul
+  className="tabs nav flex-column nav-tabs"
+>
+  <li
+    className="nav-item"
+  >
+    <a
+      className="nav-link"
+      onClick={[Function]}
+    >
+      Create Products
+    </a>
+  </li>
+  <li
+    className="nav-item"
+  >
+    <a
+      className="nav-link"
+      onClick={[Function]}
+    >
+      Show Orders
+    </a>
+  </li>
+</ul>
+`;

@@ -7,6 +7,9 @@ import Button from './components/button'
 import { initial, UserContext } from './lib/user.context'
 import { Admin } from './interfaces/admin'
 import Login from './scene/login'
+import Main from './scene/main'
+
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
         const [user, setUser] = useState(initial)
@@ -28,6 +31,18 @@ function App() {
                 }
         }
 
+        // for testing purposes -> no log in required here
+        const skipLogin = () => {
+                if (!user.isLoggedIn) {
+                        setUser({
+                                ...initial,
+                                isLoggedIn: true,
+                        })
+                }
+        }
+
+        skipLogin()
+
         return (
                 <FirebaseAppProvider firebaseConfig={config}>
                         <UserContext.Provider value={{ user, changeUser }}>
@@ -35,7 +50,7 @@ function App() {
                                         fallback={<h1>Loading!</h1>}
                                         traceId="loading whatever the fuck that is"
                                 >
-                                        {!user.isLoggedIn && <Login />}
+                                        {user.isLoggedIn ? <Main /> : <Login />}
                                         <Button text="click me!" />
                                 </SuspenseWithPerf>
                         </UserContext.Provider>
