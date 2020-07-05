@@ -2,10 +2,17 @@ $darker: rgba(0, 0, 0, 0.6);
 
 .tabs {
         li {
+                margin: 0;
                 transition: 0.2s;
 
                 &:hover {
                         cursor: pointer;
+                        background-color: $darker;
+                        color: #fff;
+                        border-color: $darker;
+                }
+
+                &.active {
                         background-color: $darker;
                         color: #fff;
                 }

@@ -5,23 +5,25 @@ exports[`Dashboard component within main scene. used to change tabs  matches sna
   className="tabs nav flex-column nav-tabs"
 >
   <li
-    className="nav-item"
+    className="product nav-item"
   >
     <a
       className="nav-link"
       onClick={[Function]}
     >
       Create Products
+       
     </a>
   </li>
   <li
-    className="nav-item"
+    className="orders nav-item"
   >
     <a
       className="nav-link"
       onClick={[Function]}
     >
       Show Orders
+       
     </a>
   </li>
 </ul>

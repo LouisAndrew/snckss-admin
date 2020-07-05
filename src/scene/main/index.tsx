@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { Container, Row, Col } from 'reactstrap'
 
 import Dashboard from './dashboard'
-import Editor from './editor'
 import NonePage from './none'
 import Orders from './orders'
+import Creator from './creator'
 
 export enum Views {
         NONE,
@@ -15,9 +15,30 @@ export enum Views {
 interface Props {}
 
 const Main: React.FC<Props> = ({}) => {
-        const [view, setView] = useState(Views.NONE)
+        // Views.NONE
+        const [view, setView] = useState(Views.CREATE)
+
+        const addActiveClass = (toAdd: HTMLElement, toRemove: HTMLElement) => {
+                toAdd.classList.add('active')
+                toRemove.classList.remove('active')
+        }
 
         const changeView = (view: Views): void => {
+                const product: HTMLElement | null = document.querySelector(
+                        '.product'
+                )
+                const orders: HTMLElement | null = document.querySelector(
+                        '.orders'
+                )
+
+                if (product && orders) {
+                        if (view === Views.CREATE) {
+                                addActiveClass(product, orders)
+                        } else {
+                                addActiveClass(orders, product)
+                        }
+                }
+
                 setView(view)
         }
 
@@ -31,7 +52,7 @@ const Main: React.FC<Props> = ({}) => {
                                         {view === Views.NONE ? (
                                                 <NonePage />
                                         ) : view === Views.CREATE ? (
-                                                <Editor />
+                                                <Creator />
                                         ) : (
                                                 <Orders />
                                         )}

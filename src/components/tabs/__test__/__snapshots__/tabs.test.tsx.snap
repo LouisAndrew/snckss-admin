@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tabs reusable component matches snapshot 1`] = `
+<li
+  className="class nav-item"
+>
+  <a
+    className="nav-link"
+    onClick={[Function]}
+  >
+    Test
+  </a>
+</li>
+`;
