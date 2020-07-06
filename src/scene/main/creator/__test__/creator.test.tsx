@@ -1,62 +1,57 @@
 // how to test component with node env?
 
-// import React, { Suspense } from 'react'
-// import ReactDOM from 'react-dom'
-// import renderer from 'react-test-renderer'
+import React, { Suspense } from 'react'
+import ReactDOM from 'react-dom'
+import renderer from 'react-test-renderer'
 
-// import { render, cleanup, fireEvent } from '@testing-library/react'
-// import '@testing-library/jest-dom'
+import { render, cleanup, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-// import Creator from '..'
-// import { FirebaseAppProvider } from 'reactfire'
-// import config from '../../../../lib/firebase-config'
+import Creator from '..'
+import { FirebaseAppProvider } from 'reactfire'
+import config from '../../../../lib/firebase-config'
 
-// require('dotenv').config({
-//         path: '.env.development',
-// })
+describe('Creator element inside main scene', () => {
+        beforeEach(() => {
+                jest.resetModules()
+        })
+        afterEach(cleanup)
+        const el = (
+                <FirebaseAppProvider firebaseConfig={config}>
+                        <Suspense fallback={<h1></h1>}>
+                                <Creator />
+                        </Suspense>
+                </FirebaseAppProvider>
+        )
 
-// describe('Creator element inside main scene', () => {
-//         beforeEach(() => {
-//                 jest.resetModules()
-//                 process.env.REACT_APP_API_KEY = config.apiKey
-//         })
-//         afterEach(cleanup)
-//         const el = (
-//                 <FirebaseAppProvider firebaseConfig={config}>
-//                         <Suspense fallback={<h1></h1>}>
-//                                 <Creator />
-//                         </Suspense>
-//                 </FirebaseAppProvider>
-//         )
+        it('env variables matches', () => {
+                expect(process.env.REACT_APP_API_KEY).toBeDefined()
+        })
 
-//         it('env variables matches', () => {
-//                 expect(process.env.REACT_APP_API_KEY).toEqual(config.apiKey)
-//         })
+        it('renders without crashing', () => {
+                const div = document.createElement('div')
+                ReactDOM.render(el, div)
+        })
 
-//         it('renders without crashing', () => {
-//                 const div = document.createElement('div')
-//                 ReactDOM.render(el, div)
-//         })
+        // TODO: test behavior on state change
+        // it('renders correctly', () => {
 
-//         // TODO: test behavior on state change
-//         // it('renders correctly', () => {
+        //         const { getByTestId } = render()
+        // })
 
-//         //         const { getByTestId } = render()
-//         // })
+        // TODO: how to render when state changes.
+        // it('renders editor component when link is clicked', () => {
+        //         const { getByText, getByTestId } = render(el)
 
-//         // TODO: how to render when state changes.
-//         // it('renders editor component when link is clicked', () => {
-//         //         const { getByText, getByTestId } = render(el)
+        //         const categoriesLink: HTMLElement = getByText('Categories')
+        //         fireEvent.click(categoriesLink)
 
-//         //         const categoriesLink: HTMLElement = getByText('Categories')
-//         //         fireEvent.click(categoriesLink)
+        //         const editorEl: HTMLElement = getByTestId('editor')
+        //         expect(editorEl).toBeInTheDocument()
+        // })
 
-//         //         const editorEl: HTMLElement = getByTestId('editor')
-//         //         expect(editorEl).toBeInTheDocument()
-//         // })
-
-//         it('matches snapshot', () => {
-//                 const tree = renderer.create(el).toJSON()
-//                 expect(tree).toMatchSnapshot()
-//         })
-// })
+        it('matches snapshot', () => {
+                const tree = renderer.create(el).toJSON()
+                expect(tree).toMatchSnapshot()
+        })
+})

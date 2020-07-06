@@ -1,3 +1,9 @@
+// const dotenv = require('dotenv')
+// dotenv.config()
+
+// module.exports = {
+//         verbose: true,
+// }
 module.exports = {
-        verbose: true,
+        setupFiles: ['dotenv/config'],
 }
