@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import {
-        InputGroup,
-        InputGroupAddon,
-        Input,
-        Label,
-        FormGroup,
-} from 'reactstrap'
+import { Input, Label, FormGroup } from 'reactstrap'
 
 import { useFirestore } from 'reactfire'
 import { Brand } from '../../../interfaces/brand'
+import List, { ListItem } from './list'
 
 interface Props {}
 
@@ -50,13 +45,34 @@ const Brands: React.FC<{}> = ({}) => {
                                 (brd) => brd.name === event.target.value
                         )[0]
 
-                        // set selected to it.
-                        setSelected([...selected, userSelected])
-                        setAvailBrands(
-                                availBrands.filter(
-                                        (brd) => brd.name !== userSelected.name
+                        if (userSelected) {
+                                // set selected to it.
+                                setSelected([...selected, userSelected])
+                                setAvailBrands(
+                                        availBrands.filter(
+                                                (brd) =>
+                                                        brd.name !==
+                                                        userSelected.name
+                                        )
+                                )
+                        }
+                }
+        }
+
+        const handleRemove = (key: ListItem['key']): void => {
+                // here key = brand name.
+                // exact same function as handle change, but in this case adding the item to available and removing it from selected.
+                const toRemove: Brand = selected.filter(
+                        (brand) => brand.name === key
+                )[0]
+
+                if (toRemove) {
+                        setSelected(
+                                selected.filter(
+                                        (brand) => brand.name !== toRemove.name
                                 )
                         )
+                        setAvailBrands([...availBrands, toRemove])
                 }
         }
 
@@ -71,34 +87,29 @@ const Brands: React.FC<{}> = ({}) => {
                                         onChange={handleChange}
                                         value=""
                                 >
-                                        {availBrands.map((brd) => (
+                                        {availBrands.map((brand) => (
                                                 <option
-                                                        key={`option-${brd.name}`}
-                                                        value={brd.name}
+                                                        key={`option-${brand.name}`}
+                                                        value={brand.name}
                                                 >
-                                                        {brd.name}
+                                                        {brand.name}
                                                 </option>
                                         ))}
                                 </Input>
                         </FormGroup>
-                        <FormGroup>
-                                <Label for="selected-brands">
-                                        Selected brands
-                                </Label>
-                                {selected.map((slctd) => (
-                                        <React.Fragment>
-                                                <label
-                                                        htmlFor={`selected-${slctd.name}`}
-                                                >
-                                                        {slctd.name}
-                                                </label>
-                                                <input
-                                                        type="checkbox"
-                                                        id={`selected-${slctd.name}`}
-                                                />
-                                        </React.Fragment>
-                                ))}
-                        </FormGroup>
+                        <List
+                                items={selected.map((brand) => {
+                                        const { name } = brand
+                                        const item = {
+                                                text: name,
+                                                key: name,
+                                        } as ListItem
+
+                                        return item
+                                })}
+                                headerText="Selected Items"
+                                handleRemove={handleRemove}
+                        />
                 </>
         )
 }
