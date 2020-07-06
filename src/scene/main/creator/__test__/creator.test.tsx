@@ -1,40 +1,62 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import renderer from 'react-test-renderer'
+// how to test component with node env?
 
-import { render, cleanup, fireEvent } from '@testing-library/react'
-import '@testing-library/jest-dom'
+// import React, { Suspense } from 'react'
+// import ReactDOM from 'react-dom'
+// import renderer from 'react-test-renderer'
 
-import Creator from '..'
+// import { render, cleanup, fireEvent } from '@testing-library/react'
+// import '@testing-library/jest-dom'
 
-describe('Creator element inside main scene', () => {
-        afterEach(cleanup)
-        const el = <Creator />
+// import Creator from '..'
+// import { FirebaseAppProvider } from 'reactfire'
+// import config from '../../../../lib/firebase-config'
 
-        it('renders without crashing', () => {
-                const div = document.createElement('div')
-                ReactDOM.render(el, div)
-        })
+// require('dotenv').config({
+//         path: '.env.development',
+// })
 
-        // TODO: test behavior on state change
-        // it('renders correctly', () => {
+// describe('Creator element inside main scene', () => {
+//         beforeEach(() => {
+//                 jest.resetModules()
+//                 process.env.REACT_APP_API_KEY = config.apiKey
+//         })
+//         afterEach(cleanup)
+//         const el = (
+//                 <FirebaseAppProvider firebaseConfig={config}>
+//                         <Suspense fallback={<h1></h1>}>
+//                                 <Creator />
+//                         </Suspense>
+//                 </FirebaseAppProvider>
+//         )
 
-        //         const { getByTestId } = render()
-        // })
+//         it('env variables matches', () => {
+//                 expect(process.env.REACT_APP_API_KEY).toEqual(config.apiKey)
+//         })
 
-        // TODO: how to render when state changes.
-        // it('renders editor component when link is clicked', () => {
-        //         const { getByText, getByTestId } = render(el)
+//         it('renders without crashing', () => {
+//                 const div = document.createElement('div')
+//                 ReactDOM.render(el, div)
+//         })
 
-        //         const categoriesLink: HTMLElement = getByText('Categories')
-        //         fireEvent.click(categoriesLink)
+//         // TODO: test behavior on state change
+//         // it('renders correctly', () => {
 
-        //         const editorEl: HTMLElement = getByTestId('editor')
-        //         expect(editorEl).toBeInTheDocument()
-        // })
+//         //         const { getByTestId } = render()
+//         // })
 
-        it('matches snapshot', () => {
-                const tree = renderer.create(el).toJSON()
-                expect(tree).toMatchSnapshot()
-        })
-})
+//         // TODO: how to render when state changes.
+//         // it('renders editor component when link is clicked', () => {
+//         //         const { getByText, getByTestId } = render(el)
+
+//         //         const categoriesLink: HTMLElement = getByText('Categories')
+//         //         fireEvent.click(categoriesLink)
+
+//         //         const editorEl: HTMLElement = getByTestId('editor')
+//         //         expect(editorEl).toBeInTheDocument()
+//         // })
+
+//         it('matches snapshot', () => {
+//                 const tree = renderer.create(el).toJSON()
+//                 expect(tree).toMatchSnapshot()
+//         })
+// })

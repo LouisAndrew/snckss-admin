@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FirebaseAppProvider, SuspenseWithPerf } from 'reactfire'
 
 import config from './lib/firebase-config'
-import logo from './logo.svg'
+// import logo from './logo.svg'
 import Button from './components/button'
 import { initial, UserContext } from './lib/user.context'
 import { Admin } from './interfaces/admin'

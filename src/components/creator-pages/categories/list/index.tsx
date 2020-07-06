@@ -3,6 +3,8 @@ import { ListGroup, Label, ListGroupItem } from 'reactstrap'
 import { InlineIcon } from '@iconify/react'
 import deleteIcon from '@iconify/icons-mdi/delete'
 
+import './styles.scss'
+
 export interface ListItem {
         text: string
         key: any
@@ -17,12 +19,12 @@ interface Props {
 const List: React.FC<Props> = ({ headerText, items, handleRemove }) => {
         return (
                 <ListGroup>
-                        <Label>{headerText}</Label>
+                        <Label className="list-label">{headerText}</Label>
                         {items.map((item) => (
                                 <ListGroupItem key={item.key}>
                                         {item.text}
                                         <span
-                                                className="delete"
+                                                className={`del-${item.text}`}
                                                 onClick={() =>
                                                         handleRemove(item.key)
                                                 }
