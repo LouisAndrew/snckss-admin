@@ -1,3 +1,83 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`categories element. matches snapshot 1`] = `null`;
+exports[`categories element. matches snapshot 1`] = `
+<div
+  className="categories"
+>
+  <div
+    className="back"
+    onClick={[Function]}
+  >
+    <svg
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<path d=\\"M20 11v2H8l5.5 5.5l-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5L8 11h12z\\" fill=\\"currentColor\\"/>",
+        }
+      }
+      focusable={false}
+      height="1em"
+      preserveAspectRatio="xMidYMid meet"
+      style={
+        Object {
+          "transform": "rotate(360deg)",
+        }
+      }
+      viewBox="0 0 24 24"
+      width="1em"
+      xmlns="http://www.w3.org/2000/svg"
+    />
+  </div>
+  <h1>
+    Categories
+  </h1>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="category-name"
+    >
+      Category Name
+    </label>
+    <input
+      className="form-control"
+      id="category-name"
+      onChange={[Function]}
+      placeholder="Add category name here!"
+      type="text"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="select-brands"
+    >
+      Select Brands
+    </label>
+    <select
+      className="form-control"
+      id="select-brands"
+      name="select"
+      onChange={[Function]}
+      value=""
+    >
+      <option
+        value="default"
+      >
+        Select multiple
+      </option>
+    </select>
+  </div>
+  <button
+    aria-label={null}
+    className="submit-btn btn btn-primary btn-block"
+    onClick={[Function]}
+    type="button"
+  >
+    Post
+  </button>
+</div>
+`;

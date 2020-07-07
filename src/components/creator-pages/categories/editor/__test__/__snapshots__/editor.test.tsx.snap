@@ -35,7 +35,13 @@ Array [
       name="select"
       onChange={[Function]}
       value=""
-    />
+    >
+      <option
+        value="default"
+      >
+        Select multiple
+      </option>
+    </select>
   </div>,
   <button
     aria-label={null}
