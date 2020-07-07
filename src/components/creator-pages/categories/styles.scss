@@ -1,1 +1,33 @@
+.categories {
+        position: relative;
 
+        .back {
+                position: absolute;
+                left: 2%;
+                transform: scale(1.5);
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                padding: 5px;
+                border-radius: 50%;
+
+                transition: 0.2s;
+                svg {
+                        transition: 0.2s;
+                }
+
+                &:hover {
+                        background-color: rgba(0, 0, 0, 0.6);
+                        svg path {
+                                fill: #fff;
+                        }
+                }
+        }
+
+        h1 {
+                text-align: center;
+                margin: 5% 0;
+        }
+}

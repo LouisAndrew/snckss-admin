@@ -51,6 +51,9 @@ const Brands: React.FC<BrandProps> = ({
                                         onChange={handleChange}
                                         value=""
                                 >
+                                        <option key="default" value="default">
+                                                Select multiple
+                                        </option>
                                         {availBrands.map((brand) => (
                                                 <option
                                                         key={`option-${brand.name}`}
@@ -82,11 +85,12 @@ const Brands: React.FC<BrandProps> = ({
 
 interface Props {
         category?: Category
+        goBack: () => void
 }
 
 const initialEmpty: Brand[] = []
 
-const Editor: React.FC<Props> = ({ category }) => {
+const Editor: React.FC<Props> = ({ category, goBack }) => {
         const [name, setName] = useState('')
         const [availBrands, setAvailBrands] = useState(initialEmpty)
         const [selected, setSelected] = useState(initialEmpty)
@@ -155,8 +159,28 @@ const Editor: React.FC<Props> = ({ category }) => {
                 setName(event.target.value)
         }
 
-        const handleClick = () => {
-                console.log('test')
+        const handleClick = async () => {
+                if (name === '') {
+                        handleNameError()
+                        return
+                }
+                // getting all brands name from selected.
+                const brandRefs: any[] = await selected.map((brand) =>
+                        brands.doc(brand.name).get()
+                )
+
+                const promise: any[] = await Promise.all(brandRefs)
+                const toSubmitBrands: string[] = await promise.map((doc) => {
+                        if (doc.exists) {
+                                const { name } = doc.data()
+                                return name
+                        }
+                })
+
+                categories.doc(name).set({
+                        name,
+                        brands: toSubmitBrands,
+                })
         }
 
         const getDefault = () => {
@@ -164,6 +188,22 @@ const Editor: React.FC<Props> = ({ category }) => {
                         const { name, brands } = category
                         setName(name)
                         setSelected(brands)
+                }
+        }
+
+        const handleNameError = () => {
+                const input: HTMLElement | null = document.getElementById(
+                        'category-name'
+                )
+                if (input) {
+                        input.style.borderColor = 'red'
+                        const errorMsg: HTMLHeadingElement = document.createElement(
+                                'h5'
+                        )
+                        errorMsg.innerText = 'Category name should not be empty'
+                        errorMsg.className = 'name-error'
+
+                        input.parentElement?.appendChild(errorMsg)
                 }
         }
 

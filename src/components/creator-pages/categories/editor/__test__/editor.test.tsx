@@ -11,6 +11,8 @@ import Editor from '..'
 import { Category } from '../../../../../interfaces/category'
 
 describe('', () => {
+        const mockFn = jest.fn(() => {})
+
         const mockCategory: Category = {
                 name: 'mock',
                 brands: [
@@ -29,7 +31,7 @@ describe('', () => {
         const el = (
                 <FirebaseAppProvider firebaseConfig={config}>
                         <Suspense fallback={<></>}>
-                                <Editor />
+                                <Editor goBack={mockFn} />
                         </Suspense>
                 </FirebaseAppProvider>
         )
@@ -37,7 +39,10 @@ describe('', () => {
         const elWithMockCategory = (
                 <FirebaseAppProvider firebaseConfig={config}>
                         <Suspense fallback={<></>}>
-                                <Editor category={mockCategory} />
+                                <Editor
+                                        goBack={mockFn}
+                                        category={mockCategory}
+                                />
                         </Suspense>
                 </FirebaseAppProvider>
         )
