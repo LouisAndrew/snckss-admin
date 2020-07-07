@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+Array [
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="category-name"
+    >
+      Category Name
+    </label>
+    <input
+      className="form-control"
+      id="category-name"
+      onChange={[Function]}
+      placeholder="Add category name here!"
+      type="text"
+      value=""
+    />
+  </div>,
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="select-brands"
+    >
+      Select Brands
+    </label>
+    <select
+      className="form-control"
+      id="select-brands"
+      name="select"
+      onChange={[Function]}
+      value=""
+    />
+  </div>,
+  <button
+    aria-label={null}
+    className="submit-btn btn btn-primary btn-block"
+    onClick={[Function]}
+    type="button"
+  >
+    Post
+  </button>,
+]
+`;
