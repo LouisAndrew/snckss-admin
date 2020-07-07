@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Input, Label, FormGroup } from 'reactstrap'
+import { Input, Label, FormGroup, Button } from 'reactstrap'
 
 import { useFirestore } from 'reactfire'
 import { Brand } from '../../../interfaces/brand'
@@ -119,6 +119,9 @@ const Editor: React.FC<{}> = ({}) => {
                 <>
                         <Name />
                         <Brands />
+                        <Button color="primary" buttonBlock>
+                                Post
+                        </Button>
                 </>
         )
 }

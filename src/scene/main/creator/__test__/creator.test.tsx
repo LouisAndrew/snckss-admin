@@ -1,8 +1,9 @@
-// how to test component with node env?
+// // how to test component with node env?
 
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import renderer from 'react-test-renderer'
+import moduleName from 'reactfire'
 
 import { render, cleanup, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
@@ -12,10 +13,8 @@ import { FirebaseAppProvider } from 'reactfire'
 import config from '../../../../lib/firebase-config'
 
 describe('Creator element inside main scene', () => {
-        beforeEach(() => {
-                jest.resetModules()
-        })
         afterEach(cleanup)
+
         const el = (
                 <FirebaseAppProvider firebaseConfig={config}>
                         <Suspense fallback={<h1></h1>}>

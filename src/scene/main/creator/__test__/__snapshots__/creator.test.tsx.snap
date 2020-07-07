@@ -52,7 +52,60 @@ exports[`Creator element inside main scene matches snapshot 1`] = `
     <div
       className="col-lg-8 col-xl-8"
       m="8"
-    />
+    >
+      <h1>
+        Categories
+      </h1>
+      <div
+        className="form-group"
+      >
+        <label
+          className=""
+          htmlFor="category-name"
+        >
+          Category Name
+        </label>
+        <input
+          className="form-control"
+          id="category-name"
+          type="text"
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className=""
+          htmlFor="select-brands"
+        >
+          Select Brands
+        </label>
+        <select
+          className="form-control"
+          id="select-brands"
+          name="select"
+          onChange={[Function]}
+          value=""
+        />
+      </div>
+      <ul
+        className="list-group"
+      >
+        <label
+          className="list-label"
+        >
+          Selected Items
+        </label>
+      </ul>
+      <button
+        aria-label={null}
+        buttonBlock={true}
+        className="btn btn-primary"
+        onClick={[Function]}
+      >
+        Post
+      </button>
+    </div>
   </div>
 </div>
 `;
