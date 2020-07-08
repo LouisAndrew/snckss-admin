@@ -97,7 +97,7 @@ const Editor: React.FC<Props> = ({ category, providedCategory, goBack }) => {
         const [name, setName] = useState('')
         const [availBrands, setAvailBrands] = useState(initialEmpty)
         const [selected, setSelected] = useState(initialEmpty)
-        const [success, setSuccess] = useState(true)
+        const [success, setSuccess] = useState(false)
 
         const categories = useFirestore().collection('categories')
         const brands = useFirestore().collection('brand')
@@ -109,6 +109,8 @@ const Editor: React.FC<Props> = ({ category, providedCategory, goBack }) => {
                         const { name, brands: passedBrands } = category
                         setName(name)
 
+                        // if category is provided -> filter all of the brands from firestore separate it into two categories where the selected
+                        // is going to be the brands provided by the category from the param.
                         brands.get().then((docs) => {
                                 let totalSelected: Brand[] = []
                                 let totalAvailable: Brand[] = []
@@ -148,15 +150,15 @@ const Editor: React.FC<Props> = ({ category, providedCategory, goBack }) => {
                 }
         }, [])
 
-        // // handle success here
-        // useEffect(() => {
-        //         if (success) {
-        //                 setTimeout(() => {
-        //                         setSuccess(false)
-        //                         goBack()
-        //                 }, 1000)
-        //         }
-        // }, [success])
+        // handle success here
+        useEffect(() => {
+                if (success) {
+                        setTimeout(() => {
+                                setSuccess(false)
+                                goBack()
+                        }, 1000)
+                }
+        }, [success])
 
         const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                 if (event) {
