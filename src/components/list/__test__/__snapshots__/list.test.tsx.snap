@@ -20,7 +20,7 @@ exports[`List reusable Component matches snapshot 1`] = `
       item1
     </div>
     <span
-      className="del-item1"
+      className="del-item1 delete"
       onClick={[Function]}
     >
       <svg
@@ -55,7 +55,7 @@ exports[`List reusable Component matches snapshot 1`] = `
       item2
     </div>
     <span
-      className="del-item2"
+      className="del-item2 delete"
       onClick={[Function]}
     >
       <svg

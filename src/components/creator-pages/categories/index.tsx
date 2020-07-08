@@ -9,10 +9,16 @@ import List, { ListItem } from '../../list'
 import { Category } from '../../../interfaces/category'
 
 const initialCategories: Category[] = []
+const initialCategory: Category = {
+        name: '',
+        brands: [],
+}
 
 const Categories: React.FC = () => {
         const [isEditing, setIsEditing] = useState(true)
         const [ctg, setCtg] = useState(initialCategories)
+        const [provideCategory, setProvideCategory] = useState(false)
+        const [toProvide, setToProvide] = useState(initialCategory)
 
         const categories = useFirestore().collection('categories')
 
@@ -27,9 +33,24 @@ const Categories: React.FC = () => {
 
         const handleRemove = () => {}
 
+        const handleClick = (key: ListItem['key']) => {
+                if (!isEditing) {
+                        const selectedCategory: Category = ctg.filter(
+                                (category) => category.name === key
+                        )[0]
+                        if (selectedCategory) {
+                                setIsEditing(true)
+                                setProvideCategory(true)
+                                setToProvide(selectedCategory)
+                        }
+                }
+        }
+
         const goBack = () => {
                 if (isEditing) {
                         setIsEditing(false)
+                        setProvideCategory(false)
+                        setToProvide(initialCategory)
                 }
         }
 
@@ -40,7 +61,11 @@ const Categories: React.FC = () => {
                         </div>
                         <h1>Categories</h1>
                         {isEditing ? (
-                                <Editor goBack={goBack} />
+                                <Editor
+                                        goBack={goBack}
+                                        category={toProvide}
+                                        providedCategory={provideCategory}
+                                />
                         ) : (
                                 <List
                                         headerText=""
@@ -53,6 +78,7 @@ const Categories: React.FC = () => {
                                                 return list
                                         })}
                                         handleRemove={handleRemove}
+                                        handleClick={handleClick}
                                 />
                         )}
                 </div>

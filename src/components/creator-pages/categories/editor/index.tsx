@@ -86,13 +86,14 @@ const Brands: React.FC<BrandProps> = ({
 }
 
 interface Props {
-        category?: Category
+        category: Category
+        providedCategory: boolean
         goBack: () => void
 }
 
 const initialEmpty: Brand[] = []
 
-const Editor: React.FC<Props> = ({ category, goBack }) => {
+const Editor: React.FC<Props> = ({ category, providedCategory, goBack }) => {
         const [name, setName] = useState('')
         const [availBrands, setAvailBrands] = useState(initialEmpty)
         const [selected, setSelected] = useState(initialEmpty)
@@ -103,19 +104,48 @@ const Editor: React.FC<Props> = ({ category, goBack }) => {
 
         useEffect(() => {
                 // fetch all brands from firestore
-                brands.get().then((docs) => {
-                        let total: Brand[] = []
-                        docs.forEach((doc) => {
-                                // !important here -> casting all data as Brand.
-                                // : Datas from fs should be in the correct format
-                                const data: Brand = doc.data() as Brand
-                                total = [...total, data]
-                        })
-                        setAvailBrands(total)
-                })
+                if (providedCategory) {
+                        // here brands given is just an array of strings.
+                        const { name, brands: passedBrands } = category
+                        setName(name)
 
-                // check if default category is passed.
-                getDefault()
+                        brands.get().then((docs) => {
+                                let totalSelected: Brand[] = []
+                                let totalAvailable: Brand[] = []
+                                docs.forEach((doc) => {
+                                        const data: Brand = doc.data() as Brand
+                                        if (
+                                                passedBrands.includes(
+                                                        (data.name as unknown) as Brand
+                                                )
+                                        ) {
+                                                totalSelected = [
+                                                        ...totalSelected,
+                                                        data,
+                                                ]
+                                        } else {
+                                                totalAvailable = [
+                                                        ...totalAvailable,
+                                                        data,
+                                                ]
+                                        }
+                                })
+
+                                setSelected(totalSelected)
+                                setAvailBrands(totalAvailable)
+                        })
+                } else {
+                        brands.get().then((docs) => {
+                                let total: Brand[] = []
+                                docs.forEach((doc) => {
+                                        // !important here -> casting all data as Brand.
+                                        // : Datas from fs should be in the correct format
+                                        const data: Brand = doc.data() as Brand
+                                        total = [...total, data]
+                                })
+                                setAvailBrands(total)
+                        })
+                }
         }, [])
 
         // handle success here
@@ -199,14 +229,6 @@ const Editor: React.FC<Props> = ({ category, goBack }) => {
                 setSuccess(true)
         }
 
-        const getDefault = () => {
-                if (category) {
-                        const { name, brands } = category
-                        setName(name)
-                        setSelected(brands)
-                }
-        }
-
         const handleNameError = () => {
                 const input: HTMLElement | null = document.getElementById(
                         'category-name'
@@ -222,6 +244,8 @@ const Editor: React.FC<Props> = ({ category, goBack }) => {
                         input.parentElement?.appendChild(errorMsg)
                 }
         }
+
+        console.log(category)
 
         return !success ? (
                 <>
@@ -244,7 +268,7 @@ const Editor: React.FC<Props> = ({ category, goBack }) => {
         ) : (
                 <SuccessPage
                         type={Creations.CATEGORIES}
-                        create={category === undefined}
+                        create={!providedCategory}
                 />
         )
 }

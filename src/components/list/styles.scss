@@ -14,4 +14,8 @@
                         transform: scale(1.5);
                 }
         }
+
+        .clickable:hover {
+                cursor: pointer;
+        }
 }

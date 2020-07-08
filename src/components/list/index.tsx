@@ -13,7 +13,6 @@ export interface ListItem {
 interface Props {
         headerText: string
         items: ListItem[]
-        // clickable: boolean
         handleRemove: (key: ListItem['key']) => void
         handleClick?: (key: ListItem['key']) => void
 }
@@ -21,7 +20,6 @@ interface Props {
 const List: React.FC<Props> = ({
         headerText,
         items,
-        // clickable,
         handleRemove,
         handleClick,
 }) => {
@@ -50,7 +48,7 @@ const List: React.FC<Props> = ({
                                                 {item.text}
                                         </div>
                                         <span
-                                                className={`del-${item.text}`}
+                                                className={`del-${item.text} delete`}
                                                 onClick={() =>
                                                         handleRemove(item.key)
                                                 }
