@@ -57,7 +57,7 @@ exports[`Creator element inside main scene matches snapshot 1`] = `
         className="categories"
       >
         <div
-          className="back"
+          className="back icon"
           onClick={[Function]}
         >
           <svg
@@ -79,58 +79,41 @@ exports[`Creator element inside main scene matches snapshot 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           />
         </div>
+        <div
+          className="add icon"
+          onClick={[Function]}
+        >
+          <svg
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<path d=\\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z\\" fill=\\"currentColor\\"/>",
+              }
+            }
+            focusable={false}
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            style={
+              Object {
+                "transform": "rotate(360deg)",
+              }
+            }
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          />
+        </div>
         <h1>
           Categories
         </h1>
-        <div
-          className="form-group"
+        <ul
+          className="list-group"
         >
           <label
-            className=""
-            htmlFor="category-name"
+            className="list-label"
           >
-            Category Name
+            
           </label>
-          <input
-            className="form-control"
-            id="category-name"
-            onChange={[Function]}
-            placeholder="Add category name here!"
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className=""
-            htmlFor="select-brands"
-          >
-            Select Brands
-          </label>
-          <select
-            className="form-control"
-            id="select-brands"
-            name="select"
-            onChange={[Function]}
-            value=""
-          >
-            <option
-              value="default"
-            >
-              Select multiple
-            </option>
-          </select>
-        </div>
-        <button
-          aria-label={null}
-          className="submit-btn btn btn-primary btn-block"
-          onClick={[Function]}
-          type="button"
-        >
-          Post
-        </button>
+        </ul>
       </div>
     </div>
   </div>

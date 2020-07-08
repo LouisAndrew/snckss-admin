@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Icon } from '@iconify/react'
-import arrowBack from '@iconify/icons-mdi/arrow-back'
 import { useFirestore } from 'reactfire'
 
 import './styles.scss'
 import Editor from './editor'
 import List, { ListItem } from '../../list'
 import { Category } from '../../../interfaces/category'
+import Icons from '../icons'
 
 const initialCategories: Category[] = []
 const initialCategory: Category = {
@@ -22,6 +21,7 @@ const Categories: React.FC = () => {
 
         const categories = useFirestore().collection('categories')
 
+        // fetch all categories from firestore.
         useEffect(() => {
                 categories.get().then((docs) => {
                         docs.forEach((doc) => {
@@ -54,11 +54,20 @@ const Categories: React.FC = () => {
                 }
         }
 
+        const add = () => {
+                if (provideCategory) {
+                        setProvideCategory(false)
+                }
+                setIsEditing(true)
+        }
+
         return (
                 <div className="categories">
-                        <div className="back" onClick={goBack}>
-                                <Icon icon={arrowBack} />
-                        </div>
+                        <Icons
+                                goBack={goBack}
+                                add={add}
+                                displayAdd={!isEditing}
+                        />
                         <h1>Categories</h1>
                         {isEditing ? (
                                 <Editor

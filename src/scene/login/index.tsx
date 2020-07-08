@@ -1,9 +1,8 @@
-import React, { useContext, useState, useEffect, useReducer } from 'react'
+import React, { useContext, useEffect, useReducer } from 'react'
 import { useAuth, useFirestore } from 'reactfire'
 import firebase from 'firebase'
 
 import { UserContext } from '../../lib/user.context'
-import { act } from 'react-dom/test-utils'
 
 interface State {
         verified: boolean

@@ -19,7 +19,7 @@ const SuccessPage: React.FC<Props> = ({ type, create }) => {
                         : 'product'
 
         return (
-                <div className="success row container-fluid">
+                <div className="row success">
                         <div className="inner">
                                 <h2 data-testid="success">
                                         Success

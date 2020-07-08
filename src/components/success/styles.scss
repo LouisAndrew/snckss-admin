@@ -2,6 +2,8 @@
         position: absolute;
         height: 100vh;
         top: 0;
+        // why? -> bcs bootstrap uses padding 15px on its container-fluid
+        width: calc(100% + 15px);
 
         background-color: #5cb85c;
 

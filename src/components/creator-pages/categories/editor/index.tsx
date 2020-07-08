@@ -97,7 +97,7 @@ const Editor: React.FC<Props> = ({ category, providedCategory, goBack }) => {
         const [name, setName] = useState('')
         const [availBrands, setAvailBrands] = useState(initialEmpty)
         const [selected, setSelected] = useState(initialEmpty)
-        const [success, setSuccess] = useState(false)
+        const [success, setSuccess] = useState(true)
 
         const categories = useFirestore().collection('categories')
         const brands = useFirestore().collection('brand')
@@ -148,15 +148,15 @@ const Editor: React.FC<Props> = ({ category, providedCategory, goBack }) => {
                 }
         }, [])
 
-        // handle success here
-        useEffect(() => {
-                if (success) {
-                        setTimeout(() => {
-                                setSuccess(false)
-                                goBack()
-                        }, 1000)
-                }
-        }, [success])
+        // // handle success here
+        // useEffect(() => {
+        //         if (success) {
+        //                 setTimeout(() => {
+        //                         setSuccess(false)
+        //                         goBack()
+        //                 }, 1000)
+        //         }
+        // }, [success])
 
         const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                 if (event) {
