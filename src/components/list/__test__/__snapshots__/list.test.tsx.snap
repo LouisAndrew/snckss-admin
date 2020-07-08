@@ -11,8 +11,14 @@ exports[`List reusable Component matches snapshot 1`] = `
   </label>
   <li
     className="list-group-item"
+    data-testid="list-items"
   >
-    item1
+    <div
+      className="text clickable"
+      onClick={[Function]}
+    >
+      item1
+    </div>
     <span
       className="del-item1"
       onClick={[Function]}
@@ -40,8 +46,14 @@ exports[`List reusable Component matches snapshot 1`] = `
   </li>
   <li
     className="list-group-item"
+    data-testid="list-items"
   >
-    item2
+    <div
+      className="text clickable"
+      onClick={[Function]}
+    >
+      item2
+    </div>
     <span
       className="del-item2"
       onClick={[Function]}

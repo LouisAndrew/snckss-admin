@@ -23,7 +23,7 @@ const Categories: React.FC = () => {
                                 setCtg([...ctg, category])
                         })
                 })
-        })
+        }, [])
 
         const handleRemove = () => {}
 
@@ -32,15 +32,6 @@ const Categories: React.FC = () => {
                         setIsEditing(false)
                 }
         }
-
-        const items: ListItem[] = ctg.map((category) => {
-                const { name } = category
-                const item: ListItem = {
-                        text: name,
-                        key: name,
-                }
-                return item
-        })
 
         return (
                 <div className="categories">
@@ -53,7 +44,14 @@ const Categories: React.FC = () => {
                         ) : (
                                 <List
                                         headerText=""
-                                        items={items}
+                                        items={ctg.map((category) => {
+                                                const { name } = category
+                                                const list: ListItem = {
+                                                        text: name,
+                                                        key: name,
+                                                }
+                                                return list
+                                        })}
                                         handleRemove={handleRemove}
                                 />
                         )}

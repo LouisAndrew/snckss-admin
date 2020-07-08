@@ -13,16 +13,42 @@ export interface ListItem {
 interface Props {
         headerText: string
         items: ListItem[]
+        // clickable: boolean
         handleRemove: (key: ListItem['key']) => void
+        handleClick?: (key: ListItem['key']) => void
 }
 
-const List: React.FC<Props> = ({ headerText, items, handleRemove }) => {
+const List: React.FC<Props> = ({
+        headerText,
+        items,
+        // clickable,
+        handleRemove,
+        handleClick,
+}) => {
         return (
                 <ListGroup>
                         <Label className="list-label">{headerText}</Label>
                         {items.map((item) => (
-                                <ListGroupItem key={item.key}>
-                                        {item.text}
+                                <ListGroupItem
+                                        key={item.key}
+                                        data-testid="list-items"
+                                >
+                                        <div
+                                                className={`text ${
+                                                        handleClick
+                                                                ? 'clickable'
+                                                                : ''
+                                                }`}
+                                                onClick={() => {
+                                                        if (handleClick) {
+                                                                handleClick(
+                                                                        item.key
+                                                                )
+                                                        }
+                                                }}
+                                        >
+                                                {item.text}
+                                        </div>
                                         <span
                                                 className={`del-${item.text}`}
                                                 onClick={() =>

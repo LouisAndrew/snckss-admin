@@ -14,6 +14,10 @@ describe('List reusable Component', () => {
                 concatenated = [...concatenated, key]
         })
 
+        const mockHandleClick = jest.fn((key: ListItem['key']) => {
+                concatenated = [...concatenated, key]
+        })
+
         const mockItems: ListItem[] = [
                 {
                         text: 'item1',
@@ -33,6 +37,7 @@ describe('List reusable Component', () => {
                         items={mockItems}
                         headerText={mockHeader}
                         handleRemove={mockHandleRemove}
+                        handleClick={mockHandleClick}
                 />
         )
 
@@ -51,13 +56,24 @@ describe('List reusable Component', () => {
                 })
         })
 
-        it('renders and removes the item correctly when an item is clicked', () => {
+        it('renders and respond to user clicking the event correctly when clicked.', () => {
                 const { getByText } = render(el)
 
                 mockItems.forEach((item) => {
-                        const listItem: HTMLElement = getByText(item.text)
+                        const el: HTMLElement = getByText(item.text)
+                        fireEvent.click(el)
+
+                        expect(concatenated).toContain(item.key)
+                })
+        })
+
+        it('renders and removes the item correctly when an item is clicked', () => {
+                const { getAllByTestId } = render(el)
+                const listItem: HTMLElement[] = getAllByTestId('list-items')
+
+                mockItems.forEach((item, index) => {
                         const deleteSpan: HTMLElement | null = document.querySelector(
-                                `.${listItem.className
+                                `.${listItem[index].className
                                         .split(' ')
                                         .join('.')} .del-${item.text}`
                         )

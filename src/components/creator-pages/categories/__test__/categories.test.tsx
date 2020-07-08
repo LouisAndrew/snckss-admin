@@ -24,9 +24,8 @@ describe('categories element.', () => {
                 ReactDOM.render(el, div)
         })
 
-        it('renders correctly', () => {
-                const { getByTestId } = render()
-        })
+        // TODO
+        it('renders correctly', () => {})
 
         it('matches snapshot', () => {
                 const tree = renderer.create(el).toJSON()
