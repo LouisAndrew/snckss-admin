@@ -1,0 +1,34 @@
+.success {
+        position: absolute;
+        height: 100vh;
+        top: 0;
+
+        background-color: #5cb85c;
+
+        align-items: center;
+        justify-content: center;
+
+        .inner {
+                position: relative;
+
+                h2 {
+                        color: #fff;
+
+                        z-index: 2;
+                        position: relative;
+                }
+
+                svg {
+                        transform: scale(10) !important;
+                        position: absolute;
+
+                        left: 50%;
+                        top: 20%;
+                        z-index: 1;
+
+                        path {
+                                fill: #4a934a;
+                        }
+                }
+        }
+}

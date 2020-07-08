@@ -8,6 +8,8 @@ import List, { ListItem } from '../../../list'
 import { Category } from '../../../../interfaces/category'
 
 import './styles.scss'
+import SuccessPage from '../../../success'
+import { Creations } from '../../../../scene/main/creator'
 
 interface NameProps {
         name: string
@@ -94,6 +96,7 @@ const Editor: React.FC<Props> = ({ category, goBack }) => {
         const [name, setName] = useState('')
         const [availBrands, setAvailBrands] = useState(initialEmpty)
         const [selected, setSelected] = useState(initialEmpty)
+        const [success, setSuccess] = useState(false)
 
         const categories = useFirestore().collection('categories')
         const brands = useFirestore().collection('brand')
@@ -114,6 +117,16 @@ const Editor: React.FC<Props> = ({ category, goBack }) => {
                 // check if default category is passed.
                 getDefault()
         }, [])
+
+        // handle success here
+        useEffect(() => {
+                if (success) {
+                        setTimeout(() => {
+                                setSuccess(false)
+                                goBack()
+                        }, 1000)
+                }
+        }, [success])
 
         const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                 if (event) {
@@ -181,6 +194,9 @@ const Editor: React.FC<Props> = ({ category, goBack }) => {
                         name,
                         brands: toSubmitBrands,
                 })
+                // set succes and go back to list.
+
+                setSuccess(true)
         }
 
         const getDefault = () => {
@@ -207,7 +223,7 @@ const Editor: React.FC<Props> = ({ category, goBack }) => {
                 }
         }
 
-        return (
+        return !success ? (
                 <>
                         <Name name={name} handleChange={handleChangeInput} />
                         <Brands
@@ -225,6 +241,11 @@ const Editor: React.FC<Props> = ({ category, goBack }) => {
                                 Post
                         </Button>
                 </>
+        ) : (
+                <SuccessPage
+                        type={Creations.CATEGORIES}
+                        create={category === undefined}
+                />
         )
 }
 

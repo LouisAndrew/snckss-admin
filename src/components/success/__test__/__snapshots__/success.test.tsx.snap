@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Succes reusable page. matches snapshot 1`] = `
+<div
+  className="success row container-fluid"
+>
+  <div
+    className="inner"
+  >
+    <h2
+      data-testid="success"
+    >
+      Success
+       adding new 
+      product
+    </h2>
+    <svg
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<path d=\\"M9 20.42l-6.21-6.21l2.83-2.83L9 14.77l9.88-9.89l2.83 2.83L9 20.42z\\" fill=\\"currentColor\\"/>",
+        }
+      }
+      focusable={false}
+      height="1em"
+      preserveAspectRatio="xMidYMid meet"
+      style={
+        Object {
+          "transform": "rotate(360deg)",
+        }
+      }
+      viewBox="0 0 24 24"
+      width="1em"
+      xmlns="http://www.w3.org/2000/svg"
+    />
+  </div>
+</div>
+`;
