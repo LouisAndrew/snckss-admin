@@ -21,7 +21,11 @@ interface Props {
 
 const initialEmpty: Brand[] = []
 
-const Editor: React.FC<Props> = ({ category, providedCategory, goBack }) => {
+const CategoryEditor: React.FC<Props> = ({
+        category,
+        providedCategory,
+        goBack,
+}) => {
         const [name, setName] = useState('')
         const [availBrands, setAvailBrands] = useState(initialEmpty)
         const [selected, setSelected] = useState(initialEmpty)
@@ -175,8 +179,6 @@ const Editor: React.FC<Props> = ({ category, providedCategory, goBack }) => {
                 }
         }
 
-        console.log(category)
-
         return !success ? (
                 <>
                         <Name
@@ -209,4 +211,4 @@ const Editor: React.FC<Props> = ({ category, providedCategory, goBack }) => {
         )
 }
 
-export default Editor
+export default CategoryEditor

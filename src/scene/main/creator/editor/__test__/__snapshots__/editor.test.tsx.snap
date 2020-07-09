@@ -30,8 +30,23 @@ exports[`matches snapshot 1`] = `
   <h1>
     Brands
   </h1>
-  <h1>
-    Brand editor here!
-  </h1>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="name"
+    >
+      Brand Name
+    </label>
+    <input
+      className="form-control"
+      id="name"
+      onChange={[Function]}
+      placeholder="Add brand name here!"
+      type="text"
+      value=""
+    />
+  </div>
 </div>
 `;

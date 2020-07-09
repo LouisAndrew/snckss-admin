@@ -1,3 +1,202 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Select reusable component matches snapshot 1`] = `null`;
+exports[`Select reusable component matches snapshot 1`] = `
+Array [
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="select"
+    >
+      Select One
+    </label>
+    <select
+      className="form-control"
+      id="select"
+      name="select"
+      onChange={
+        [MockFunction] {
+          "calls": Array [
+            Array [
+              SyntheticEvent {
+                "_dispatchInstances": null,
+                "_dispatchListeners": null,
+                "_targetInst": null,
+                "bubbles": null,
+                "cancelable": null,
+                "currentTarget": [Function],
+                "defaultPrevented": null,
+                "dispatchConfig": null,
+                "eventPhase": null,
+                "isDefaultPrevented": [Function],
+                "isPropagationStopped": [Function],
+                "isTrusted": null,
+                "nativeEvent": null,
+                "target": null,
+                "timeStamp": [Function],
+                "type": null,
+              },
+            ],
+            Array [
+              SyntheticEvent {
+                "_dispatchInstances": null,
+                "_dispatchListeners": null,
+                "_targetInst": null,
+                "bubbles": null,
+                "cancelable": null,
+                "currentTarget": [Function],
+                "defaultPrevented": null,
+                "dispatchConfig": null,
+                "eventPhase": null,
+                "isDefaultPrevented": [Function],
+                "isPropagationStopped": [Function],
+                "isTrusted": null,
+                "nativeEvent": null,
+                "target": null,
+                "timeStamp": [Function],
+                "type": null,
+              },
+            ],
+            Array [
+              SyntheticEvent {
+                "_dispatchInstances": null,
+                "_dispatchListeners": null,
+                "_targetInst": null,
+                "bubbles": null,
+                "cancelable": null,
+                "currentTarget": [Function],
+                "defaultPrevented": null,
+                "dispatchConfig": null,
+                "eventPhase": null,
+                "isDefaultPrevented": [Function],
+                "isPropagationStopped": [Function],
+                "isTrusted": null,
+                "nativeEvent": null,
+                "target": null,
+                "timeStamp": [Function],
+                "type": null,
+              },
+            ],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        }
+      }
+      value=""
+    >
+      <option
+        value="default"
+      >
+        Select multiple
+      </option>
+      <option
+        value="1"
+      >
+        1
+      </option>
+      <option
+        value="2"
+      >
+        2
+      </option>
+      <option
+        value="3"
+      >
+        3
+      </option>
+    </select>
+  </div>,
+  <ul
+    className="list-group"
+  >
+    <label
+      className="list-label"
+    >
+      Selected Items
+    </label>
+    <li
+      className="list-group-item"
+      data-testid="list-items"
+    >
+      <div
+        className="text "
+        onClick={[Function]}
+      >
+        4
+      </div>
+      <span
+        className="del-4 delete"
+        onClick={[Function]}
+      >
+        <svg
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<path d=\\"M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12z\\" fill=\\"currentColor\\"/>",
+            }
+          }
+          focusable={false}
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "transform": "rotate(360deg)",
+              "verticalAlign": "-0.125em",
+            }
+          }
+          viewBox="0 0 24 24"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        />
+      </span>
+    </li>
+    <li
+      className="list-group-item"
+      data-testid="list-items"
+    >
+      <div
+        className="text "
+        onClick={[Function]}
+      >
+        5
+      </div>
+      <span
+        className="del-5 delete"
+        onClick={[Function]}
+      >
+        <svg
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<path d=\\"M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12z\\" fill=\\"currentColor\\"/>",
+            }
+          }
+          focusable={false}
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "transform": "rotate(360deg)",
+              "verticalAlign": "-0.125em",
+            }
+          }
+          viewBox="0 0 24 24"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        />
+      </span>
+    </li>
+  </ul>,
+]
+`;

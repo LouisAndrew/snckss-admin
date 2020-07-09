@@ -63,6 +63,17 @@ describe('Select reusable component', () => {
                 />
         )
 
+        const elSingle: React.ReactElement = (
+                <Select
+                        available={mockAvailable}
+                        selected={mockSelected}
+                        headerText={mockHeaderText}
+                        handleChange={handleChange}
+                        handleRemove={handleRemove}
+                        single
+                />
+        )
+
         it('renders without crashing', () => {
                 const div = document.createElement('div')
                 ReactDOM.render(el, div)
@@ -95,8 +106,17 @@ describe('Select reusable component', () => {
                 })
         })
 
+        it('should not render the input form when single is passed and an option is selected', () => {
+                const { queryByLabelText } = render(elSingle)
+                const input: HTMLElement | null = queryByLabelText(
+                        mockHeaderText
+                )
+
+                expect(input).toBeNull()
+        })
+
         it('matches snapshot', () => {
-                const tree = renderer.create().toJSON()
+                const tree = renderer.create(el).toJSON()
                 expect(tree).toMatchSnapshot()
         })
 })

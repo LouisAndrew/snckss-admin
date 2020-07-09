@@ -1,7 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { useFirestore } from 'reactfire'
 
 import { Brand } from '../../../../interfaces/brand'
+import SuccessPage from '../../../success'
+import { Creations } from '../../../../scene/main/creator'
+import Name from '../../name'
+import Select from '../../../select'
+import { reducer } from '../reducer'
+import { Category } from '../../../../interfaces/category'
+import { Product } from '../../../../interfaces/product'
 
 interface Props {
         providedBrand: boolean
@@ -9,7 +16,37 @@ interface Props {
         goBack: () => void
 }
 
-const Editor: React.FC<Props> = ({}) => {
+export interface State {
+        name: string
+        availableCtg: Category[]
+        selectedCtg: Category[]
+        availableProd: Product[]
+        selectedProd: Product[]
+        success: boolean
+}
+
+const initialEmptyProd: Product[] = []
+const initialEmptyCtg: Category[] = []
+const initialState: State = {
+        name: '',
+        availableCtg: initialEmptyCtg,
+        selectedCtg: initialEmptyCtg,
+        availableProd: initialEmptyProd,
+        selectedProd: initialEmptyProd,
+        success: false,
+}
+
+const BrandEditor: React.FC<Props> = ({ providedBrand, brand, goBack }) => {
+        const [state, dispatch] = useReducer(reducer, initialState)
+        const {
+                name,
+                availableCtg,
+                selectedCtg,
+                availableProd,
+                selectedProd,
+                success,
+        } = state
+
         const brands = useFirestore().collection('brand')
         const products = useFirestore().collection('product')
 
@@ -71,7 +108,35 @@ const Editor: React.FC<Props> = ({}) => {
         //          }
         //  }, [success])
 
-        return <></>
+        const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+                setName(event.target.value)
+        }
+
+        const handleChangeCtg = (
+                event: React.ChangeEvent<HTMLInputElement>
+        ) => {}
+        const handleRemoveCtg = (key: any) => {}
+
+        return !success ? (
+                <>
+                        <Name
+                                headerText="Brand Name"
+                                placeholderText="Add brand name here!"
+                                name={name}
+                                handleChange={handleChange}
+                        />
+                        <Select
+                                available={[1, 2, 3]}
+                                selected={[]}
+                                headerText="Select brand's category"
+                                handleChange={handleChangeCtg}
+                                handleRemove={handleRemoveCtg}
+                                single
+                        />
+                </>
+        ) : (
+                <SuccessPage type={Creations.BRAND} create={providedBrand} />
+        )
 }
 
-export default Editor
+export default BrandEditor

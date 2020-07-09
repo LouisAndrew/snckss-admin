@@ -13,23 +13,25 @@ import { Category } from '../../../../../interfaces/category'
 describe('Editor component inside categories', () => {
         const mockFn = jest.fn(() => {})
 
+        const mockEmptyCategory: Category = {
+                name: '',
+                brands: [],
+        }
+
         const mockCategory: Category = {
                 name: 'mock',
                 brands: [
                         {
                                 name: 'Brand1',
                                 products: [],
+                                category: mockEmptyCategory,
                         },
                         {
                                 name: 'Brand2',
                                 products: [],
+                                category: mockEmptyCategory,
                         },
                 ],
-        }
-
-        const mockEmptyCategory: Category = {
-                name: '',
-                brands: [],
         }
 
         afterEach(cleanup)

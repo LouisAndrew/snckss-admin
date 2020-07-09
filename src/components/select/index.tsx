@@ -12,6 +12,7 @@ interface Props {
         available: any[]
         selected: any[]
         headerText: string
+        single?: boolean
         handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
         handleRemove: (key: ListItem['key']) => void
 }
@@ -20,33 +21,44 @@ const Select: React.FC<Props> = ({
         available,
         selected,
         headerText,
+        single,
         handleChange,
         handleRemove,
 }) => {
+        // this variable serves as a bridge. whenever single var is there -> the formgroup won't render if one of the options is selected.
+        // Instead of having a bulky conditional render on return statement, I use this variable to do the job.
+        const req: boolean = single ? selected.length > 0 === false : true
         return (
                 <>
-                        <FormGroup>
-                                <Label for="select">{headerText}</Label>
-                                <Input
-                                        type="select"
-                                        id="select"
-                                        name="select"
-                                        onChange={handleChange}
-                                        value=""
-                                >
-                                        <option key="default" value="default">
-                                                Select multiple
-                                        </option>
-                                        {available.map((item) => (
+                        {req && (
+                                <FormGroup>
+                                        <Label for="select">{headerText}</Label>
+                                        <Input
+                                                type="select"
+                                                id="select"
+                                                name="select"
+                                                onChange={handleChange}
+                                                value=""
+                                        >
                                                 <option
-                                                        key={`option-${item.name}`}
-                                                        value={item.name}
+                                                        key="default"
+                                                        value="default"
                                                 >
-                                                        {item.name}
+                                                        Select multiple
                                                 </option>
-                                        ))}
-                                </Input>
-                        </FormGroup>
+                                                {available.map((item) => (
+                                                        <option
+                                                                key={`option-${item.name}`}
+                                                                value={
+                                                                        item.name
+                                                                }
+                                                        >
+                                                                {item.name}
+                                                        </option>
+                                                ))}
+                                        </Input>
+                                </FormGroup>
+                        )}
                         {selected.length > 0 && (
                                 <List
                                         items={selected.map((item) => {

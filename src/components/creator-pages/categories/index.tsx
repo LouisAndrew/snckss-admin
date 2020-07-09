@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useFirestore } from 'reactfire'
 
 import './styles.scss'
-import Editor from './editor'
 import List, { ListItem } from '../../list'
 import { Category } from '../../../interfaces/category'
 import Icons from '../icons'
+import CategoryEditor from './editor'
 
 const initialCategories: Category[] = []
 const initialCategory: Category = {
@@ -70,7 +70,7 @@ const Categories: React.FC = () => {
                         />
                         <h1>Categories</h1>
                         {isEditing ? (
-                                <Editor
+                                <CategoryEditor
                                         goBack={goBack}
                                         category={toProvide}
                                         providedCategory={provideCategory}

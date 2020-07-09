@@ -5,11 +5,16 @@ import { Brand } from '../../../interfaces/brand'
 import List, { ListItem } from '../../list'
 import Icons from '../icons'
 import './styles.scss'
+import BrandEditor from './editor'
 
 const initialBrands: Brand[] = []
 const initialBrand: Brand = {
         name: '',
         products: [],
+        category: {
+                name: '',
+                brands: [],
+        },
 }
 
 /**
@@ -73,7 +78,11 @@ const Brands: React.FC = () => {
                         />
                         <h1>Brands</h1>
                         {isEditing ? (
-                                <h1>Brand editor here!</h1>
+                                <BrandEditor
+                                        brand={toProvide}
+                                        providedBrand={provideBrand}
+                                        goBack={goBack}
+                                />
                         ) : (
                                 <List
                                         headerText=""

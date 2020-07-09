@@ -1,4 +1,5 @@
 import { Product } from './product'
+import { Category } from './category'
 
 /**
  * Brand interface to illustrate how it works on firestore.
@@ -7,4 +8,5 @@ import { Product } from './product'
 export interface Brand {
         name: string
         products: Product[]
+        category: Category
 }
