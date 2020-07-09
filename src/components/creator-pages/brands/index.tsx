@@ -12,20 +12,24 @@ const initialBrand: Brand = {
         products: [],
 }
 
+/**
+ * Almost the same structure as Categoties. Do I need to combine them just as one reusable component?
+ * but if yes -> It's going to be a lot of if statements inside on component....
+ */
 const Brands: React.FC = () => {
         const [isEditing, setIsEditing] = useState(true)
-        const [ctg, setCtg] = useState(initialBrands)
+        const [brd, setBrd] = useState(initialBrands)
         const [provideBrand, setProvideBrand] = useState(false)
         const [toProvide, setToProvide] = useState(initialBrand)
 
-        const categories = useFirestore().collection('categories')
+        const brands = useFirestore().collection('brand')
 
         // fetch all categories from firestore.
         useEffect(() => {
-                categories.get().then((docs) => {
+                brands.get().then((docs) => {
                         docs.forEach((doc) => {
                                 const category = doc.data() as Brand
-                                setCtg([...ctg, category])
+                                setBrd([...brd, category])
                         })
                 })
         }, [])
@@ -34,8 +38,8 @@ const Brands: React.FC = () => {
 
         const handleClick = (key: ListItem['key']) => {
                 if (!isEditing) {
-                        const selectedBrand: Brand = ctg.filter(
-                                (category) => category.name === key
+                        const selectedBrand: Brand = brd.filter(
+                                (brand) => brand.name === key
                         )[0]
                         if (selectedBrand) {
                                 setIsEditing(true)
@@ -73,8 +77,8 @@ const Brands: React.FC = () => {
                         ) : (
                                 <List
                                         headerText=""
-                                        items={ctg.map((category) => {
-                                                const { name } = category
+                                        items={brd.map((brand) => {
+                                                const { name } = brand
                                                 const list: ListItem = {
                                                         text: name,
                                                         key: name,
