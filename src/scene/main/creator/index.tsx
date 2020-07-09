@@ -20,7 +20,7 @@ interface Props {}
 
 const Creator: React.FC<Props> = ({}) => {
         // Creations.NONE
-        const [nowCreating, setNowCreating] = useState(Creations.CATEGORIES)
+        const [nowCreating, setNowCreating] = useState(Creations.BRAND)
 
         // data of things going to be created.
         const creations: Creation[] = [

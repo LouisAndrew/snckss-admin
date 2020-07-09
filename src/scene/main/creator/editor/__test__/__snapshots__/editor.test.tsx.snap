@@ -1,23 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Succes reusable page. matches snapshot 1`] = `
+exports[`matches snapshot 1`] = `
 <div
-  className="row success"
+  className="brands"
 >
   <div
-    className="inner"
+    className="back icon"
+    onClick={[Function]}
   >
-    <h2
-      data-testid="success"
-    >
-      Success
-       adding new 
-      product
-    </h2>
     <svg
       dangerouslySetInnerHTML={
         Object {
-          "__html": "<path d=\\"M9 20.42l-6.21-6.21l2.83-2.83L9 14.77l9.88-9.89l2.83 2.83L9 20.42z\\" fill=\\"currentColor\\"/>",
+          "__html": "<path d=\\"M20 11v2H8l5.5 5.5l-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5L8 11h12z\\" fill=\\"currentColor\\"/>",
         }
       }
       focusable={false}
@@ -33,5 +27,11 @@ exports[`Succes reusable page. matches snapshot 1`] = `
       xmlns="http://www.w3.org/2000/svg"
     />
   </div>
+  <h1>
+    Brands
+  </h1>
+  <h1>
+    Brand editor here!
+  </h1>
 </div>
 `;

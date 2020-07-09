@@ -25,13 +25,13 @@ Array [
   >
     <label
       className=""
-      htmlFor="select-brands"
+      htmlFor="select"
     >
       Select Brands
     </label>
     <select
       className="form-control"
-      id="select-brands"
+      id="select"
       name="select"
       onChange={[Function]}
       value=""

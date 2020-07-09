@@ -4,12 +4,13 @@ import { Input, Label, FormGroup, Button } from 'reactstrap'
 import { useFirestore } from 'reactfire'
 
 import { Brand } from '../../../../interfaces/brand'
-import List, { ListItem } from '../../../list'
+import { ListItem } from '../../../list'
 import { Category } from '../../../../interfaces/category'
 
 import './styles.scss'
 import SuccessPage from '../../../success'
 import { Creations } from '../../../../scene/main/creator'
+import Select from '../../../select'
 
 interface NameProps {
         name: string
@@ -28,62 +29,6 @@ const Name: React.FC<NameProps> = ({ name, handleChange }) => (
                 />
         </FormGroup>
 )
-
-interface BrandProps {
-        availBrands: Brand[]
-        selected: Brand[]
-        handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-        handleRemove: (key: ListItem['key']) => void
-}
-
-const Brands: React.FC<BrandProps> = ({
-        availBrands,
-        selected,
-        handleChange,
-        handleRemove,
-}) => {
-        return (
-                <>
-                        <FormGroup>
-                                <Label for="select-brands">Select Brands</Label>
-                                <Input
-                                        type="select"
-                                        id="select-brands"
-                                        name="select"
-                                        onChange={handleChange}
-                                        value=""
-                                >
-                                        <option key="default" value="default">
-                                                Select multiple
-                                        </option>
-                                        {availBrands.map((brand) => (
-                                                <option
-                                                        key={`option-${brand.name}`}
-                                                        value={brand.name}
-                                                >
-                                                        {brand.name}
-                                                </option>
-                                        ))}
-                                </Input>
-                        </FormGroup>
-                        {selected.length > 0 && (
-                                <List
-                                        items={selected.map((brand) => {
-                                                const { name } = brand
-                                                const item = {
-                                                        text: name,
-                                                        key: name,
-                                                } as ListItem
-
-                                                return item
-                                        })}
-                                        headerText="Selected Items"
-                                        handleRemove={handleRemove}
-                                />
-                        )}
-                </>
-        )
-}
 
 interface Props {
         category: Category
@@ -252,9 +197,10 @@ const Editor: React.FC<Props> = ({ category, providedCategory, goBack }) => {
         return !success ? (
                 <>
                         <Name name={name} handleChange={handleChangeInput} />
-                        <Brands
+                        <Select
                                 selected={selected}
-                                availBrands={availBrands}
+                                available={availBrands}
+                                headerText="Select Brands"
                                 handleChange={handleChange}
                                 handleRemove={handleRemove}
                         />

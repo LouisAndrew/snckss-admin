@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { useFirestore } from 'reactfire'
 
-import './styles.scss'
-import Editor from './editor'
+import { Brand } from '../../../interfaces/brand'
 import List, { ListItem } from '../../list'
-import { Category } from '../../../interfaces/category'
 import Icons from '../icons'
+import './styles.scss'
 
-const initialCategories: Category[] = []
-const initialCategory: Category = {
+const initialBrands: Brand[] = []
+const initialBrand: Brand = {
         name: '',
-        brands: [],
+        products: [],
 }
 
-const Categories: React.FC = () => {
-        const [isEditing, setIsEditing] = useState(false)
-        const [ctg, setCtg] = useState(initialCategories)
-        const [provideCategory, setProvideCategory] = useState(false)
-        const [toProvide, setToProvide] = useState(initialCategory)
+const Brands: React.FC = () => {
+        const [isEditing, setIsEditing] = useState(true)
+        const [ctg, setCtg] = useState(initialBrands)
+        const [provideBrand, setProvideBrand] = useState(false)
+        const [toProvide, setToProvide] = useState(initialBrand)
 
         const categories = useFirestore().collection('categories')
 
@@ -25,7 +24,7 @@ const Categories: React.FC = () => {
         useEffect(() => {
                 categories.get().then((docs) => {
                         docs.forEach((doc) => {
-                                const category = doc.data() as Category
+                                const category = doc.data() as Brand
                                 setCtg([...ctg, category])
                         })
                 })
@@ -35,13 +34,13 @@ const Categories: React.FC = () => {
 
         const handleClick = (key: ListItem['key']) => {
                 if (!isEditing) {
-                        const selectedCategory: Category = ctg.filter(
+                        const selectedBrand: Brand = ctg.filter(
                                 (category) => category.name === key
                         )[0]
-                        if (selectedCategory) {
+                        if (selectedBrand) {
                                 setIsEditing(true)
-                                setProvideCategory(true)
-                                setToProvide(selectedCategory)
+                                setProvideBrand(true)
+                                setToProvide(selectedBrand)
                         }
                 }
         }
@@ -49,32 +48,28 @@ const Categories: React.FC = () => {
         const goBack = () => {
                 if (isEditing) {
                         setIsEditing(false)
-                        setProvideCategory(false)
-                        setToProvide(initialCategory)
+                        setProvideBrand(false)
+                        setToProvide(initialBrand)
                 }
         }
 
         const add = () => {
-                if (provideCategory) {
-                        setProvideCategory(false)
+                if (provideBrand) {
+                        setProvideBrand(false)
                 }
                 setIsEditing(true)
         }
 
         return (
-                <div className="categories">
+                <div className="brands">
                         <Icons
                                 goBack={goBack}
                                 add={add}
                                 displayAdd={!isEditing}
                         />
-                        <h1>Categories</h1>
+                        <h1>Brands</h1>
                         {isEditing ? (
-                                <Editor
-                                        goBack={goBack}
-                                        category={toProvide}
-                                        providedCategory={provideCategory}
-                                />
+                                <h1>Brand editor here!</h1>
                         ) : (
                                 <List
                                         headerText=""
@@ -94,4 +89,4 @@ const Categories: React.FC = () => {
         )
 }
 
-export default Categories
+export default Brands

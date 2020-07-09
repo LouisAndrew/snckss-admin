@@ -54,7 +54,7 @@ exports[`Creator element inside main scene matches snapshot 1`] = `
       m="8"
     >
       <div
-        className="categories"
+        className="brands"
       >
         <div
           className="back icon"
@@ -79,41 +79,12 @@ exports[`Creator element inside main scene matches snapshot 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           />
         </div>
-        <div
-          className="add icon"
-          onClick={[Function]}
-        >
-          <svg
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "<path d=\\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z\\" fill=\\"currentColor\\"/>",
-              }
-            }
-            focusable={false}
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style={
-              Object {
-                "transform": "rotate(360deg)",
-              }
-            }
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          />
-        </div>
         <h1>
-          Categories
+          Brands
         </h1>
-        <ul
-          className="list-group"
-        >
-          <label
-            className="list-label"
-          >
-            
-          </label>
-        </ul>
+        <h1>
+          Brand editor here!
+        </h1>
       </div>
     </div>
   </div>
