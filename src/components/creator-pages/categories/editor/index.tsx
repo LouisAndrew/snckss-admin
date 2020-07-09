@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Input, Label, FormGroup, Button } from 'reactstrap'
+import { Button } from 'reactstrap'
 
 import { useFirestore } from 'reactfire'
 
@@ -11,24 +11,7 @@ import './styles.scss'
 import SuccessPage from '../../../success'
 import { Creations } from '../../../../scene/main/creator'
 import Select from '../../../select'
-
-interface NameProps {
-        name: string
-        handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-}
-
-const Name: React.FC<NameProps> = ({ name, handleChange }) => (
-        <FormGroup>
-                <Label for="category-name">Category Name</Label>
-                <Input
-                        type="text"
-                        id="category-name"
-                        onChange={handleChange}
-                        placeholder="Add category name here!"
-                        value={name}
-                />
-        </FormGroup>
-)
+import Name from '../../name'
 
 interface Props {
         category: Category
@@ -196,7 +179,12 @@ const Editor: React.FC<Props> = ({ category, providedCategory, goBack }) => {
 
         return !success ? (
                 <>
-                        <Name name={name} handleChange={handleChangeInput} />
+                        <Name
+                                headerText="Category Name"
+                                placeholderText="Add category name here!"
+                                name={name}
+                                handleChange={handleChangeInput}
+                        />
                         <Select
                                 selected={selected}
                                 available={availBrands}

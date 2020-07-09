@@ -10,7 +10,7 @@ import config from '../../../../../lib/firebase-config'
 import Editor from '..'
 import { Category } from '../../../../../interfaces/category'
 
-describe('', () => {
+describe('Editor component inside categories', () => {
         const mockFn = jest.fn(() => {})
 
         const mockCategory: Category = {
