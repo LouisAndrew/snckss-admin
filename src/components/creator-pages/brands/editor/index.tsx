@@ -6,7 +6,7 @@ import SuccessPage from '../../../success'
 import { Creations } from '../../../../scene/main/creator'
 import Name from '../../name'
 import Select from '../../../select'
-import { reducer } from '../reducer'
+import { reducer, Actions } from './reducer'
 import { Category } from '../../../../interfaces/category'
 import { Product } from '../../../../interfaces/product'
 
@@ -49,54 +49,59 @@ const BrandEditor: React.FC<Props> = ({ providedBrand, brand, goBack }) => {
 
         const brands = useFirestore().collection('brand')
         const products = useFirestore().collection('product')
+        const categories = useFirestore().collection('categories')
 
-        //  useEffect(() => {
-        //          // fetch all brands from firestore
-        //          if (providedCategory) {
-        //                  // here brands given is just an array of strings.
-        //                  const { name, brands: passedBrands } = category
-        //                  setName(name)
+        useEffect(() => {
+                // fetch all brands from firestore
+                if (providedBrand) {
+                        // // here products given is just an array of strings.
+                        // const { name, category, products } = brand
+                        // // if category is provided -> filter all of the brands from firestore separate it into two categories where the selected
+                        // // is going to be the brands provided by the category from the param.
+                        // brands.get().then((docs) => {
+                        //         let totalSelected: Brand[] = []
+                        //         let totalAvailable: Brand[] = []
+                        //         docs.forEach((doc) => {
+                        //                 const data: Brand = doc.data() as Brand
+                        //                 if (
+                        //                         passedBrands.includes(
+                        //                                 (data.name as unknown) as Brand
+                        //                         )
+                        //                 ) {
+                        //                         totalSelected = [
+                        //                                 ...totalSelected,
+                        //                                 data,
+                        //                         ]
+                        //                 } else {
+                        //                         totalAvailable = [
+                        //                                 ...totalAvailable,
+                        //                                 data,
+                        //                         ]
+                        //                 }
+                        //         })
+                        //         setSelected(totalSelected)
+                        //         setAvailBrands(totalAvailable)
+                        // })
+                } else {
+                        // fetch all products available here.
+                        products.get().then((docs) => {
+                                let total: Product[] = []
+                                docs.forEach((doc) => {
+                                        // !important here -> casting all data as Brand.
+                                        // : Datas from fs should be in the correct format
+                                        const data: Product = doc.data() as Product
+                                        total = [...total, data]
+                                })
 
-        //                  // if category is provided -> filter all of the brands from firestore separate it into two categories where the selected
-        //                  // is going to be the brands provided by the category from the param.
-        //                  brands.get().then((docs) => {
-        //                          let totalSelected: Brand[] = []
-        //                          let totalAvailable: Brand[] = []
-        //                          docs.forEach((doc) => {
-        //                                  const data: Brand = doc.data() as Brand
-        //                                  if (
-        //                                          passedBrands.includes(
-        //                                                  (data.name as unknown) as Brand
-        //                                          )
-        //                                  ) {
-        //                                          totalSelected = [
-        //                                                  ...totalSelected,
-        //                                                  data,
-        //                                          ]
-        //                                  } else {
-        //                                          totalAvailable = [
-        //                                                  ...totalAvailable,
-        //                                                  data,
-        //                                          ]
-        //                                  }
-        //                          })
+                                dispatch({
+                                        type: Actions.SET_AVAILABLE_PROD,
+                                        payload: { data: total },
+                                })
+                        })
 
-        //                          setSelected(totalSelected)
-        //                          setAvailBrands(totalAvailable)
-        //                  })
-        //          } else {
-        //                  brands.get().then((docs) => {
-        //                          let total: Brand[] = []
-        //                          docs.forEach((doc) => {
-        //                                  // !important here -> casting all data as Brand.
-        //                                  // : Datas from fs should be in the correct format
-        //                                  const data: Brand = doc.data() as Brand
-        //                                  total = [...total, data]
-        //                          })
-        //                          setAvailBrands(total)
-        //                  })
-        //          }
-        //  }, [])
+                        // then fetch all categories.
+                }
+        }, [])
 
         //  // handle success here
         //  useEffect(() => {
@@ -108,8 +113,13 @@ const BrandEditor: React.FC<Props> = ({ providedBrand, brand, goBack }) => {
         //          }
         //  }, [success])
 
-        const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-                setName(event.target.value)
+        const handleChangeName = (
+                event: React.ChangeEvent<HTMLInputElement>
+        ) => {
+                dispatch({
+                        type: Actions.SET_NAME,
+                        payload: { name: event.target.value },
+                })
         }
 
         const handleChangeCtg = (
@@ -117,13 +127,15 @@ const BrandEditor: React.FC<Props> = ({ providedBrand, brand, goBack }) => {
         ) => {}
         const handleRemoveCtg = (key: any) => {}
 
+        console.log(availableProd)
+
         return !success ? (
                 <>
                         <Name
                                 headerText="Brand Name"
                                 placeholderText="Add brand name here!"
                                 name={name}
-                                handleChange={handleChange}
+                                handleChange={handleChangeName}
                         />
                         <Select
                                 available={[1, 2, 3]}
