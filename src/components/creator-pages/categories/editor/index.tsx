@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from 'reactstrap'
-
 import { useFirestore } from 'reactfire'
 
 import { Brand } from '../../../../interfaces/brand'
@@ -16,26 +15,27 @@ import Name from '../../name'
 interface Props {
         category: Category
         providedCategory: boolean
+        // allCategories: Category[]
+        allBrands: Brand[]
         goBack: () => void
 }
-
-const initialEmpty: Brand[] = []
 
 const CategoryEditor: React.FC<Props> = ({
         category,
         providedCategory,
+        allBrands,
+        // allCategories,
         goBack,
 }) => {
         const [name, setName] = useState('')
-        const [availBrands, setAvailBrands] = useState(initialEmpty)
-        const [selected, setSelected] = useState(initialEmpty)
+        const [availBrands, setAvailBrands] = useState<Brand[]>([])
+        const [selected, setSelected] = useState<Brand[]>([])
         const [success, setSuccess] = useState(false)
 
         const categories = useFirestore().collection('categories')
         const brands = useFirestore().collection('brand')
 
         useEffect(() => {
-                // fetch all brands from firestore
                 if (providedCategory) {
                         // here brands given is just an array of strings.
                         const { name, brands: passedBrands } = category
@@ -43,42 +43,31 @@ const CategoryEditor: React.FC<Props> = ({
 
                         // if category is provided -> filter all of the brands from firestore separate it into two categories where the selected
                         // is going to be the brands provided by the category from the param.
-                        brands.get().then((docs) => {
-                                let totalSelected: Brand[] = []
-                                let totalAvailable: Brand[] = []
-                                docs.forEach((doc) => {
-                                        const data: Brand = doc.data() as Brand
-                                        if (
-                                                passedBrands.includes(
-                                                        (data.name as unknown) as Brand
-                                                )
-                                        ) {
-                                                totalSelected = [
-                                                        ...totalSelected,
-                                                        data,
-                                                ]
-                                        } else {
-                                                totalAvailable = [
-                                                        ...totalAvailable,
-                                                        data,
-                                                ]
-                                        }
-                                })
+                        let totalSelected: Brand[] = []
+                        let totalAvailable: Brand[] = []
+                        allBrands.forEach((brand) => {
+                                const { name } = brand
+                                if (
+                                        passedBrands.includes(
+                                                (name as unknown) as Brand
+                                        )
+                                ) {
+                                        totalSelected = [
+                                                ...totalSelected,
+                                                brand,
+                                        ]
+                                } else {
+                                        totalAvailable = [
+                                                ...totalAvailable,
+                                                brand,
+                                        ]
+                                }
+                        })
 
-                                setSelected(totalSelected)
-                                setAvailBrands(totalAvailable)
-                        })
+                        setSelected(totalSelected)
+                        setAvailBrands(totalAvailable)
                 } else {
-                        brands.get().then((docs) => {
-                                let total: Brand[] = []
-                                docs.forEach((doc) => {
-                                        // !important here -> casting all data as Brand.
-                                        // : Datas from fs should be in the correct format
-                                        const data: Brand = doc.data() as Brand
-                                        total = [...total, data]
-                                })
-                                setAvailBrands(total)
-                        })
+                        setAvailBrands(allBrands)
                 }
         }, [])
 
@@ -142,11 +131,14 @@ const CategoryEditor: React.FC<Props> = ({
                         return
                 }
                 // getting all brands name from selected.
-                const brandRefs: any[] = await selected.map((brand) =>
-                        brands.doc(brand.name).get()
-                )
+                const brandRefs: firebase.firestore.DocumentReference<
+                        firebase.firestore.DocumentData
+                >[] = await selected.map((brand) => brands.doc(brand.name))
 
-                const promise: any[] = await Promise.all(brandRefs)
+                // resolve all the promises here.
+                const promise: any[] = await Promise.all(
+                        brandRefs.map((brand) => brand.get())
+                )
                 const toSubmitBrands: string[] = await promise.map((doc) => {
                         if (doc.exists) {
                                 const { name } = doc.data()
@@ -158,8 +150,14 @@ const CategoryEditor: React.FC<Props> = ({
                         name,
                         brands: toSubmitBrands,
                 })
-                // set succes and go back to list.
 
+                // update brand's selected category.
+                brandRefs.forEach((brand) =>
+                        brand.update({
+                                category: name,
+                        })
+                )
+                // set succes and go back to list.
                 setSuccess(true)
         }
 

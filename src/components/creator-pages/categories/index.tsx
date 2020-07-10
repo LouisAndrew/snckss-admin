@@ -6,6 +6,7 @@ import List, { ListItem } from '../../list'
 import { Category } from '../../../interfaces/category'
 import Icons from '../icons'
 import CategoryEditor from './editor'
+import { Brand } from '../../../interfaces/brand'
 
 const initialCategories: Category[] = []
 const initialCategory: Category = {
@@ -13,22 +14,19 @@ const initialCategory: Category = {
         brands: [],
 }
 
-const Categories: React.FC = () => {
+interface Props {
+        allCategories: Category[]
+        allBrands: Brand[]
+}
+
+const Categories: React.FC<Props> = ({ allCategories, allBrands }) => {
         const [isEditing, setIsEditing] = useState(false)
         const [ctg, setCtg] = useState(initialCategories)
         const [provideCategory, setProvideCategory] = useState(false)
         const [toProvide, setToProvide] = useState(initialCategory)
 
-        const categories = useFirestore().collection('categories')
-
-        // fetch all categories from firestore.
         useEffect(() => {
-                categories.get().then((docs) => {
-                        docs.forEach((doc) => {
-                                const category = doc.data() as Category
-                                setCtg([...ctg, category])
-                        })
-                })
+                setCtg(allCategories)
         }, [])
 
         const handleRemove = () => {}
@@ -74,6 +72,8 @@ const Categories: React.FC = () => {
                                         goBack={goBack}
                                         category={toProvide}
                                         providedCategory={provideCategory}
+                                        // allCategories={allCategories}
+                                        allBrands={allBrands}
                                 />
                         ) : (
                                 <List

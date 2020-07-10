@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Container, Col, Row, Nav } from 'reactstrap'
 import Tabs from '../../../components/tabs'
-import Editor from './editor'
+import MainEditor from './editor'
 
 export enum Creations {
         NONE,
@@ -80,7 +80,7 @@ const Creator: React.FC<Props> = ({}) => {
                                 </Col>
                                 <Col m="8" lg="8" xl="8">
                                         {nowCreating !== Creations.NONE && (
-                                                <Editor
+                                                <MainEditor
                                                         data-testid="editor"
                                                         nowCreating={
                                                                 nowCreating
