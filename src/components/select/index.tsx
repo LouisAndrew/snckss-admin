@@ -13,6 +13,7 @@ interface Props {
         selected: any[]
         headerText: string
         single?: boolean
+        selectedText?: string
         handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
         handleRemove: (key: ListItem['key']) => void
 }
@@ -22,6 +23,7 @@ const Select: React.FC<Props> = ({
         selected,
         headerText,
         single,
+        selectedText,
         handleChange,
         handleRemove,
 }) => {
@@ -70,7 +72,11 @@ const Select: React.FC<Props> = ({
 
                                                 return listItem
                                         })}
-                                        headerText="Selected Items"
+                                        headerText={
+                                                selectedText
+                                                        ? selectedText
+                                                        : 'Selected Items'
+                                        }
                                         handleRemove={handleRemove}
                                 />
                         )}
