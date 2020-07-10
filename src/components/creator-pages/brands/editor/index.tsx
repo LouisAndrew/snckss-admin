@@ -13,6 +13,8 @@ import { Product } from '../../../../interfaces/product'
 interface Props {
         providedBrand: boolean
         brand: Brand
+        allCategories: Category[]
+        allProducts: Product[]
         goBack: () => void
 }
 
@@ -36,7 +38,13 @@ const initialState: State = {
         success: false,
 }
 
-const BrandEditor: React.FC<Props> = ({ providedBrand, brand, goBack }) => {
+const BrandEditor: React.FC<Props> = ({
+        providedBrand,
+        brand,
+        allCategories,
+        allProducts,
+        goBack,
+}) => {
         const [state, dispatch] = useReducer(reducer, initialState)
         const {
                 name,
@@ -84,21 +92,10 @@ const BrandEditor: React.FC<Props> = ({ providedBrand, brand, goBack }) => {
                         // })
                 } else {
                         // fetch all products available here.
-                        products.get().then((docs) => {
-                                let total: Product[] = []
-                                docs.forEach((doc) => {
-                                        // !important here -> casting all data as Brand.
-                                        // : Datas from fs should be in the correct format
-                                        const data: Product = doc.data() as Product
-                                        total = [...total, data]
-                                })
-
-                                dispatch({
-                                        type: Actions.SET_AVAILABLE_PROD,
-                                        payload: { data: total },
-                                })
+                        dispatch({
+                                type: Actions.SET_AVAILABLE_PROD,
+                                payload: { data: allProducts },
                         })
-
                         // then fetch all categories.
                 }
         }, [])

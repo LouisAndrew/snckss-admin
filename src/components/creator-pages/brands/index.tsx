@@ -6,8 +6,9 @@ import List, { ListItem } from '../../list'
 import Icons from '../icons'
 import './styles.scss'
 import BrandEditor from './editor'
+import { Category } from '../../../interfaces/category'
+import { Product } from '../../../interfaces/product'
 
-const initialBrands: Brand[] = []
 const initialBrand: Brand = {
         name: '',
         products: [],
@@ -17,26 +18,27 @@ const initialBrand: Brand = {
         },
 }
 
+interface Props {
+        allCategories: Category[]
+        allBrands: Brand[]
+        allProducts: Product[]
+}
+
 /**
  * Almost the same structure as Categoties. Do I need to combine them just as one reusable component?
  * but if yes -> It's going to be a lot of if statements inside on component....
  */
-const Brands: React.FC = () => {
+const Brands: React.FC<Props> = ({ allCategories, allBrands, allProducts }) => {
         const [isEditing, setIsEditing] = useState(true)
-        const [brd, setBrd] = useState(initialBrands)
+        const [brd, setBrd] = useState<Brand[]>([])
         const [provideBrand, setProvideBrand] = useState(false)
-        const [toProvide, setToProvide] = useState(initialBrand)
+        const [toProvide, setToProvide] = useState<Brand>(initialBrand)
 
         const brands = useFirestore().collection('brand')
 
         // fetch all categories from firestore.
         useEffect(() => {
-                brands.get().then((docs) => {
-                        docs.forEach((doc) => {
-                                const category = doc.data() as Brand
-                                setBrd([...brd, category])
-                        })
-                })
+                setBrd(allBrands)
         }, [])
 
         const handleRemove = () => {}
@@ -82,6 +84,8 @@ const Brands: React.FC = () => {
                                         brand={toProvide}
                                         providedBrand={provideBrand}
                                         goBack={goBack}
+                                        allCategories={allCategories}
+                                        allProducts={allProducts}
                                 />
                         ) : (
                                 <List

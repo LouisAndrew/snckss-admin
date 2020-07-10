@@ -8,13 +8,23 @@ import '@testing-library/jest-dom'
 
 import config from '../../../../lib/firebase-config'
 import Brands from '..'
+import { Category } from '../../../../interfaces/category'
+import { Brand } from '../../../../interfaces/brand'
+import { Product } from '../../../../interfaces/product'
 
 describe('categories element.', () => {
+        const mockAllCategories: Category[] = []
+        const mockAllBrands: Brand[] = []
+        const mockAllProducts: Product[] = []
         afterEach(cleanup)
         const el = (
                 <FirebaseAppProvider firebaseConfig={config}>
                         <Suspense fallback={<></>}>
-                                <Brands />
+                                <Brands
+                                        allBrands={mockAllBrands}
+                                        allCategories={mockAllCategories}
+                                        allProducts={mockAllProducts}
+                                />
                         </Suspense>
                 </FirebaseAppProvider>
         )
