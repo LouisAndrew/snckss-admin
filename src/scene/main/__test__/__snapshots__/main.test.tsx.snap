@@ -185,6 +185,14 @@ exports[`Main component matches snapshot 1`] = `
                   </option>
                 </select>
               </div>
+              <button
+                aria-label={null}
+                className="submit-btn btn btn-primary btn-block"
+                onClick={[Function]}
+                type="button"
+              >
+                Post
+              </button>
             </div>
           </div>
         </div>

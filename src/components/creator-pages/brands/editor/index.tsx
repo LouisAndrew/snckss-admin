@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer } from 'react'
 import { useFirestore } from 'reactfire'
+import { Button } from 'reactstrap'
 
 import { Brand } from '../../../../interfaces/brand'
 import SuccessPage from '../../../success'
@@ -155,15 +156,20 @@ const BrandEditor: React.FC<Props> = ({
                 }
         }, [])
 
-        //  // handle success here
-        //  useEffect(() => {
-        //          if (success) {
-        //                  setTimeout(() => {
-        //                          setSuccess(false)
-        //                          goBack()
-        //                  }, 1000)
-        //          }
-        //  }, [success])
+        // handle success here
+        useEffect(() => {
+                if (success) {
+                        setTimeout(() => {
+                                dispatch({
+                                        type: Actions.SET_SUCCESS,
+                                        payload: {
+                                                success: false,
+                                        },
+                                })
+                                goBack()
+                        }, 1000)
+                }
+        }, [success])
 
         const handleChangeName = (
                 event: React.ChangeEvent<HTMLInputElement>
@@ -270,6 +276,18 @@ const BrandEditor: React.FC<Props> = ({
                 }
         }
 
+        const handleClick = () => {
+                // TODO: handle update to firebase
+                dispatch({
+                        type: Actions.SET_SUCCESS,
+                        payload: {
+                                success: true,
+                        },
+                })
+        }
+
+        console.log(success)
+
         return !success ? (
                 <>
                         <Name
@@ -294,6 +312,14 @@ const BrandEditor: React.FC<Props> = ({
                                 handleChange={handleChangeProd}
                                 handleRemove={handleRemoveProd}
                         />
+                        <Button
+                                className="submit-btn"
+                                color="primary"
+                                block
+                                onClick={handleClick}
+                        >
+                                Post
+                        </Button>
                 </>
         ) : (
                 <SuccessPage type={Creations.BRAND} create={providedBrand} />

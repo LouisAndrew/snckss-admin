@@ -53,6 +53,18 @@ export const reducer: React.Reducer<State, IAction> = (
                                         selectedProd: selectedProd,
                                 }
                         } else return state
+                case Actions.SET_SUCCESS:
+                        const {
+                                payload: { success },
+                        } = action
+                        if (success !== undefined) {
+                                return {
+                                        ...state,
+                                        success: success,
+                                }
+                        } else return state
+                default:
+                        return state
         }
         return state
 }
