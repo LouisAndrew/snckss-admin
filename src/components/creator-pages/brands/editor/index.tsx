@@ -2,14 +2,14 @@ import React, { useEffect, useReducer } from 'react'
 import { useFirestore } from 'reactfire'
 import { Button } from 'reactstrap'
 
+import { Category } from '../../../../interfaces/category'
+import { Product } from '../../../../interfaces/product'
 import { Brand } from '../../../../interfaces/brand'
 import SuccessPage from '../../../success'
 import { Creations } from '../../../../scene/main/creator'
 import Name from '../../name'
 import Select from '../../../select'
 import { reducer, Actions } from './reducer'
-import { Category } from '../../../../interfaces/category'
-import { Product } from '../../../../interfaces/product'
 import { difference } from '../../../../lib/helper'
 
 interface Props {
