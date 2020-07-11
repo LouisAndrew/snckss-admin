@@ -11,6 +11,7 @@ import SuccessPage from '../../../success'
 import { Creations } from '../../../../scene/main/creator'
 import Select from '../../../select'
 import Name from '../../name'
+import { difference } from '../../../../lib/helper'
 
 interface Props {
         category: Category
@@ -135,17 +136,6 @@ const CategoryEditor: React.FC<Props> = ({
                         firebase.firestore.DocumentData
                 >[] = await selected.map((brand) => brands.doc(brand.name))
 
-                // // resolve all the promises here.
-                // const promise: any[] = await Promise.all(
-                //         brandRefs.map((brand) => brand.get())
-                // )
-                // const toSubmitBrands: string[] = await promise.map((doc) => {
-                //         if (doc.exists) {
-                //                 const { name } = doc.data()
-                //                 return name
-                //         }
-                // })
-
                 categories.doc(name).set({
                         name,
                         brands: selected.map((brand) => brand.name),
@@ -157,8 +147,30 @@ const CategoryEditor: React.FC<Props> = ({
                                 category: name,
                         })
                 )
+
+                // updating other brands' category (just if needed.)
+                if (providedCategory) {
+                        checkForUpdate()
+                }
+
                 // set succes and go back to list.
                 setSuccess(true)
+        }
+
+        const checkForUpdate = () => {
+                // filter the difference between passed category's brands and actual selected items.
+                const diff: Brand[] = difference(category.brands, selected)
+                if (
+                        category.brands.length !== selected.length ||
+                        diff.length > 0
+                ) {
+                        // remove the category from the difference
+                        diff.forEach((brand) => {
+                                brands.doc(brand.name).update({
+                                        category: '',
+                                })
+                        })
+                }
         }
 
         const handleNameError = () => {

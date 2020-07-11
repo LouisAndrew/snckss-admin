@@ -10,6 +10,7 @@ import Select from '../../../select'
 import { reducer, Actions } from './reducer'
 import { Category } from '../../../../interfaces/category'
 import { Product } from '../../../../interfaces/product'
+import { difference } from '../../../../lib/helper'
 
 interface Props {
         providedBrand: boolean
@@ -117,15 +118,19 @@ const BrandEditor: React.FC<Props> = ({
                         }
 
                         if (category) {
+                                const item: Category[] = allCategories.filter(
+                                        (ctg) =>
+                                                ctg.name ===
+                                                ((category as unknown) as string)
+                                )
                                 dispatch({
                                         type: Actions.SET_CTG,
                                         payload: {
-                                                availableCtg: allCategories.filter(
-                                                        (ctg) =>
-                                                                ctg.name !==
-                                                                category.name
+                                                availableCtg: difference(
+                                                        allCategories,
+                                                        item
                                                 ),
-                                                selectedCtg: [category],
+                                                selectedCtg: item,
                                         },
                                 })
                         } else {
@@ -294,17 +299,12 @@ const BrandEditor: React.FC<Props> = ({
                         return
                 }
 
-                const { name: categoryName } = selectedCtg[0]
-                const productNames: string[] = selectedProd.map(
-                        (prd) => prd.name
-                )
-
-                const categoryRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData> = await categories.doc(
-                        categoryName
-                )
-                const productRefs: firebase.firestore.DocumentReference<
-                        firebase.firestore.DocumentData
-                >[] = await productNames.map((prod) => products.doc(prod))
+                const categoryName =
+                        selectedCtg.length > 0 ? selectedCtg[0].name : ''
+                const productNames: string[] =
+                        selectedProd.length > 0
+                                ? selectedProd.map((prd) => prd.name)
+                                : []
 
                 brands.doc(name).set({
                         name,
@@ -312,22 +312,34 @@ const BrandEditor: React.FC<Props> = ({
                         products: productNames,
                 })
 
-                categoryRef.update({
-                        brands: FieldValue.arrayUnion(categoryName),
-                })
+                if (categoryName !== '') {
+                        const categoryRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData> = await categories.doc(
+                                categoryName
+                        )
 
-                productRefs.forEach((product) => {
-                        product.update({
-                                brand: name,
+                        categoryRef.update({
+                                brands: FieldValue.arrayUnion(categoryName),
                         })
-                })
+                }
 
-                // TODO: check if category/brands is being updated
+                if (productNames.length > 0) {
+                        const productRefs: firebase.firestore.DocumentReference<
+                                firebase.firestore.DocumentData
+                        >[] = await productNames.map((prod) =>
+                                products.doc(prod)
+                        )
+
+                        productRefs.forEach((product) => {
+                                product.update({
+                                        brand: name,
+                                })
+                        })
+                }
+
                 if (providedBrand) {
                         checkForUpdate()
                 }
-                // const
-                // TODO: handle update to firebase
+
                 dispatch({
                         type: Actions.SET_SUCCESS,
                         payload: {
@@ -340,13 +352,39 @@ const BrandEditor: React.FC<Props> = ({
          * updates data in firestore if any changes needed to be updated
          */
         const checkForUpdate = () => {
-                if (brand.category.name !== selectedCtg[0].name) {
+                const isDefaultNotEmpty: boolean =
+                        brand.category.name !== '' &&
+                        brand.category.name !== undefined
+                const isSelectedCtgNotEmpty: boolean = selectedCtg.length > 0
+                const isCategoryChanged: boolean =
+                        isSelectedCtgNotEmpty &&
+                        selectedCtg[0].name !== brand.category.name
+
+                // first, passed: not an empty string, and ctg is an array containing element and then we can check the equality if the provided category is
+                // changed. second condition: passed: not an empty string and selected is empty: means just reset the passed category
+                if (
+                        (isDefaultNotEmpty && isCategoryChanged) ||
+                        (isDefaultNotEmpty && !isSelectedCtgNotEmpty)
+                ) {
                         categories.doc(brand.category.name).update({
                                 brands: FieldValue.arrayRemove(name),
                         })
                 }
 
                 // check for product update here?
+                const diff: Product[] = difference(brand.products, selectedProd)
+                if (
+                        brand.products.length !== selectedProd.length ||
+                        diff.length > 0
+                ) {
+                        diff.forEach((product) =>
+                                products
+                                        .doc((product as unknown) as string)
+                                        .update({
+                                                brand: '',
+                                        })
+                        )
+                }
         }
 
         return !success ? (
