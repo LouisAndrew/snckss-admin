@@ -6,6 +6,8 @@ import { Category } from '../../interfaces/category'
 import { Brand } from '../../interfaces/brand'
 import { Product } from '../../interfaces/product'
 
+import './styles.scss'
+
 type Collection = Category[] | Brand[] | Product[]
 
 interface Props {
@@ -14,6 +16,7 @@ interface Props {
         headerText: string
         single?: boolean
         selectedText?: string
+        className?: string
         handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
         handleRemove: (key: ListItem['key']) => void
 }
@@ -24,6 +27,7 @@ const Select: React.FC<Props> = ({
         headerText,
         single,
         selectedText,
+        className,
         handleChange,
         handleRemove,
 }) => {
@@ -33,7 +37,7 @@ const Select: React.FC<Props> = ({
         return (
                 <>
                         {req && (
-                                <FormGroup>
+                                <FormGroup className={className}>
                                         <Label for="select">{headerText}</Label>
                                         <Input
                                                 type="select"
@@ -46,7 +50,9 @@ const Select: React.FC<Props> = ({
                                                         key="default"
                                                         value="default"
                                                 >
-                                                        Select multiple
+                                                        {single
+                                                                ? 'Select one'
+                                                                : 'Select multiple'}
                                                 </option>
                                                 {available.map((item) => (
                                                         <option

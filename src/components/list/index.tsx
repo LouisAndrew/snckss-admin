@@ -13,6 +13,7 @@ export interface ListItem {
 interface Props {
         headerText: string
         items: ListItem[]
+        className?: string
         handleRemove: (key: ListItem['key']) => void
         handleClick?: (key: ListItem['key']) => void
 }
@@ -20,11 +21,12 @@ interface Props {
 const List: React.FC<Props> = ({
         headerText,
         items,
+        className,
         handleRemove,
         handleClick,
 }) => {
         return (
-                <ListGroup>
+                <ListGroup className={className}>
                         <Label className="list-label">{headerText}</Label>
                         {items.map((item) => (
                                 <ListGroupItem

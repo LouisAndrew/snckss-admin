@@ -119,11 +119,31 @@ exports[`Creator element inside main scene matches snapshot 1`] = `
             <option
               value="default"
             >
+              Select one
+            </option>
+          </select>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className=""
+            htmlFor="select"
+          >
+            Select prodcuts
+          </label>
+          <select
+            className="form-control"
+            id="select"
+            name="select"
+            onChange={[Function]}
+            value=""
+          >
+            <option
+              value="default"
+            >
               Select multiple
             </option>
-            <option />
-            <option />
-            <option />
           </select>
         </div>
       </div>

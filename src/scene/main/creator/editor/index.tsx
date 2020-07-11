@@ -8,6 +8,8 @@ import { Brand } from '../../../../interfaces/brand'
 import { Category } from '../../../../interfaces/category'
 import { Product } from '../../../../interfaces/product'
 
+import './styles.scss'
+
 interface Props {
         nowCreating: Creations
 }
