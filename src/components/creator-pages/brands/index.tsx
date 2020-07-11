@@ -29,7 +29,7 @@ interface Props {
  * but if yes -> It's going to be a lot of if statements inside on component....
  */
 const Brands: React.FC<Props> = ({ allCategories, allBrands, allProducts }) => {
-        const [isEditing, setIsEditing] = useState(true)
+        const [isEditing, setIsEditing] = useState(false)
         const [brd, setBrd] = useState<Brand[]>([])
         const [provideBrand, setProvideBrand] = useState(false)
         const [toProvide, setToProvide] = useState<Brand>(initialBrand)

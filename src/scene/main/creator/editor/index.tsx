@@ -14,6 +14,7 @@ interface Props {
         nowCreating: Creations
 }
 
+// TODO: fetch new data everytime success is called
 const MainEditor: React.FC<Props> = ({ nowCreating }) => {
         const [allCategories, setAllCategories] = useState<Category[]>([])
         const [allBrands, setAllBrands] = useState<Brand[]>([])
