@@ -59,6 +59,7 @@ const BrandEditor: React.FC<Props> = ({
         const brands = useFirestore().collection('brand')
         const products = useFirestore().collection('product')
         const categories = useFirestore().collection('categories')
+        const FieldValue = useFirestore.FieldValue
 
         useEffect(() => {
                 // fetch all brands from firestore
@@ -188,11 +189,6 @@ const BrandEditor: React.FC<Props> = ({
                 )[0]
 
                 if (userSelected) {
-                        // const index: number = availableCtg.indexOf(userSelected)
-                        // const secondArrayStart: number =
-                        //         index !== availableCtg.length - 1
-                        //                 ? index + 1
-                        //                 : availableCtg.length - 1
                         dispatch({
                                 type: Actions.SET_CTG,
                                 payload: {
@@ -276,7 +272,61 @@ const BrandEditor: React.FC<Props> = ({
                 }
         }
 
-        const handleClick = () => {
+        const handleNameError = () => {
+                const input: HTMLElement | null = document.getElementById(
+                        'name'
+                )
+                if (input) {
+                        input.style.borderColor = 'red'
+                        const errorMsg: HTMLHeadingElement = document.createElement(
+                                'h5'
+                        )
+                        errorMsg.innerText = 'Category name should not be empty'
+                        errorMsg.className = 'name-error'
+
+                        input.parentElement?.appendChild(errorMsg)
+                }
+        }
+
+        const handleClick = async () => {
+                if (name === '') {
+                        handleNameError()
+                        return
+                }
+
+                const { name: categoryName } = selectedCtg[0]
+                const productNames: string[] = selectedProd.map(
+                        (prd) => prd.name
+                )
+
+                const categoryRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData> = await categories.doc(
+                        categoryName
+                )
+                const productRefs: firebase.firestore.DocumentReference<
+                        firebase.firestore.DocumentData
+                >[] = await productNames.map((prod) => products.doc(prod))
+
+                brands.doc(name).set({
+                        name,
+                        category: categoryName,
+                        products: productNames,
+                })
+
+                categoryRef.update({
+                        brands: FieldValue.arrayUnion(categoryName),
+                })
+
+                productRefs.forEach((product) => {
+                        product.update({
+                                brand: name,
+                        })
+                })
+
+                // TODO: check if category/brands is being updated
+                if (providedBrand) {
+                        checkForUpdate()
+                }
+                // const
                 // TODO: handle update to firebase
                 dispatch({
                         type: Actions.SET_SUCCESS,
@@ -286,7 +336,18 @@ const BrandEditor: React.FC<Props> = ({
                 })
         }
 
-        console.log(success)
+        /**
+         * updates data in firestore if any changes needed to be updated
+         */
+        const checkForUpdate = () => {
+                if (brand.category.name !== selectedCtg[0].name) {
+                        categories.doc(brand.category.name).update({
+                                brands: FieldValue.arrayRemove(name),
+                        })
+                }
+
+                // check for product update here?
+        }
 
         return !success ? (
                 <>

@@ -135,20 +135,20 @@ const CategoryEditor: React.FC<Props> = ({
                         firebase.firestore.DocumentData
                 >[] = await selected.map((brand) => brands.doc(brand.name))
 
-                // resolve all the promises here.
-                const promise: any[] = await Promise.all(
-                        brandRefs.map((brand) => brand.get())
-                )
-                const toSubmitBrands: string[] = await promise.map((doc) => {
-                        if (doc.exists) {
-                                const { name } = doc.data()
-                                return name
-                        }
-                })
+                // // resolve all the promises here.
+                // const promise: any[] = await Promise.all(
+                //         brandRefs.map((brand) => brand.get())
+                // )
+                // const toSubmitBrands: string[] = await promise.map((doc) => {
+                //         if (doc.exists) {
+                //                 const { name } = doc.data()
+                //                 return name
+                //         }
+                // })
 
                 categories.doc(name).set({
                         name,
-                        brands: toSubmitBrands,
+                        brands: selected.map((brand) => brand.name),
                 })
 
                 // update brand's selected category.
@@ -163,7 +163,7 @@ const CategoryEditor: React.FC<Props> = ({
 
         const handleNameError = () => {
                 const input: HTMLElement | null = document.getElementById(
-                        'category-name'
+                        'name'
                 )
                 if (input) {
                         input.style.borderColor = 'red'
