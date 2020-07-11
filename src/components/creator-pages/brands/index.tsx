@@ -6,8 +6,7 @@ import List, { ListItem } from '../../list'
 import Icons from '../icons'
 import './styles.scss'
 import BrandEditor from './editor'
-import { Category } from '../../../interfaces/category'
-import { Product } from '../../../interfaces/product'
+import { Category, Product } from '../../../interfaces'
 
 const initialBrand: Brand = {
         name: '',

@@ -8,9 +8,7 @@ import '@testing-library/jest-dom'
 
 import config from '../../../../lib/firebase-config'
 import Brands from '..'
-import { Category } from '../../../../interfaces/category'
-import { Brand } from '../../../../interfaces/brand'
-import { Product } from '../../../../interfaces/product'
+import { Category, Brand, Product } from '../../../../interfaces'
 
 describe('categories element.', () => {
         const mockAllCategories: Category[] = []

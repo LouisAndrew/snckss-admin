@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Container, Col, Row, Nav } from 'reactstrap'
+
 import Tabs from '../../../components/tabs'
 import MainEditor from './editor'
 

@@ -4,9 +4,7 @@ import { useFirestore } from 'reactfire'
 import { Creations } from '..'
 import Categories from '../../../../components/creator-pages/categories'
 import Brands from '../../../../components/creator-pages/brands'
-import { Brand } from '../../../../interfaces/brand'
-import { Category } from '../../../../interfaces/category'
-import { Product } from '../../../../interfaces/product'
+import { Brand, Product, Category } from '../../../../interfaces'
 
 import './styles.scss'
 

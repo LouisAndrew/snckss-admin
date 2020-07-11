@@ -8,8 +8,7 @@ import { Creations } from '../../../../scene/main/creator'
 import Name from '../../name'
 import Select from '../../../select'
 import { reducer, Actions } from './reducer'
-import { Category } from '../../../../interfaces/category'
-import { Product } from '../../../../interfaces/product'
+import { Category, Product } from '../../../../interfaces'
 import { difference } from '../../../../lib/helper'
 
 interface Props {
