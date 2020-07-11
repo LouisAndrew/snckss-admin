@@ -71,6 +71,9 @@ const Brands: React.FC<Props> = ({ allCategories, allBrands, allProducts }) => {
                 setIsEditing(true)
         }
 
+        console.log(allBrands)
+        console.log(`brds: ${brd}`)
+
         return (
                 <div className="brands">
                         <Icons

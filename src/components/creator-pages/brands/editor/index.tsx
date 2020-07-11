@@ -74,27 +74,45 @@ const BrandEditor: React.FC<Props> = ({
                                 },
                         })
 
-                        let totalSelectedProd: Product[] = []
-                        let totalAvailableProd: Product[] = []
+                        if (passedProducts) {
+                                let totalSelectedProd: Product[] = []
+                                let totalAvailableProd: Product[] = []
 
-                        allProducts.forEach((prd) => {
-                                const { name } = prd
-                                if (
-                                        passedProducts.includes(
-                                                (name as unknown) as Product
-                                        )
-                                ) {
-                                        totalSelectedProd = [
-                                                ...totalSelectedProd,
-                                                prd,
-                                        ]
-                                } else {
-                                        totalAvailableProd = [
-                                                ...totalAvailableProd,
-                                                prd,
-                                        ]
-                                }
-                        })
+                                allProducts.forEach((prd) => {
+                                        const { name } = prd
+                                        if (
+                                                passedProducts.includes(
+                                                        (name as unknown) as Product
+                                                )
+                                        ) {
+                                                totalSelectedProd = [
+                                                        ...totalSelectedProd,
+                                                        prd,
+                                                ]
+                                        } else {
+                                                totalAvailableProd = [
+                                                        ...totalAvailableProd,
+                                                        prd,
+                                                ]
+                                        }
+                                })
+
+                                dispatch({
+                                        type: Actions.SET_PROD,
+                                        payload: {
+                                                availableProd: totalAvailableProd,
+                                                selectedProd: totalSelectedProd,
+                                        },
+                                })
+                        } else {
+                                dispatch({
+                                        type: Actions.SET_PROD,
+                                        payload: {
+                                                selectedProd: [],
+                                                availableProd: allProducts,
+                                        },
+                                })
+                        }
 
                         if (category) {
                                 dispatch({
@@ -106,6 +124,14 @@ const BrandEditor: React.FC<Props> = ({
                                                                 category.name
                                                 ),
                                                 selectedCtg: [category],
+                                        },
+                                })
+                        } else {
+                                dispatch({
+                                        type: Actions.SET_CTG,
+                                        payload: {
+                                                selectedCtg: [],
+                                                availableCtg: allCategories,
                                         },
                                 })
                         }
@@ -220,9 +246,29 @@ const BrandEditor: React.FC<Props> = ({
                         })
                 }
         }
-        const handleRemoveProd = (key: any) => {}
+        const handleRemoveProd = (key: any) => {
+                const toRemove: Product = selectedProd.filter(
+                        (prd) => prd.name === key
+                )[0]
 
-        console.log(selectedProd)
+                if (toRemove) {
+                        dispatch({
+                                type: Actions.SET_PROD,
+                                payload: {
+                                        availableProd: availableProd.includes(
+                                                toRemove
+                                        )
+                                                ? availableProd
+                                                : [...availableProd, toRemove],
+                                        selectedProd: selectedProd.filter(
+                                                (prd) =>
+                                                        prd.name !==
+                                                        toRemove.name
+                                        ),
+                                },
+                        })
+                }
+        }
 
         return !success ? (
                 <>
