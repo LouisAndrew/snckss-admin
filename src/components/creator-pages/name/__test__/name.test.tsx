@@ -64,6 +64,6 @@ describe('Name input reusable component', () => {
 
         it('matches snapshot', () => {
                 const tree = renderer.create(el).toJSON()
-                expect(tree).toMatchSnapshot(el)
+                expect(tree).toMatchSnapshot()
         })
 })

@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login component matches snapshot 1`] = `
+Array [
+  <h1>
+    Hello, please login to continue
+  </h1>,
+  <button
+    onClick={[Function]}
+  >
+    Login with google
+  </button>,
+  <h1>
+    Not welcome!
+  </h1>,
+  "",
+]
+`;
