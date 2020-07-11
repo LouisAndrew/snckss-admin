@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useFirestore } from 'reactfire'
 
-import { Brand } from '../../../interfaces/brand'
 import List, { ListItem } from '../../list'
 import Icons from '../icons'
 import './styles.scss'
 import BrandEditor from './editor'
-import { Category, Product } from '../../../interfaces'
+import { Category } from '../../../interfaces/category'
+import { Product } from '../../../interfaces/product'
+import { Brand } from '../../../interfaces/brand'
 
 const initialBrand: Brand = {
         name: '',

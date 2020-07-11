@@ -9,7 +9,9 @@ import '@testing-library/jest-dom'
 import BrandEditor from '..'
 
 import config from '../../../../../lib/firebase-config'
-import { Category, Brand, Product } from '../../../../../interfaces'
+import { Category } from '../../../../../interfaces/category'
+import { Product } from '../../../../../interfaces/product'
+import { Brand } from '../../../../../interfaces/brand'
 
 describe('Brand editor element', () => {
         const mockSampleCategory: Category = {
