@@ -8,6 +8,7 @@ import BrandEditor from './editor'
 import { Category } from 'ts/interfaces/category'
 import { Product } from 'ts/interfaces/product'
 import { Brand } from 'ts/interfaces/brand'
+import useSureQuestion from 'hooks/useSureQuestion'
 
 const initialBrand: Brand = {
         name: '',
@@ -41,6 +42,7 @@ const Brands: React.FC<Props> = ({
         const [toProvide, setToProvide] = useState<Brand>(initialBrand)
 
         const brands = useFirestore().collection('brand')
+        const question = useSureQuestion()
 
         // fetch all categories from firestore.
         useEffect(() => {
@@ -52,11 +54,19 @@ const Brands: React.FC<Props> = ({
                         (brd) => brd.name === key
                 )
                 if (isKeyExists) {
-                        brands.doc(key)
-                                .delete()
-                                .then(() => {
+                        const brandRef = brands.doc(key)
+                        const deleteBrand = () => {
+                                brandRef.delete().then(() => {
                                         doRerender()
                                 })
+                        }
+
+                        question.apply(
+                                `Are you sure you want to delete ${key}`,
+                                'brands-creator',
+                                deleteBrand,
+                                () => {}
+                        )
                 }
         }
 
@@ -90,7 +100,7 @@ const Brands: React.FC<Props> = ({
         }
 
         return (
-                <div className="brands">
+                <div className="brands-creator creator">
                         <Icons
                                 goBack={goBack}
                                 add={add}

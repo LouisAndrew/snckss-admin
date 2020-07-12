@@ -2,7 +2,7 @@
 
 exports[`categories element. matches snapshot 1`] = `
 <div
-  className="brands"
+  className="brands-creator creator"
 >
   <div
     className="back icon"

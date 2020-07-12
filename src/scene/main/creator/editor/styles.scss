@@ -1,3 +1,13 @@
 label {
         font-weight: bold;
 }
+
+.creator {
+        position: relative;
+        min-height: calc(90vh);
+
+        h1 {
+                margin: 5% 0;
+                text-align: center;
+        }
+}

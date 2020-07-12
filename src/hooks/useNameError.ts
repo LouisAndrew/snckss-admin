@@ -1,5 +1,3 @@
-import React from 'react'
-
 const useNameError = () => {
         const handleNameError = () => {
                 const input: HTMLElement | null = document.getElementById(

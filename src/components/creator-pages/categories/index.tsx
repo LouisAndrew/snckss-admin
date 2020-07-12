@@ -7,6 +7,7 @@ import { Category } from 'ts/interfaces/category'
 import Icons from '../icons'
 import CategoryEditor from './editor'
 import { Brand } from 'ts/interfaces/brand'
+import useSureQuestion from 'hooks/useSureQuestion'
 
 const initialCategories: Category[] = []
 const initialCategory: Category = {
@@ -31,6 +32,7 @@ const Categories: React.FC<Props> = ({
         const [toProvide, setToProvide] = useState(initialCategory)
 
         const categories = useFirestore().collection('categories')
+        const question = useSureQuestion()
 
         useEffect(() => {
                 setCtg(allCategories)
@@ -41,12 +43,19 @@ const Categories: React.FC<Props> = ({
                         (ctg) => ctg.name === key
                 )
                 if (isKeyExists) {
-                        categories
-                                .doc(key)
-                                .delete()
-                                .then(() => {
+                        const categoryRef = categories.doc(key)
+                        const deleteCategory = () => {
+                                categoryRef.delete().then(() => {
                                         doRerender()
                                 })
+                        }
+
+                        question.apply(
+                                `Are you sure you want to delete ${key}`,
+                                'categories-creator',
+                                deleteCategory,
+                                () => {}
+                        )
                 }
         }
 
@@ -80,7 +89,7 @@ const Categories: React.FC<Props> = ({
         }
 
         return (
-                <div className="categories">
+                <div className="categories-creator creator">
                         <Icons
                                 goBack={goBack}
                                 add={add}

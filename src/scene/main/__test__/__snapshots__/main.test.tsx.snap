@@ -93,7 +93,7 @@ exports[`Main component matches snapshot 1`] = `
             m="8"
           >
             <div
-              className="brands"
+              className="categories-creator creator"
             >
               <div
                 className="back icon"
@@ -142,7 +142,7 @@ exports[`Main component matches snapshot 1`] = `
                 />
               </div>
               <h1>
-                Brands
+                Categories
               </h1>
               <ul
                 className="list-group"

@@ -10,6 +10,7 @@ import Login from './scene/login'
 import Main from './scene/main'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './app.scss'
 
 function App() {
         const [user, setUser] = useState(initial)

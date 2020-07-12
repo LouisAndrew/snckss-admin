@@ -33,7 +33,6 @@ const MainEditor: React.FC<Props> = ({ nowCreating }) => {
         }, [])
 
         useEffect(() => {
-                console.log('rerendering')
                 if (rerender) {
                         setRerender(false)
                 }
