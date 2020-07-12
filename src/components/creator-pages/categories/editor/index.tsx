@@ -12,6 +12,7 @@ import { Creations } from '../../../../scene/main/creator'
 import Select from '../../../select'
 import Name from '../../name'
 import { difference } from '../../../../lib/helper'
+import useNameError from 'hooks/useNameError'
 
 interface Props {
         category: Category
@@ -35,6 +36,8 @@ const CategoryEditor: React.FC<Props> = ({
 
         const categories = useFirestore().collection('categories')
         const brands = useFirestore().collection('brand')
+
+        const handleNameError = useNameError()
 
         useEffect(() => {
                 if (providedCategory) {
@@ -128,7 +131,7 @@ const CategoryEditor: React.FC<Props> = ({
 
         const handleClick = async () => {
                 if (name === '') {
-                        handleNameError()
+                        handleNameError.apply()
                         return
                 }
                 // getting all brands name from selected.
@@ -170,22 +173,6 @@ const CategoryEditor: React.FC<Props> = ({
                                         category: '',
                                 })
                         })
-                }
-        }
-
-        const handleNameError = () => {
-                const input: HTMLElement | null = document.getElementById(
-                        'name'
-                )
-                if (input) {
-                        input.style.borderColor = 'red'
-                        const errorMsg: HTMLHeadingElement = document.createElement(
-                                'h5'
-                        )
-                        errorMsg.innerText = 'Category name should not be empty'
-                        errorMsg.className = 'name-error'
-
-                        input.parentElement?.appendChild(errorMsg)
                 }
         }
 

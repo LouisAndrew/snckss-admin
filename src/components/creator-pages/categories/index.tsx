@@ -17,19 +17,38 @@ const initialCategory: Category = {
 interface Props {
         allCategories: Category[]
         allBrands: Brand[]
+        doRerender: () => void
 }
 
-const Categories: React.FC<Props> = ({ allCategories, allBrands }) => {
+const Categories: React.FC<Props> = ({
+        allCategories,
+        allBrands,
+        doRerender,
+}) => {
         const [isEditing, setIsEditing] = useState(false)
         const [ctg, setCtg] = useState(initialCategories)
         const [provideCategory, setProvideCategory] = useState(false)
         const [toProvide, setToProvide] = useState(initialCategory)
 
+        const categories = useFirestore().collection('categories')
+
         useEffect(() => {
                 setCtg(allCategories)
         }, [])
 
-        const handleRemove = () => {}
+        const handleRemove = (key: any) => {
+                const isKeyExists: boolean = allCategories.some(
+                        (ctg) => ctg.name === key
+                )
+                if (isKeyExists) {
+                        categories
+                                .doc(key)
+                                .delete()
+                                .then(() => {
+                                        doRerender()
+                                })
+                }
+        }
 
         const handleClick = (key: ListItem['key']) => {
                 if (!isEditing) {
@@ -49,6 +68,7 @@ const Categories: React.FC<Props> = ({ allCategories, allBrands }) => {
                         setIsEditing(false)
                         setProvideCategory(false)
                         setToProvide(initialCategory)
+                        doRerender()
                 }
         }
 

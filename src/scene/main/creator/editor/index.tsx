@@ -19,6 +19,7 @@ const MainEditor: React.FC<Props> = ({ nowCreating }) => {
         const [allCategories, setAllCategories] = useState<Category[]>([])
         const [allBrands, setAllBrands] = useState<Brand[]>([])
         const [allProducts, setAllProducts] = useState<Product[]>([])
+        const [rerender, setRerender] = useState(false)
 
         const fs = useFirestore()
         const categoriesRef = fs.collection('categories')
@@ -31,8 +32,15 @@ const MainEditor: React.FC<Props> = ({ nowCreating }) => {
                 fetchAllProds()
         }, [])
 
+        useEffect(() => {
+                console.log('rerendering')
+                if (rerender) {
+                        setRerender(false)
+                }
+        }, [rerender])
+
         const fetchAllCtgs = () => {
-                categoriesRef.get().then((docs) => {
+                categoriesRef.onSnapshot((docs) => {
                         let total: Category[] = []
                         docs.forEach((doc) => {
                                 const data: Category = doc.data() as Category
@@ -43,7 +51,7 @@ const MainEditor: React.FC<Props> = ({ nowCreating }) => {
         }
 
         const fetchAllBrds = () => {
-                brandsRef.get().then((docs) => {
+                brandsRef.onSnapshot((docs) => {
                         let total: Brand[] = []
                         docs.forEach((doc) => {
                                 const data: Brand = doc.data() as Brand
@@ -54,7 +62,7 @@ const MainEditor: React.FC<Props> = ({ nowCreating }) => {
         }
 
         const fetchAllProds = () => {
-                productsRef.get().then((docs) => {
+                productsRef.onSnapshot((docs) => {
                         let total: Product[] = []
                         docs.forEach((doc) => {
                                 const data: Product = doc.data() as Product
@@ -64,19 +72,25 @@ const MainEditor: React.FC<Props> = ({ nowCreating }) => {
                 })
         }
 
+        const doRerender = () => {
+                setRerender(true)
+        }
+
         return (
                 <>
-                        {nowCreating === Creations.CATEGORIES && (
+                        {!rerender && nowCreating === Creations.CATEGORIES && (
                                 <Categories
                                         allCategories={allCategories}
                                         allBrands={allBrands}
+                                        doRerender={doRerender}
                                 />
                         )}
-                        {nowCreating === Creations.BRAND && (
+                        {!rerender && nowCreating === Creations.BRAND && (
                                 <Brands
                                         allCategories={allCategories}
                                         allBrands={allBrands}
                                         allProducts={allProducts}
+                                        doRerender={doRerender}
                                 />
                         )}
                 </>

@@ -22,13 +22,19 @@ interface Props {
         allCategories: Category[]
         allBrands: Brand[]
         allProducts: Product[]
+        doRerender: () => void
 }
 
 /**
  * Almost the same structure as Categoties. Do I need to combine them just as one reusable component?
  * but if yes -> It's going to be a lot of if statements inside on component....
  */
-const Brands: React.FC<Props> = ({ allCategories, allBrands, allProducts }) => {
+const Brands: React.FC<Props> = ({
+        allCategories,
+        allBrands,
+        allProducts,
+        doRerender,
+}) => {
         const [isEditing, setIsEditing] = useState(false)
         const [brd, setBrd] = useState<Brand[]>([])
         const [provideBrand, setProvideBrand] = useState(false)
@@ -41,7 +47,18 @@ const Brands: React.FC<Props> = ({ allCategories, allBrands, allProducts }) => {
                 setBrd(allBrands)
         }, [])
 
-        const handleRemove = () => {}
+        const handleRemove = (key: any) => {
+                const isKeyExists: boolean = allBrands.some(
+                        (brd) => brd.name === key
+                )
+                if (isKeyExists) {
+                        brands.doc(key)
+                                .delete()
+                                .then(() => {
+                                        doRerender()
+                                })
+                }
+        }
 
         const handleClick = (key: ListItem['key']) => {
                 if (!isEditing) {
@@ -61,6 +78,7 @@ const Brands: React.FC<Props> = ({ allCategories, allBrands, allProducts }) => {
                         setIsEditing(false)
                         setProvideBrand(false)
                         setToProvide(initialBrand)
+                        doRerender()
                 }
         }
 
@@ -70,9 +88,6 @@ const Brands: React.FC<Props> = ({ allCategories, allBrands, allProducts }) => {
                 }
                 setIsEditing(true)
         }
-
-        console.log(allBrands)
-        console.log(`brds: ${brd}`)
 
         return (
                 <div className="brands">

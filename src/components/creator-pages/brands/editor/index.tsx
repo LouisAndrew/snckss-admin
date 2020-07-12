@@ -11,6 +11,7 @@ import Name from '../../name'
 import Select from '../../../select'
 import { reducer, Actions } from './reducer'
 import { difference } from '../../../../lib/helper'
+import useNameError from 'hooks/useNameError'
 // import { Category } from '../../../../interfaces/category'
 
 interface Props {
@@ -62,6 +63,8 @@ const BrandEditor: React.FC<Props> = ({
         const products = useFirestore().collection('product')
         const categories = useFirestore().collection('categories')
         const FieldValue = useFirestore.FieldValue
+
+        const handleNameError = useNameError()
 
         useEffect(() => {
                 // fetch all brands from firestore
@@ -278,25 +281,9 @@ const BrandEditor: React.FC<Props> = ({
                 }
         }
 
-        const handleNameError = () => {
-                const input: HTMLElement | null = document.getElementById(
-                        'name'
-                )
-                if (input) {
-                        input.style.borderColor = 'red'
-                        const errorMsg: HTMLHeadingElement = document.createElement(
-                                'h5'
-                        )
-                        errorMsg.innerText = 'Category name should not be empty'
-                        errorMsg.className = 'name-error'
-
-                        input.parentElement?.appendChild(errorMsg)
-                }
-        }
-
         const handleClick = async () => {
                 if (name === '') {
-                        handleNameError()
+                        handleNameError.apply()
                         return
                 }
 
