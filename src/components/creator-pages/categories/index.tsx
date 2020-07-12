@@ -3,10 +3,10 @@ import { useFirestore } from 'reactfire'
 
 import './styles.scss'
 import List, { ListItem } from '../../list'
-import { Category } from '../../../interfaces/category'
+import { Category } from 'ts/interfaces/category'
 import Icons from '../icons'
 import CategoryEditor from './editor'
-import { Brand } from '../../../interfaces/brand'
+import { Brand } from 'ts/interfaces/brand'
 
 const initialCategories: Category[] = []
 const initialCategory: Category = {

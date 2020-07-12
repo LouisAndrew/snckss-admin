@@ -1,5 +1,5 @@
 import React, { useState, createContext } from 'react'
-import { Admin } from '../interfaces/admin'
+import { Admin } from '../ts/interfaces/admin'
 
 export interface User extends Admin {
         isLoggedIn: boolean

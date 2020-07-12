@@ -1,7 +1,7 @@
 import React from 'react'
 import { State } from '.'
-import { Category } from '../../../../interfaces/category'
-import { Product } from '../../../../interfaces/product'
+import { Category } from 'ts/interfaces/category'
+import { Product } from 'ts/interfaces/product'
 
 interface IAction {
         type: Actions

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Button } from 'reactstrap'
 import { useFirestore } from 'reactfire'
 
-import { Brand } from '../../../../interfaces/brand'
+import { Brand } from 'ts/interfaces/brand'
 import { ListItem } from '../../../list'
-import { Category } from '../../../../interfaces/category'
+import { Category } from 'ts/interfaces/category'
 
 import './styles.scss'
 import SuccessPage from '../../../success'

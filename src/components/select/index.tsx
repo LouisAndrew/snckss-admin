@@ -2,9 +2,9 @@ import React from 'react'
 import { FormGroup, Label, Input } from 'reactstrap'
 
 import List, { ListItem } from '../list'
-import { Category } from '../../interfaces/category'
-import { Brand } from '../../interfaces/brand'
-import { Product } from '../../interfaces/product'
+import { Category } from 'ts/interfaces/category'
+import { Brand } from 'ts/interfaces/brand'
+import { Product } from 'ts/interfaces/product'
 
 import './styles.scss'
 

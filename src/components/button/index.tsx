@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { useFirestore, useFirestoreDoc, useFirestoreDocData } from 'reactfire'
 
-import { Product } from '../../interfaces/product'
+import { Product } from 'ts/interfaces/product'
 import { UserContext } from '../../lib/user.context'
 
 interface Props {

@@ -8,8 +8,8 @@ import '@testing-library/jest-dom'
 
 import config from '../../../../../lib/firebase-config'
 import Editor from '..'
-import { Category } from '../../../../../interfaces/category'
-import { Brand } from '../../../../../interfaces/brand'
+import { Category } from 'ts/interfaces/category'
+import { Brand } from 'ts/interfaces/brand'
 
 describe('Editor component inside categories', () => {
         const mockFn = jest.fn(() => {})

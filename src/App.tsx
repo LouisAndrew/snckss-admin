@@ -5,7 +5,7 @@ import config from './lib/firebase-config'
 // import logo from './logo.svg'
 import Button from './components/button'
 import { initial, UserContext } from './lib/user.context'
-import { Admin } from './interfaces/admin'
+import { Admin } from 'ts/interfaces/admin'
 import Login from './scene/login'
 import Main from './scene/main'
 
