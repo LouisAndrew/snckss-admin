@@ -9,6 +9,7 @@ import { Brand } from 'ts/interfaces/brand'
 import { Product } from 'ts/interfaces/product'
 
 import './styles.scss'
+import Products from 'components/creator-pages/products'
 
 interface Props {
         nowCreating: Creations
@@ -92,6 +93,7 @@ const MainEditor: React.FC<Props> = ({ nowCreating }) => {
                                         doRerender={doRerender}
                                 />
                         )}
+                        {!rerender && nowCreating === Creations.PRODUCT && <Products allBrands={allBrands} allProducts={allProducts} doRerender={doRerender} />}
                 </>
         )
 }

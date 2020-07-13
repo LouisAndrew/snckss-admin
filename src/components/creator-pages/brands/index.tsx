@@ -10,7 +10,7 @@ import { Product } from 'ts/interfaces/product'
 import { Brand } from 'ts/interfaces/brand'
 import useSureQuestion from 'hooks/useSureQuestion'
 
-const initialBrand: Brand = {
+export const initialBrand: Brand = {
         name: '',
         products: [],
         category: {
