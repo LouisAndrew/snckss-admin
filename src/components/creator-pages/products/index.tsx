@@ -28,7 +28,7 @@ interface Props {
 }
 
 const Products: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
-        const [isEditing, setIsEditing] = useState(false)
+        const [isEditing, setIsEditing] = useState(true)
         const [prd, setPrd] = useState<Product[]>([])
         const [provideProduct, setProvideProduct] = useState(false)
         const [toProvide, setToProvide] = useState<Product>(initialProduct)

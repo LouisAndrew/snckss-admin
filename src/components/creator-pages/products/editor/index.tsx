@@ -7,6 +7,7 @@ import SuccessPage from 'components/success'
 import { Creations } from 'scene/main/creator'
 import Name from 'components/creator-pages/name'
 import Desc from './desc'
+import ImgUploader from './img-upload'
 
 interface Props {
         providedProduct: boolean
@@ -62,6 +63,8 @@ const ProductEditor: React.FC<Props> = ({
                                 headerText="Product's description"
                                 handleChange={handleChangeDesc}
                         />
+                        {/* using name as simply a string input here */}
+                        <ImgUploader />
                 </>
         ) : (
                 <SuccessPage
