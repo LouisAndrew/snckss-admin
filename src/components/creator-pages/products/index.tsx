@@ -7,7 +7,7 @@ import List, { ListItem } from 'components/list'
 import Icons from '../icons'
 import ProductEditor from './editor'
 
-const initialProduct: Product = {
+export const initialProduct: Product = {
         name: '',
         desc: '',
         PID: '',
@@ -77,7 +77,13 @@ const Products: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
                         />
                         <h1>Products</h1>
                         {isEditing ? (
-                                <ProductEditor />
+                                <ProductEditor
+                                        providedProduct={provideProduct}
+                                        product={toProvide}
+                                        allBrands={allBrands}
+                                        allProducts={allProducts}
+                                        goBack={goBack}
+                                />
                         ) : (
                                 <List
                                         headerText=""

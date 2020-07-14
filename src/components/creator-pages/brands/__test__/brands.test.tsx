@@ -8,12 +8,16 @@ import '@testing-library/jest-dom'
 
 import config from '../../../../lib/firebase-config'
 import Brands from '..'
-import { Category, Brand, Product } from '../../../../interfaces'
+import { Category } from 'ts/interfaces/category'
+import { Brand } from 'ts/interfaces/brand'
+import { Product } from 'ts/interfaces/product'
 
 describe('categories element.', () => {
         const mockAllCategories: Category[] = []
         const mockAllBrands: Brand[] = []
         const mockAllProducts: Product[] = []
+        const doRerender = jest.fn(() => {})
+
         afterEach(cleanup)
         const el = (
                 <FirebaseAppProvider firebaseConfig={config}>
@@ -22,6 +26,7 @@ describe('categories element.', () => {
                                         allBrands={mockAllBrands}
                                         allCategories={mockAllCategories}
                                         allProducts={mockAllProducts}
+                                        doRerender={doRerender}
                                 />
                         </Suspense>
                 </FirebaseAppProvider>

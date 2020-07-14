@@ -19,7 +19,7 @@ describe('Name input reusable component', () => {
                         valueContainer = event.target.value
                 }
         )
-        // TODO
+
         afterEach(cleanup)
         const el: React.ReactElement = (
                 <Name

@@ -1,9 +1,12 @@
 .success {
         position: absolute;
         height: 100vh;
-        top: 0;
+        // top: -35px;
+        top: -30px;
+        left: 0;
+        // width: 100%;
         // why? -> bcs bootstrap uses padding 15px on its container-fluid
-        width: calc(100% + 15px);
+        width: calc(100% + 45px);
 
         background-color: #5cb85c;
 

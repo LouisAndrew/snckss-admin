@@ -43,7 +43,7 @@ const Main: React.FC<Props> = ({}) => {
         }
 
         return (
-                <Container fluid>
+                <Container fluid className="main">
                         <Row>
                                 <Col md="3" lg="3" xl="3">
                                         <Dashboard changeView={changeView} />

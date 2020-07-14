@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Description input element matches snapshot 1`] = `
+<div
+  className="form-group"
+>
+  <label
+    className=""
+    htmlFor="desc"
+  >
+    Mock Header
+  </label>
+  <textarea
+    className="form-control"
+    id="desc"
+    onChange={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            SyntheticEvent {
+              "_dispatchInstances": null,
+              "_dispatchListeners": null,
+              "_targetInst": null,
+              "bubbles": null,
+              "cancelable": null,
+              "currentTarget": [Function],
+              "defaultPrevented": null,
+              "dispatchConfig": null,
+              "eventPhase": null,
+              "isDefaultPrevented": [Function],
+              "isPropagationStopped": [Function],
+              "isTrusted": null,
+              "nativeEvent": null,
+              "target": null,
+              "timeStamp": [Function],
+              "type": null,
+            },
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      }
+    }
+    placeholder="Mock placeholder"
+    value=""
+  />
+</div>
+`;

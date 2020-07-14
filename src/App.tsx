@@ -52,7 +52,7 @@ function App() {
                                         traceId="loading whatever the fuck that is"
                                 >
                                         {user.isLoggedIn ? <Main /> : <Login />}
-                                        <Button text="click me!" />
+                                        {/* <Button text="click me!" /> */}
                                 </SuspenseWithPerf>
                         </UserContext.Provider>
                 </FirebaseAppProvider>

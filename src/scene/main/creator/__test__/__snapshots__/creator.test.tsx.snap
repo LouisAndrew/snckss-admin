@@ -54,7 +54,7 @@ exports[`Creator element inside main scene matches snapshot 1`] = `
       m="8"
     >
       <div
-        className="categories-creator creator"
+        className="products-creator creator"
       >
         <div
           className="back icon"
@@ -103,7 +103,7 @@ exports[`Creator element inside main scene matches snapshot 1`] = `
           />
         </div>
         <h1>
-          Categories
+          Products
         </h1>
         <ul
           className="list-group"
