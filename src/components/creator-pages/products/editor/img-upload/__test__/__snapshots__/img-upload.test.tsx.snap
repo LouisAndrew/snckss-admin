@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`img uploader element matches snapshot 1`] = `
+<div
+  className="upload"
+>
+  <label
+    className=""
+  >
+    Product images
+  </label>
+  <button
+    aria-label={null}
+    className="btn btn-secondary"
+    onClick={[Function]}
+    type="button"
+  >
+    +
+  </button>
+</div>
+`;

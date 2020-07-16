@@ -14,7 +14,6 @@
                 "@types/reactstrap": "^8.4.3",
                 "@types/testing-library__react": "^10.2.0",
                 "bootstrap": "^4.5.0",
-                "cloudinary-react": "^1.6.1",
                 "dotenv": "^8.2.0",
                 "firebase": "^7.15.5",
                 "module-alias": "^2.2.2",
