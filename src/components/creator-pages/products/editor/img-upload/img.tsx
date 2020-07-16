@@ -9,30 +9,19 @@ import './styles.scss'
 
 interface Props {
         componentId: number
-        addImgUrl: (imgUrl: string) => void
-        removeImgUrl: (imgUrl: string) => void
+        addImgUrl: (imgUrl: string, componentId: number) => void
         removeComponent: (componentId: number) => void
 }
 
-const Img: React.FC<Props> = ({
-        componentId,
-        addImgUrl,
-        removeImgUrl,
-        removeComponent,
-}) => {
-        const [imgUrl, setImgUrl] = useState('')
-        const [urlSent, setUrlSent] = useState(false)
+const Img: React.FC<Props> = ({ componentId, addImgUrl, removeComponent }) => {
+        const [imgUrl, setImgUrl] = useState(
+                'https://res.cloudinary.com/dsvdffre0/image/upload/v1594909440/xv0ce1mmbx7jfmfxetki.jpg'
+        )
+
         const question = useSureQuestion()
 
         const id: string = `img-${componentId}`
         const endPoint: string = `https://api.Cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`
-
-        useEffect(() => {
-                if (imgUrl !== '') {
-                        addImgUrl(imgUrl)
-                        setUrlSent(true)
-                }
-        }, [imgUrl])
 
         const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                 const file: FileList | null = event.target.files
@@ -59,26 +48,20 @@ const Img: React.FC<Props> = ({
 
         const handleGetUrl = async (promise: any) => {
                 const url: string = await promise.secure_url
-                if (!urlSent) {
-                        setImgUrl(url) // if url hsn't been send to parent, just send the url.
-                } else {
-                        resendImgUrl(url) // if not, call resendImgUrl
-                }
+                setAndPassUrl(url)
         }
 
-        // what this function does first removing the url from the parent's list of urls and then replacing it with a new one.
-        const resendImgUrl = (url: string): void => {
-                removeImgUrl(imgUrl)
+        const setAndPassUrl = (url: string) => {
                 setImgUrl(url)
+                addImgUrl(url, componentId)
         }
 
+        // this func is going to be called when user confirms to remove the component
         const remove = () => {
-                if (urlSent) {
-                        removeImgUrl(imgUrl)
-                }
                 removeComponent(componentId)
         }
 
+        // remove this component from ImgUploader
         const handleRemoveComponent = () => {
                 question.apply(
                         `Sure to delete this image?`,

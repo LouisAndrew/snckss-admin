@@ -5,25 +5,82 @@ import Img from './img'
 
 interface Props {}
 
+interface ImgUploadComponent {
+        componentId: number
+        imgUrl: string
+}
+
 const ImgUploader: React.FC<Props> = ({}) => {
         // keys: stores random identifiers for img input component.
         const [componentIds, setComponentIds] = useState<number[]>([])
         const [imgUrls, setImgUrls] = useState<string[]>([])
+        const [components, setComponents] = useState<ImgUploadComponent[]>([])
 
-        const addImgComponent = () => {
-                setComponentIds([...componentIds, generateRandom()])
+        const addImgComponent = (): void => {
+                // setComponentIds([...componentIds, generateRandom()])
+                const newComponent: ImgUploadComponent = {
+                        componentId: generateRandom(),
+                        imgUrl: '',
+                }
+                setComponents([...components, newComponent])
         }
 
-        const removeImgComponent = (componentId: number) => {
-                setComponentIds(componentIds.filter((id) => id !== componentId))
+        const removeImgComponent = (componentId: number): void => {
+                removeComponentFromState(componentId)
         }
 
-        const addImgUrl = (imgUrl: string): void => {
-                setImgUrls([...imgUrls, imgUrl])
+        const addImgUrl = (imgUrl: string, componentId: number): void => {
+                // const component: ImgUploadComponent | null = getAndRemoveComponent(
+                //         componentId
+                // )
+
+                // console.log(component, 'component')
+                // console.log(components, 'components')
+                // if (component) {
+                //         component.imgUrl = imgUrl
+                //         setComponents([...components, component])
+                // }
+                const updatedComponent: ImgUploadComponent = {
+                        componentId,
+                        imgUrl,
+                }
+
+                const index: number = components.findIndex(
+                        (component) => component.componentId === componentId
+                )
+
+                // TODO: assign object set state
         }
 
-        const removeImgUrl = (imgUrl: string): void => {
-                setImgUrls(imgUrls.filter((url) => url !== imgUrl))
+        // const removeImgUrl = (componentId: number): void => {
+        //         const component: ImgUploadComponent | null = getAndRemoveComponent(
+        //                 componentId
+        //         )
+        //         if (component) {
+        //                 component.imgUrl = ''
+        //                 setComponents([...components, component])
+        //         }
+        // }
+
+        const getAndRemoveComponent = (
+                componentId: number
+        ): ImgUploadComponent | null => {
+                const arrOfComps = components.filter(
+                        (component) => component.componentId === componentId
+                )
+                if (arrOfComps.length > 0) {
+                        removeComponentFromState(componentId)
+                        return arrOfComps[0]
+                } else return null
+        }
+
+        const removeComponentFromState = (componentId: number) => {
+                setComponents(
+                        components.filter(
+                                (component) =>
+                                        component.componentId !== componentId
+                        )
+                )
         }
 
         const generateRandom = (): number => {
@@ -31,12 +88,14 @@ const ImgUploader: React.FC<Props> = ({}) => {
                 const random = () => Math.floor(Math.random() * 100) + 1
 
                 let num: number = random()
-                while (componentIds.includes(num)) {
+                while (components.some((comp) => comp.componentId === num)) {
                         num = random()
                 }
 
                 return num
         }
+
+        console.log(components)
 
         return (
                 <>
@@ -44,12 +103,12 @@ const ImgUploader: React.FC<Props> = ({}) => {
                                 <Label>Product images</Label>
                                 <Button onClick={addImgComponent}>+</Button>
                         </div>
-                        {componentIds.map((id) => (
+                        {components.map((comp) => (
                                 <Img
-                                        key={id}
-                                        componentId={id}
+                                        key={comp.componentId}
+                                        componentId={comp.componentId}
                                         addImgUrl={addImgUrl}
-                                        removeImgUrl={removeImgUrl}
+                                        // removeImgUrl={removeImgUrl}
                                         removeComponent={removeImgComponent}
                                 />
                         ))}
