@@ -79,41 +79,78 @@ exports[`Creator element inside main scene matches snapshot 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           />
         </div>
-        <div
-          className="add icon"
-          onClick={[Function]}
-        >
-          <svg
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "<path d=\\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z\\" fill=\\"currentColor\\"/>",
-              }
-            }
-            focusable={false}
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style={
-              Object {
-                "transform": "rotate(360deg)",
-              }
-            }
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          />
-        </div>
         <h1>
           Products
         </h1>
-        <ul
-          className="list-group"
+        <div
+          className="form-group"
         >
           <label
-            className="list-label"
+            className=""
+            htmlFor="name"
           >
-            
+            Product's name
           </label>
-        </ul>
+          <input
+            className="form-control"
+            id="name"
+            onChange={[Function]}
+            placeholder="Add product's name here!"
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className=""
+            htmlFor="desc"
+          >
+            Product's description
+          </label>
+          <textarea
+            className="form-control"
+            id="desc"
+            onChange={[Function]}
+            placeholder="Add product's description here!"
+            value=""
+          />
+        </div>
+        <div
+          className="upload"
+        >
+          <label
+            className=""
+          >
+            Product images
+          </label>
+          <button
+            aria-label={null}
+            className="btn btn-dark"
+            onClick={[Function]}
+            type="button"
+          >
+            <svg
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "<path d=\\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z\\" fill=\\"currentColor\\"/>",
+                }
+              }
+              focusable={false}
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style={
+                Object {
+                  "transform": "rotate(360deg)",
+                }
+              }
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            />
+          </button>
+        </div>
       </div>
     </div>
   </div>

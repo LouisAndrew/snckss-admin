@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, Input, Label, InputGroup } from 'reactstrap'
 import Icon from '@iconify/react'
 import deleteIcon from '@iconify/icons-mdi/delete'
@@ -9,19 +9,31 @@ import './styles.scss'
 
 interface Props {
         componentId: number
+        provided: boolean
+        imgUrl?: string
         addImgUrl: (imgUrl: string, componentId: number) => void
         removeComponent: (componentId: number) => void
 }
 
-const Img: React.FC<Props> = ({ componentId, addImgUrl, removeComponent }) => {
-        const [imgUrl, setImgUrl] = useState(
-                'https://res.cloudinary.com/dsvdffre0/image/upload/v1594909440/xv0ce1mmbx7jfmfxetki.jpg'
-        )
+const Img: React.FC<Props> = ({
+        componentId,
+        provided,
+        imgUrl: providedUrl,
+        addImgUrl,
+        removeComponent,
+}) => {
+        const [imgUrl, setImgUrl] = useState('')
 
         const question = useSureQuestion()
 
         const id: string = `img-${componentId}`
         const endPoint: string = `https://api.Cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`
+
+        useEffect(() => {
+                if (provided && providedUrl) {
+                        setImgUrl(providedUrl)
+                }
+        }, [])
 
         const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                 const file: FileList | null = event.target.files

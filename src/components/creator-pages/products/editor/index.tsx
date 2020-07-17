@@ -49,6 +49,11 @@ const ProductEditor: React.FC<Props> = ({
                 })
         }
 
+        const imgUrls: string[] = [
+                'https://res.cloudinary.com/dsvdffre0/image/upload/v1594991459/wzv9c2057bbqh6ht8kwi.jpg',
+                'https://res.cloudinary.com/dsvdffre0/image/upload/v1594991470/oyjs4mo3xwksv7w7dvsf.png',
+        ]
+
         return !success ? (
                 <>
                         <Name
@@ -64,7 +69,7 @@ const ProductEditor: React.FC<Props> = ({
                                 handleChange={handleChangeDesc}
                         />
                         {/* using name as simply a string input here */}
-                        <ImgUploader />
+                        <ImgUploader allImgs={imgUrls} />
                 </>
         ) : (
                 <SuccessPage

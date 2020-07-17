@@ -1,21 +1,37 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Label } from 'reactstrap'
+import { Icon } from '@iconify/react'
+import addIcon from '@iconify/icons-mdi/add'
 
 import Img from './img'
 
-interface Props {}
+interface Props {
+        allImgs?: string[]
+}
 
 interface ImgUploadComponent {
         componentId: number
         imgUrl: string
 }
 
-const ImgUploader: React.FC<Props> = ({}) => {
+const ImgUploader: React.FC<Props> = ({ allImgs }) => {
         // keys: stores random identifiers for img input component.
         const [components, setComponents] = useState<ImgUploadComponent[]>([])
 
+        // if the props allimgs is passed: render it with the images being shown
+        useEffect(() => {
+                if (allImgs && allImgs.length > 0) {
+                        let state: ImgUploadComponent[] = allImgs.map(
+                                (img) => ({
+                                        componentId: generateRandom(),
+                                        imgUrl: img,
+                                })
+                        )
+                        setComponents(state)
+                }
+        }, [])
+
         const addImgComponent = (): void => {
-                // setComponentIds([...componentIds, generateRandom()])
                 const newComponent: ImgUploadComponent = {
                         componentId: generateRandom(),
                         imgUrl: '',
@@ -71,7 +87,9 @@ const ImgUploader: React.FC<Props> = ({}) => {
                 <>
                         <div className="upload">
                                 <Label>Product images</Label>
-                                <Button onClick={addImgComponent}>+</Button>
+                                <Button onClick={addImgComponent} color="dark">
+                                        <Icon icon={addIcon} />
+                                </Button>
                         </div>
                         {components.map((comp) => (
                                 <Img
@@ -80,6 +98,8 @@ const ImgUploader: React.FC<Props> = ({}) => {
                                         addImgUrl={addImgUrl}
                                         // removeImgUrl={removeImgUrl}
                                         removeComponent={removeImgComponent}
+                                        provided={comp.imgUrl !== ''}
+                                        imgUrl={comp.imgUrl}
                                 />
                         ))}
                 </>
