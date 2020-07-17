@@ -20,6 +20,7 @@ interface Action {
                 brand?: Brand
                 multipleVars?: boolean
                 timesPurchased?: number
+                price?: number
         }
 }
 
@@ -33,6 +34,7 @@ export enum Actions {
         SET_ARRIVING_AT,
         SET_VARS,
         SET_ALL,
+        SET_PRICE,
 }
 
 export const initialState: State = {
@@ -165,6 +167,18 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                         }
                 }
 
+                case Actions.SET_PRICE: {
+                        const {
+                                payload: { price },
+                        } = action
+                        if (price !== undefined) {
+                                return {
+                                        ...state,
+                                        price,
+                                }
+                        }
+                }
+
                 case Actions.SET_ALL: {
                         const {
                                 payload: {
@@ -177,6 +191,7 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                         vars,
                                         multipleVars,
                                         timesPurchased,
+                                        price,
                                 },
                         } = action
                         // just to make sure all of the attributes is not undefined.
@@ -189,7 +204,8 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                 vars !== undefined &&
                                 timesPurchased &&
                                 multipleVars !== undefined &&
-                                available !== undefined
+                                available !== undefined &&
+                                price !== undefined
                         ) {
                                 return {
                                         ...state,
@@ -200,6 +216,7 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                         arrivingAt,
                                         vars,
                                         available,
+                                        price,
                                 }
                         }
                 }

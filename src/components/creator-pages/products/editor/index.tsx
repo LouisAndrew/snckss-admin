@@ -1,20 +1,25 @@
-import React, { useEffect, useState, useReducer } from 'react'
+import React, { useEffect, useReducer } from 'react'
+import { Button } from 'reactstrap'
+import { useFirestore } from 'reactfire'
 
 import { Product } from 'ts/interfaces/product'
 import { Brand } from 'ts/interfaces/brand'
+import useNameError from 'hooks/useNameError'
+
 import { reducer, initialState, Actions } from './reducer'
-import SuccessPage from 'components/success'
-import { Creations } from 'scene/main/creator'
-import Name from 'components/creator-pages/name'
 import Desc from './desc'
 import ImgUploader from './img-upload'
 import Availabilty from './availability'
 import ArrivingAt from './arriving'
 import Variations from './variations'
+
 import Select from 'components/select'
 import { initialBrand } from 'components/creator-pages/brands'
-import { Button } from 'reactstrap'
-import useNameError from 'hooks/useNameError'
+import SuccessPage from 'components/success'
+import Name from 'components/creator-pages/name'
+import { Creations } from 'scene/main/creator'
+import Price from './price'
+import usePriceError from 'hooks/usePriceError'
 
 interface Props {
         providedProduct: boolean
@@ -40,10 +45,17 @@ const ProductEditor: React.FC<Props> = ({
                 available,
                 arrivingAt,
                 vars,
+                price,
+                multipleVars,
+                timesPurchased,
                 success,
         } = state
 
         const handleNameError = useNameError()
+        const handlePriceError = usePriceError()
+
+        const products = useFirestore().collection('product')
+        const brands = useFirestore().collection('brand')
 
         useEffect(() => {
                 if (providedProduct) {
@@ -57,8 +69,6 @@ const ProductEditor: React.FC<Props> = ({
         const handleChangeName = (
                 event: React.ChangeEvent<HTMLInputElement>
         ) => {
-                console.log(event.target.value)
-                console.log(name)
                 dispatch({
                         type: Actions.SET_NAME,
                         payload: {
@@ -74,6 +84,21 @@ const ProductEditor: React.FC<Props> = ({
                         type: Actions.SET_DESC,
                         payload: {
                                 desc: event.target.value,
+                        },
+                })
+        }
+
+        const handleChangePrice = (
+                event: React.ChangeEvent<HTMLInputElement>
+        ) => {
+                const newPrice: string = event.target.value
+                if (parseInt(newPrice) === 0) {
+                        handlePriceError.displayError(false)
+                }
+                dispatch({
+                        type: Actions.SET_PRICE,
+                        payload: {
+                                price: parseInt(newPrice),
                         },
                 })
         }
@@ -149,7 +174,31 @@ const ProductEditor: React.FC<Props> = ({
                         handleNameError.apply()
                         return
                 }
+
+                const productRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData> = products.doc(
+                        name
+                )
+                const brandName: string = brand.name
+                const varsNames: string[] =
+                        vars.length > 0
+                                ? vars.map((variant) => variant.name)
+                                : []
+
+                productRef.set({
+                        name,
+                        desc,
+                        brand: brandName,
+                        available,
+                        arrivingAt,
+                        vars: varsNames,
+                        images: imgs,
+                        multipleVars,
+                        timesPurchased,
+                        price,
+                })
         }
+
+        const updateDuplicates = () => {}
 
         return !success ? (
                 <>
@@ -164,6 +213,12 @@ const ProductEditor: React.FC<Props> = ({
                                 placeholderText="Add product's description here!"
                                 headerText="Product's description"
                                 handleChange={handleChangeDesc}
+                        />
+                        <Price
+                                headerText="Products price"
+                                placeholderText="Add product's price here!"
+                                price={price}
+                                handleChange={handleChangePrice}
                         />
                         <Select
                                 available={allBrands}
