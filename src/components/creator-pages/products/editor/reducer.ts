@@ -12,6 +12,7 @@ interface Action {
                 name?: string
                 desc?: string
                 success?: boolean
+                imgs?: string[]
         }
 }
 
@@ -19,6 +20,7 @@ export enum Actions {
         SET_SUCCESS,
         SET_NAME,
         SET_DESC,
+        SET_IMGS,
 }
 
 export const initialState: State = {
@@ -69,6 +71,17 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                         success,
                                 }
                         }
+                case Actions.SET_IMGS: {
+                        const {
+                                payload: { imgs },
+                        } = action
+                        if (imgs) {
+                                return {
+                                        ...state,
+                                        imgs,
+                                }
+                        }
+                }
                 default:
                         return state
         }

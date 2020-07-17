@@ -25,7 +25,7 @@ const ProductEditor: React.FC<Props> = ({
         goBack,
 }) => {
         const [state, dispatch] = useReducer(reducer, initialState)
-        const { name, desc, success } = state
+        const { name, desc, imgs, success } = state
 
         const handleChangeName = (
                 event: React.ChangeEvent<HTMLInputElement>
@@ -45,6 +45,15 @@ const ProductEditor: React.FC<Props> = ({
                         type: Actions.SET_DESC,
                         payload: {
                                 desc: event.target.value,
+                        },
+                })
+        }
+
+        const handleChangeImgs = (imgUrls: string[]) => {
+                dispatch({
+                        type: Actions.SET_IMGS,
+                        payload: {
+                                imgs: imgUrls,
                         },
                 })
         }
@@ -69,7 +78,10 @@ const ProductEditor: React.FC<Props> = ({
                                 handleChange={handleChangeDesc}
                         />
                         {/* using name as simply a string input here */}
-                        <ImgUploader allImgs={imgUrls} />
+                        <ImgUploader
+                                allImgs={imgUrls}
+                                handleChange={handleChangeImgs}
+                        />
                 </>
         ) : (
                 <SuccessPage

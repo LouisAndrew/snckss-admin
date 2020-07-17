@@ -11,10 +11,18 @@ describe('img uploader element', () => {
                 'https://res.cloudinary.com/dsvdffre0/image/upload/v1594991459/wzv9c2057bbqh6ht8kwi.jpg',
                 'https://res.cloudinary.com/dsvdffre0/image/upload/v1594991470/oyjs4mo3xwksv7w7dvsf.png',
         ]
+        const mockHandleChange = jest.fn(() => {})
+
+        // handle change is not tested here => outside API call.
         afterEach(cleanup)
-        const el: React.ReactElement = <ImgUploader />
+        const el: React.ReactElement = (
+                <ImgUploader handleChange={mockHandleChange} />
+        )
         const elWithImgs: React.ReactElement = (
-                <ImgUploader allImgs={mockImgUrls} />
+                <ImgUploader
+                        allImgs={mockImgUrls}
+                        handleChange={mockHandleChange}
+                />
         )
 
         it('renders without crashing', () => {

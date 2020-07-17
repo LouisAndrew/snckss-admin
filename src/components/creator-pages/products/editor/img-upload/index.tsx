@@ -5,8 +5,14 @@ import addIcon from '@iconify/icons-mdi/add'
 
 import Img from './img'
 
+/**
+ * allImgs here: default images passed from the component.
+ * this props won't be updated from ImgUploader component.
+ * It is merely a default value(s) from the product information which was fetched from fs.
+ */
 interface Props {
         allImgs?: string[]
+        handleChange: (imgUrls: string[]) => void
 }
 
 interface ImgUploadComponent {
@@ -14,7 +20,7 @@ interface ImgUploadComponent {
         imgUrl: string
 }
 
-const ImgUploader: React.FC<Props> = ({ allImgs }) => {
+const ImgUploader: React.FC<Props> = ({ allImgs, handleChange }) => {
         // keys: stores random identifiers for img input component.
         const [components, setComponents] = useState<ImgUploadComponent[]>([])
 
@@ -30,6 +36,14 @@ const ImgUploader: React.FC<Props> = ({ allImgs }) => {
                         setComponents(state)
                 }
         }, [])
+
+        useEffect(() => {
+                handleChange(
+                        components
+                                .filter((component) => component.imgUrl !== '')
+                                .map((component) => component.imgUrl)
+                )
+        }, [components])
 
         const addImgComponent = (): void => {
                 const newComponent: ImgUploadComponent = {
