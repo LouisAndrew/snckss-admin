@@ -11,6 +11,8 @@ import ImgUploader from './img-upload'
 import Availabilty from './availability'
 import ArrivingAt from './arriving'
 import Variations from './variations'
+import Select from 'components/select'
+import { initialBrand } from 'components/creator-pages/brands'
 
 interface Props {
         providedProduct: boolean
@@ -31,6 +33,7 @@ const ProductEditor: React.FC<Props> = ({
         const {
                 name,
                 desc,
+                brand,
                 imgs,
                 available,
                 arrivingAt,
@@ -57,6 +60,31 @@ const ProductEditor: React.FC<Props> = ({
                         type: Actions.SET_DESC,
                         payload: {
                                 desc: event.target.value,
+                        },
+                })
+        }
+
+        const handleChangeBrand = (
+                event: React.ChangeEvent<HTMLInputElement>
+        ) => {
+                const items: Brand[] = allBrands.filter(
+                        (brand) => brand.name === event.target.value
+                )
+                if (items.length > 0) {
+                        dispatch({
+                                type: Actions.SET_BRAND,
+                                payload: {
+                                        brand: items[0],
+                                },
+                        })
+                }
+        }
+
+        const handleRemoveBrand = () => {
+                dispatch({
+                        type: Actions.SET_BRAND,
+                        payload: {
+                                brand: initialBrand,
                         },
                 })
         }
@@ -107,8 +135,6 @@ const ProductEditor: React.FC<Props> = ({
                 'https://res.cloudinary.com/dsvdffre0/image/upload/v1594991470/oyjs4mo3xwksv7w7dvsf.png',
         ]
 
-        console.log({ vars, multipleVars })
-
         return !success ? (
                 <>
                         <Name
@@ -122,6 +148,15 @@ const ProductEditor: React.FC<Props> = ({
                                 placeholderText="Add product's description here!"
                                 headerText="Product's description"
                                 handleChange={handleChangeDesc}
+                        />
+                        <Select
+                                available={allBrands}
+                                selected={brand === initialBrand ? [] : [brand]}
+                                headerText="Product's brand"
+                                selectedText="Product Brand"
+                                handleChange={handleChangeBrand}
+                                handleRemove={handleRemoveBrand}
+                                single
                         />
                         {/* using name as simply a string input here */}
                         <Availabilty
@@ -142,6 +177,7 @@ const ProductEditor: React.FC<Props> = ({
                         <Variations
                                 headerText="Add a product variation"
                                 allProducts={allProducts}
+                                products={vars}
                                 handleChange={handleChangeVars}
                         />
                 </>

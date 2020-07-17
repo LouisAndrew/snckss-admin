@@ -1,6 +1,7 @@
 import { Product } from 'ts/interfaces/product'
 import { initialProduct } from '..'
 import { initialBrand } from 'components/creator-pages/brands'
+import { Brand } from 'ts/interfaces/brand'
 
 export interface State extends Product {
         success: boolean
@@ -16,6 +17,7 @@ interface Action {
                 available?: boolean
                 arrivingAt?: Date
                 vars?: Product[]
+                brand?: Brand
         }
 }
 
@@ -23,6 +25,7 @@ export enum Actions {
         SET_SUCCESS,
         SET_NAME,
         SET_DESC,
+        SET_BRAND,
         SET_IMGS,
         SET_AVAILABLE,
         SET_ARRIVING_AT,
@@ -65,6 +68,16 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                 return {
                                         ...state,
                                         desc,
+                                }
+                        }
+                case Actions.SET_BRAND:
+                        const {
+                                payload: { brand },
+                        } = action
+                        if (brand) {
+                                return {
+                                        ...state,
+                                        brand,
                                 }
                         }
                 case Actions.SET_SUCCESS:

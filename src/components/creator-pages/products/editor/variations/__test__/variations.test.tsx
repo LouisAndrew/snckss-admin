@@ -23,6 +23,16 @@ describe('Variation adder on product editor', () => {
         afterEach(cleanup)
         const el: React.ReactElement = (
                 <Variations
+                        products={[]}
+                        headerText={mockHeaderText}
+                        allProducts={mockAllProducts}
+                        handleChange={mockHandleChange}
+                />
+        )
+
+        const elWithProduct: React.ReactElement = (
+                <Variations
+                        products={[product1]}
                         headerText={mockHeaderText}
                         allProducts={mockAllProducts}
                         handleChange={mockHandleChange}
@@ -43,6 +53,15 @@ describe('Variation adder on product editor', () => {
                 fireEvent.change(input, { target: { value: product1.name } })
                 expect(mockHandleChange).toHaveBeenCalled()
                 expect(valueContainer).toContain(product1)
+        })
+
+        it('should render correctly when given a list of default product', () => {
+                const { getByText } = render(elWithProduct)
+                const selectedListElement: HTMLElement = getByText(
+                        product1.name
+                )
+
+                expect(selectedListElement).toBeInTheDocument()
         })
 
         it('matches snapshot', () => {
