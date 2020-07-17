@@ -3,7 +3,7 @@ const useNameError = () => {
                 const input: HTMLElement | null = document.getElementById(
                         'name'
                 )
-                if (input) {
+                if (input && !document.querySelector('#name + .name-error')) {
                         input.style.borderColor = 'red'
                         const errorMsg: HTMLHeadingElement = document.createElement(
                                 'h5'
@@ -13,6 +13,8 @@ const useNameError = () => {
 
                         input.parentElement?.appendChild(errorMsg)
                 }
+
+                document.location.href = '#name'
         }
 
         return {

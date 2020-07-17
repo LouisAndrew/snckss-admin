@@ -57,7 +57,7 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                         const {
                                 payload: { name },
                         } = action
-                        if (name) {
+                        if (name !== undefined) {
                                 return {
                                         ...state,
                                         name,
@@ -69,7 +69,7 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                         const {
                                 payload: { desc },
                         } = action
-                        if (desc) {
+                        if (desc !== undefined) {
                                 return {
                                         ...state,
                                         desc,
@@ -93,7 +93,7 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                         const {
                                 payload: { success },
                         } = action
-                        if (success) {
+                        if (success !== undefined) {
                                 return {
                                         ...state,
                                         success,
@@ -105,7 +105,7 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                         const {
                                 payload: { imgs },
                         } = action
-                        if (imgs) {
+                        if (imgs !== undefined) {
                                 return {
                                         ...state,
                                         imgs,
@@ -141,7 +141,7 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                         const {
                                 payload: { vars },
                         } = action
-                        if (vars) {
+                        if (vars !== undefined) {
                                 const toReturn: State = {
                                         ...state,
                                         vars,
@@ -181,12 +181,12 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                         } = action
                         // just to make sure all of the attributes is not undefined.
                         if (
-                                name &&
-                                desc &&
+                                name !== undefined &&
+                                desc !== undefined &&
                                 brand &&
-                                imgs &&
+                                imgs !== undefined &&
                                 arrivingAt &&
-                                vars &&
+                                vars !== undefined &&
                                 timesPurchased &&
                                 multipleVars !== undefined &&
                                 available !== undefined

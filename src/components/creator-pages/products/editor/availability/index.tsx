@@ -13,19 +13,18 @@ const Availabilty: React.FC<Props> = ({
         isAvailable,
         headerText,
         handleChange,
-}) => {
-        return (
-                <FormGroup className="available">
-                        <Label for="available">{headerText}</Label>
-                        <Input
-                                id="available"
-                                name="available"
-                                type="checkbox"
-                                onChange={handleChange}
-                                defaultChecked={isAvailable}
-                        />
-                </FormGroup>
-        )
-}
+}) => (
+        <FormGroup className="available">
+                <Label for="available">{headerText}</Label>
+                <Input
+                        id="available"
+                        name="available"
+                        type="checkbox"
+                        onChange={handleChange}
+                        defaultChecked={isAvailable}
+                        checked={isAvailable}
+                />
+        </FormGroup>
+)
 
 export default Availabilty

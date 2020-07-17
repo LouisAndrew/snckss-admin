@@ -13,6 +13,8 @@ import ArrivingAt from './arriving'
 import Variations from './variations'
 import Select from 'components/select'
 import { initialBrand } from 'components/creator-pages/brands'
+import { Button } from 'reactstrap'
+import useNameError from 'hooks/useNameError'
 
 interface Props {
         providedProduct: boolean
@@ -41,6 +43,8 @@ const ProductEditor: React.FC<Props> = ({
                 success,
         } = state
 
+        const handleNameError = useNameError()
+
         useEffect(() => {
                 if (providedProduct) {
                         dispatch({
@@ -53,6 +57,8 @@ const ProductEditor: React.FC<Props> = ({
         const handleChangeName = (
                 event: React.ChangeEvent<HTMLInputElement>
         ) => {
+                console.log(event.target.value)
+                console.log(name)
                 dispatch({
                         type: Actions.SET_NAME,
                         payload: {
@@ -138,12 +144,12 @@ const ProductEditor: React.FC<Props> = ({
                 })
         }
 
-        const imgUrls: string[] = [
-                'https://res.cloudinary.com/dsvdffre0/image/upload/v1594991459/wzv9c2057bbqh6ht8kwi.jpg',
-                'https://res.cloudinary.com/dsvdffre0/image/upload/v1594991470/oyjs4mo3xwksv7w7dvsf.png',
-        ]
-
-        console.log(state)
+        const handleClick = () => {
+                if (name === '') {
+                        handleNameError.apply()
+                        return
+                }
+        }
 
         return !success ? (
                 <>
@@ -181,7 +187,7 @@ const ProductEditor: React.FC<Props> = ({
                         />
                         {/* Img Uploader should be at the very bottom of the page */}
                         <ImgUploader
-                                allImgs={imgUrls}
+                                allImgs={imgs}
                                 handleChange={handleChangeImgs}
                         />
                         <Variations
@@ -190,6 +196,14 @@ const ProductEditor: React.FC<Props> = ({
                                 products={vars}
                                 handleChange={handleChangeVars}
                         />
+                        <Button
+                                className="submit-btn"
+                                color="primary"
+                                block
+                                onClick={handleClick}
+                        >
+                                Post
+                        </Button>
                 </>
         ) : (
                 <SuccessPage
