@@ -13,6 +13,8 @@ interface Action {
                 desc?: string
                 success?: boolean
                 imgs?: string[]
+                available?: boolean
+                arrivingAt?: Date
         }
 }
 
@@ -21,6 +23,8 @@ export enum Actions {
         SET_NAME,
         SET_DESC,
         SET_IMGS,
+        SET_AVAILABLE,
+        SET_ARRIVING_AT,
 }
 
 export const initialState: State = {
@@ -79,6 +83,28 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                 return {
                                         ...state,
                                         imgs,
+                                }
+                        }
+                }
+                case Actions.SET_AVAILABLE: {
+                        const {
+                                payload: { available },
+                        } = action
+                        if (available !== undefined) {
+                                return {
+                                        ...state,
+                                        available,
+                                }
+                        }
+                }
+                case Actions.SET_ARRIVING_AT: {
+                        const {
+                                payload: { arrivingAt },
+                        } = action
+                        if (arrivingAt) {
+                                return {
+                                        ...state,
+                                        arrivingAt,
                                 }
                         }
                 }

@@ -118,6 +118,41 @@ exports[`Creator element inside main scene matches snapshot 1`] = `
           />
         </div>
         <div
+          className="available form-group"
+        >
+          <label
+            className=""
+            htmlFor="available"
+          >
+            Is this product available
+          </label>
+          <input
+            className="form-check-input"
+            defaultChecked={false}
+            id="available"
+            name="available"
+            onChange={[Function]}
+            type="checkbox"
+          />
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className=""
+            htmlFor="date"
+          >
+            Product arriving date
+          </label>
+          <input
+            className="form-control"
+            defaultValue="2020-07-17"
+            id="date"
+            onChange={[Function]}
+            type="date"
+          />
+        </div>
+        <div
           className="upload"
         >
           <label

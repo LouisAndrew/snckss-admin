@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Availability component on product editor matches snapshot 1`] = `
+<div
+  className="available form-group"
+>
+  <label
+    className=""
+    htmlFor="available"
+  >
+    Input
+  </label>
+  <input
+    className="form-check-input"
+    defaultChecked={true}
+    id="available"
+    name="available"
+    onChange={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            SyntheticEvent {
+              "_dispatchInstances": null,
+              "_dispatchListeners": null,
+              "_targetInst": null,
+              "bubbles": null,
+              "cancelable": null,
+              "currentTarget": [Function],
+              "defaultPrevented": null,
+              "dispatchConfig": null,
+              "eventPhase": null,
+              "isDefaultPrevented": [Function],
+              "isPropagationStopped": [Function],
+              "isTrusted": null,
+              "nativeEvent": null,
+              "target": null,
+              "timeStamp": [Function],
+              "type": null,
+            },
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      }
+    }
+    type="checkbox"
+  />
+</div>
+`;
