@@ -2,7 +2,7 @@
 
 exports[`img uploader element matches snapshot 1`] = `
 <div
-  className="upload"
+  className="adder"
 >
   <label
     className=""

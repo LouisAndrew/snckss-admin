@@ -10,7 +10,7 @@ import Desc from './desc'
 import ImgUploader from './img-upload'
 import Availabilty from './availability'
 import ArrivingAt from './arriving'
-import { time } from 'console'
+import Variations from './variations'
 
 interface Props {
         providedProduct: boolean
@@ -28,7 +28,16 @@ const ProductEditor: React.FC<Props> = ({
         goBack,
 }) => {
         const [state, dispatch] = useReducer(reducer, initialState)
-        const { name, desc, imgs, available, arrivingAt, success } = state
+        const {
+                name,
+                desc,
+                imgs,
+                available,
+                arrivingAt,
+                vars,
+                multipleVars,
+                success,
+        } = state
 
         const handleChangeName = (
                 event: React.ChangeEvent<HTMLInputElement>
@@ -84,10 +93,21 @@ const ProductEditor: React.FC<Props> = ({
                 })
         }
 
+        const handleChangeVars = (vars: Product[]) => {
+                dispatch({
+                        type: Actions.SET_VARS,
+                        payload: {
+                                vars,
+                        },
+                })
+        }
+
         const imgUrls: string[] = [
                 'https://res.cloudinary.com/dsvdffre0/image/upload/v1594991459/wzv9c2057bbqh6ht8kwi.jpg',
                 'https://res.cloudinary.com/dsvdffre0/image/upload/v1594991470/oyjs4mo3xwksv7w7dvsf.png',
         ]
+
+        console.log({ vars, multipleVars })
 
         return !success ? (
                 <>
@@ -118,6 +138,11 @@ const ProductEditor: React.FC<Props> = ({
                         <ImgUploader
                                 allImgs={imgUrls}
                                 handleChange={handleChangeImgs}
+                        />
+                        <Variations
+                                headerText="Add a product variation"
+                                allProducts={allProducts}
+                                handleChange={handleChangeVars}
                         />
                 </>
         ) : (

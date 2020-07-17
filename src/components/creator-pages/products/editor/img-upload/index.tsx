@@ -99,7 +99,7 @@ const ImgUploader: React.FC<Props> = ({ allImgs, handleChange }) => {
 
         return (
                 <>
-                        <div className="upload">
+                        <div className="adder">
                                 <Label>Product images</Label>
                                 <Button onClick={addImgComponent} color="dark">
                                         <Icon icon={addIcon} />

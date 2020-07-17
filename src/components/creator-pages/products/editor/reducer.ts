@@ -15,6 +15,7 @@ interface Action {
                 imgs?: string[]
                 available?: boolean
                 arrivingAt?: Date
+                vars?: Product[]
         }
 }
 
@@ -25,6 +26,7 @@ export enum Actions {
         SET_IMGS,
         SET_AVAILABLE,
         SET_ARRIVING_AT,
+        SET_VARS,
 }
 
 export const initialState: State = {
@@ -105,6 +107,33 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                 return {
                                         ...state,
                                         arrivingAt,
+                                }
+                        }
+                }
+                case Actions.SET_VARS: {
+                        const {
+                                payload: { vars },
+                        } = action
+                        if (vars) {
+                                const toReturn: State = {
+                                        ...state,
+                                        vars,
+                                }
+                                if (vars.length > 0 && !state.multipleVars) {
+                                        return {
+                                                ...toReturn,
+                                                multipleVars: true,
+                                        }
+                                } else if (
+                                        vars.length === 0 &&
+                                        state.multipleVars
+                                ) {
+                                        return {
+                                                ...toReturn,
+                                                multipleVars: false,
+                                        }
+                                } else {
+                                        return toReturn
                                 }
                         }
                 }

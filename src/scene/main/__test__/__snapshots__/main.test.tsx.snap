@@ -192,7 +192,7 @@ exports[`Main component matches snapshot 1`] = `
                 />
               </div>
               <div
-                className="upload"
+                className="adder"
               >
                 <label
                   className=""
@@ -224,6 +224,29 @@ exports[`Main component matches snapshot 1`] = `
                     xmlns="http://www.w3.org/2000/svg"
                   />
                 </button>
+              </div>
+              <div
+                className="form-group"
+              >
+                <label
+                  className=""
+                  htmlFor="select"
+                >
+                  Add a product variation
+                </label>
+                <select
+                  className="form-control"
+                  id="select"
+                  name="select"
+                  onChange={[Function]}
+                  value=""
+                >
+                  <option
+                    value="default"
+                  >
+                    Select multiple
+                  </option>
+                </select>
               </div>
             </div>
           </div>
