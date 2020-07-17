@@ -38,9 +38,17 @@ const ProductEditor: React.FC<Props> = ({
                 available,
                 arrivingAt,
                 vars,
-                multipleVars,
                 success,
         } = state
+
+        useEffect(() => {
+                if (providedProduct) {
+                        dispatch({
+                                type: Actions.SET_ALL,
+                                payload: { ...product },
+                        })
+                }
+        }, [])
 
         const handleChangeName = (
                 event: React.ChangeEvent<HTMLInputElement>
@@ -134,6 +142,8 @@ const ProductEditor: React.FC<Props> = ({
                 'https://res.cloudinary.com/dsvdffre0/image/upload/v1594991459/wzv9c2057bbqh6ht8kwi.jpg',
                 'https://res.cloudinary.com/dsvdffre0/image/upload/v1594991470/oyjs4mo3xwksv7w7dvsf.png',
         ]
+
+        console.log(state)
 
         return !success ? (
                 <>

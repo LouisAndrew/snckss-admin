@@ -18,6 +18,8 @@ interface Action {
                 arrivingAt?: Date
                 vars?: Product[]
                 brand?: Brand
+                multipleVars?: boolean
+                timesPurchased?: number
         }
 }
 
@@ -30,6 +32,7 @@ export enum Actions {
         SET_AVAILABLE,
         SET_ARRIVING_AT,
         SET_VARS,
+        SET_ALL,
 }
 
 export const initialState: State = {
@@ -50,7 +53,7 @@ export const initialState: State = {
 export const reducer: React.Reducer<State, Action> = (state, action): State => {
         const { type } = action
         switch (type) {
-                case Actions.SET_NAME:
+                case Actions.SET_NAME: {
                         const {
                                 payload: { name },
                         } = action
@@ -60,7 +63,9 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                         name,
                                 }
                         }
-                case Actions.SET_DESC:
+                }
+
+                case Actions.SET_DESC: {
                         const {
                                 payload: { desc },
                         } = action
@@ -70,7 +75,9 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                         desc,
                                 }
                         }
-                case Actions.SET_BRAND:
+                }
+
+                case Actions.SET_BRAND: {
                         const {
                                 payload: { brand },
                         } = action
@@ -80,7 +87,9 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                         brand,
                                 }
                         }
-                case Actions.SET_SUCCESS:
+                }
+
+                case Actions.SET_SUCCESS: {
                         const {
                                 payload: { success },
                         } = action
@@ -90,6 +99,8 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                         success,
                                 }
                         }
+                }
+
                 case Actions.SET_IMGS: {
                         const {
                                 payload: { imgs },
@@ -101,6 +112,7 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                 }
                         }
                 }
+
                 case Actions.SET_AVAILABLE: {
                         const {
                                 payload: { available },
@@ -112,6 +124,7 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                 }
                         }
                 }
+
                 case Actions.SET_ARRIVING_AT: {
                         const {
                                 payload: { arrivingAt },
@@ -123,6 +136,7 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                 }
                         }
                 }
+
                 case Actions.SET_VARS: {
                         const {
                                 payload: { vars },
@@ -150,6 +164,46 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                 }
                         }
                 }
+
+                case Actions.SET_ALL: {
+                        const {
+                                payload: {
+                                        name,
+                                        desc,
+                                        brand,
+                                        imgs,
+                                        available,
+                                        arrivingAt,
+                                        vars,
+                                        multipleVars,
+                                        timesPurchased,
+                                },
+                        } = action
+                        // just to make sure all of the attributes is not undefined.
+                        if (
+                                name &&
+                                desc &&
+                                brand &&
+                                imgs &&
+                                arrivingAt &&
+                                vars &&
+                                timesPurchased &&
+                                multipleVars !== undefined &&
+                                available !== undefined
+                        ) {
+                                return {
+                                        ...state,
+                                        brand,
+                                        desc,
+                                        name,
+                                        imgs,
+                                        arrivingAt,
+                                        vars,
+                                        available,
+                                }
+                        }
+                }
+
                 default:
                         return state
         }

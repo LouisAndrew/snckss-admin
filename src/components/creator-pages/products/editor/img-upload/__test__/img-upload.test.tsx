@@ -62,7 +62,6 @@ describe('img uploader element', () => {
                 expect(elements.length).toBe(timesClicked)
         })
 
-        // TODO: test img elements.
         it('should render correctly when an array of urls is being passed as props', () => {
                 const { getAllByRole } = render(elWithImgs)
                 const imgs: HTMLImageElement[] = getAllByRole(

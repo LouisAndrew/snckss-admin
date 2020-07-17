@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { Button, Label } from 'reactstrap'
 import { Icon } from '@iconify/react'
 import addIcon from '@iconify/icons-mdi/add'
 
 import Img from './img'
+import { compareArr } from 'lib/helper'
 
 /**
  * allImgs here: default images passed from the component.
@@ -23,10 +24,15 @@ interface ImgUploadComponent {
 const ImgUploader: React.FC<Props> = ({ allImgs, handleChange }) => {
         // keys: stores random identifiers for img input component.
         const [components, setComponents] = useState<ImgUploadComponent[]>([])
+        // temporary value container: updates everytime the allImgs props update and the update isn't being tracked within the components state.
+        const [allImgsTemp, setAllImgsTemp] = useState<string[]>([])
 
-        // if the props allimgs is passed: render it with the images being shown
+        // overcomes the problem: where imgs won't be loaded on the initial render.
         useEffect(() => {
-                if (allImgs && allImgs.length > 0) {
+                if (
+                        allImgs &&
+                        !allImgs.every((string) => allImgsTemp.includes(string))
+                ) {
                         let state: ImgUploadComponent[] = allImgs.map(
                                 (img) => ({
                                         componentId: generateRandom(),
@@ -34,9 +40,11 @@ const ImgUploader: React.FC<Props> = ({ allImgs, handleChange }) => {
                                 })
                         )
                         setComponents(state)
+                        setAllImgsTemp(allImgs)
                 }
-        }, [])
+        })
 
+        // everytime components state updates -> update the parent's list of url.
         useEffect(() => {
                 handleChange(
                         components

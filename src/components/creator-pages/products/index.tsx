@@ -68,6 +68,22 @@ const Products: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
                 setIsEditing(true)
         }
 
+        const mockSample: Product = {
+                name: 'Mq',
+                desc: 'adfkjbadkandlamda',
+                PID: '1qawdlkmald',
+                price: 12,
+                imgs: [
+                        'https://res.cloudinary.com/dsvdffre0/image/upload/v1594910981/uqacuxxvylrbdk5bnx5p.png',
+                ],
+                available: true,
+                arrivingAt: new Date(1588723200000),
+                timesPurchased: 12,
+                multipleVars: true,
+                vars: [],
+                brand: initialBrand,
+        }
+
         return (
                 <div className="products-creator creator">
                         <Icons
@@ -78,8 +94,8 @@ const Products: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
                         <h1>Products</h1>
                         {isEditing ? (
                                 <ProductEditor
-                                        providedProduct={provideProduct}
-                                        product={toProvide}
+                                        providedProduct={true}
+                                        product={mockSample}
                                         allBrands={allBrands}
                                         allProducts={allProducts}
                                         goBack={goBack}

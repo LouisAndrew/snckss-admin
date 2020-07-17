@@ -157,6 +157,29 @@ exports[`Main component matches snapshot 1`] = `
                 />
               </div>
               <div
+                className="form-group"
+              >
+                <label
+                  className=""
+                  htmlFor="select"
+                >
+                  Product's brand
+                </label>
+                <select
+                  className="form-control"
+                  id="select"
+                  name="select"
+                  onChange={[Function]}
+                  value=""
+                >
+                  <option
+                    value="default"
+                  >
+                    Select one
+                  </option>
+                </select>
+              </div>
+              <div
                 className="available form-group"
               >
                 <label
