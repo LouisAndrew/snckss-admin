@@ -12,8 +12,6 @@ interface ImgUploadComponent {
 
 const ImgUploader: React.FC<Props> = ({}) => {
         // keys: stores random identifiers for img input component.
-        const [componentIds, setComponentIds] = useState<number[]>([])
-        const [imgUrls, setImgUrls] = useState<string[]>([])
         const [components, setComponents] = useState<ImgUploadComponent[]>([])
 
         const addImgComponent = (): void => {
@@ -30,16 +28,6 @@ const ImgUploader: React.FC<Props> = ({}) => {
         }
 
         const addImgUrl = (imgUrl: string, componentId: number): void => {
-                // const component: ImgUploadComponent | null = getAndRemoveComponent(
-                //         componentId
-                // )
-
-                // console.log(component, 'component')
-                // console.log(components, 'components')
-                // if (component) {
-                //         component.imgUrl = imgUrl
-                //         setComponents([...components, component])
-                // }
                 const updatedComponent: ImgUploadComponent = {
                         componentId,
                         imgUrl,
@@ -49,29 +37,13 @@ const ImgUploader: React.FC<Props> = ({}) => {
                         (component) => component.componentId === componentId
                 )
 
-                // TODO: assign object set state
-        }
-
-        // const removeImgUrl = (componentId: number): void => {
-        //         const component: ImgUploadComponent | null = getAndRemoveComponent(
-        //                 componentId
-        //         )
-        //         if (component) {
-        //                 component.imgUrl = ''
-        //                 setComponents([...components, component])
-        //         }
-        // }
-
-        const getAndRemoveComponent = (
-                componentId: number
-        ): ImgUploadComponent | null => {
-                const arrOfComps = components.filter(
-                        (component) => component.componentId === componentId
-                )
-                if (arrOfComps.length > 0) {
-                        removeComponentFromState(componentId)
-                        return arrOfComps[0]
-                } else return null
+                if (index !== -1) {
+                        setComponents([
+                                ...components.slice(0, index),
+                                updatedComponent,
+                                ...components.slice(index + 1),
+                        ])
+                }
         }
 
         const removeComponentFromState = (componentId: number) => {
@@ -94,8 +66,6 @@ const ImgUploader: React.FC<Props> = ({}) => {
 
                 return num
         }
-
-        console.log(components)
 
         return (
                 <>
