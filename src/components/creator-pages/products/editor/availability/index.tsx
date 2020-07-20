@@ -21,7 +21,6 @@ const Availabilty: React.FC<Props> = ({
                         name="available"
                         type="checkbox"
                         onChange={handleChange}
-                        defaultChecked={isAvailable}
                         checked={isAvailable}
                 />
         </FormGroup>

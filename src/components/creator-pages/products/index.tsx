@@ -21,6 +21,11 @@ export const initialProduct: Product = {
         brand: initialBrand,
 }
 
+interface TimestampObjectFirestore {
+        seconds: number
+        miliseconds: number
+}
+
 interface Props {
         allBrands: Brand[]
         allProducts: Product[]
@@ -28,7 +33,7 @@ interface Props {
 }
 
 const Products: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
-        const [isEditing, setIsEditing] = useState(true)
+        const [isEditing, setIsEditing] = useState(false)
         const [prd, setPrd] = useState<Product[]>([])
         const [provideProduct, setProvideProduct] = useState(false)
         const [toProvide, setToProvide] = useState<Product>(initialProduct)
@@ -47,7 +52,13 @@ const Products: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
                         if (selectedProduct) {
                                 setIsEditing(true)
                                 setProvideProduct(true)
-                                setToProvide(selectedProduct)
+                                setToProvide({
+                                        ...selectedProduct,
+                                        arrivingAt: new Date(
+                                                ((selectedProduct.arrivingAt as unknown) as TimestampObjectFirestore)
+                                                        .seconds * 1000
+                                        ),
+                                })
                         }
                 }
         }
@@ -64,24 +75,9 @@ const Products: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
         const add = () => {
                 if (provideProduct) {
                         setProvideProduct(false)
+                        setToProvide(initialProduct)
                 }
                 setIsEditing(true)
-        }
-
-        const mockSample: Product = {
-                name: 'Mq',
-                desc: 'adfkjbadkandlamda',
-                PID: '1qawdlkmald',
-                price: 12,
-                imgs: [
-                        'https://res.cloudinary.com/dsvdffre0/image/upload/v1594910981/uqacuxxvylrbdk5bnx5p.png',
-                ],
-                available: true,
-                arrivingAt: new Date(1588723200000),
-                timesPurchased: 12,
-                multipleVars: true,
-                vars: [],
-                brand: initialBrand,
         }
 
         return (
@@ -95,7 +91,7 @@ const Products: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
                         {isEditing ? (
                                 <ProductEditor
                                         providedProduct={true}
-                                        product={mockSample}
+                                        product={toProvide}
                                         allBrands={allBrands}
                                         allProducts={allProducts}
                                         goBack={goBack}

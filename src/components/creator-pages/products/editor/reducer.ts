@@ -1,7 +1,14 @@
 import { Product } from 'ts/interfaces/product'
 import { initialProduct } from '..'
-import { initialBrand } from 'components/creator-pages/brands'
+// import { initialBrand as initBrand } from 'components/creator-pages/brands'
 import { Brand } from 'ts/interfaces/brand'
+import { difference } from 'lib/helper'
+
+const initialBrand: Brand = {
+        name: '',
+        products: [],
+        category: ,
+}
 
 export interface State extends Product {
         success: boolean
@@ -21,6 +28,8 @@ interface Action {
                 multipleVars?: boolean
                 timesPurchased?: number
                 price?: number
+                allProducts?: Product[]
+                allBrands?: Brand[]
         }
 }
 
@@ -192,31 +201,72 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                         multipleVars,
                                         timesPurchased,
                                         price,
+                                        allProducts,
+                                        allBrands,
                                 },
                         } = action
                         // just to make sure all of the attributes is not undefined.
-                        if (
-                                name !== undefined &&
-                                desc !== undefined &&
-                                brand &&
-                                imgs !== undefined &&
-                                arrivingAt &&
-                                vars !== undefined &&
-                                timesPurchased &&
-                                multipleVars !== undefined &&
-                                available !== undefined &&
-                                price !== undefined
-                        ) {
+                        if (allProducts && allBrands) {
                                 return {
                                         ...state,
-                                        brand,
-                                        desc,
-                                        name,
-                                        imgs,
-                                        arrivingAt,
-                                        vars,
-                                        available,
-                                        price,
+                                        name:
+                                                name !== undefined
+                                                        ? name
+                                                        : initialState.name,
+                                        desc:
+                                                desc !== undefined
+                                                        ? desc
+                                                        : initialState.desc,
+                                        brand:
+                                                brand !== undefined
+                                                        ? allBrands.filter(
+                                                                  (brandName) =>
+                                                                          brandName.name ===
+                                                                          ((brand as unknown) as string)
+                                                          )[0]
+                                                        : initialBrand,
+                                        imgs:
+                                                imgs !== undefined
+                                                        ? imgs
+                                                        : initialState.imgs,
+                                        available:
+                                                available !== undefined
+                                                        ? available
+                                                        : initialState.available,
+                                        arrivingAt:
+                                                arrivingAt !== undefined
+                                                        ? arrivingAt
+                                                        : initialState.arrivingAt,
+                                        vars:
+                                                // when passed from fs, vars is just an array of string.
+                                                // so what we need to do here is cast the string into a product obj and find the product obj from the allproducts
+                                                // collection
+                                                vars !== undefined
+                                                        ? vars.map(
+                                                                  (
+                                                                          variationName
+                                                                  ) =>
+                                                                          allProducts.filter(
+                                                                                  (
+                                                                                          product
+                                                                                  ) =>
+                                                                                          product.name ===
+                                                                                          ((variationName as unknown) as string)
+                                                                          )[0]
+                                                          )
+                                                        : initialState.vars,
+                                        multipleVars:
+                                                multipleVars !== undefined
+                                                        ? multipleVars
+                                                        : initialState.multipleVars,
+                                        timesPurchased:
+                                                timesPurchased !== undefined
+                                                        ? timesPurchased
+                                                        : initialState.timesPurchased,
+                                        price:
+                                                price !== undefined
+                                                        ? price
+                                                        : initialState.price,
                                 }
                         }
                 }

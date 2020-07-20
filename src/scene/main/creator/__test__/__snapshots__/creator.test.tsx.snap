@@ -79,159 +79,41 @@ exports[`Creator element inside main scene matches snapshot 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           />
         </div>
+        <div
+          className="add icon"
+          onClick={[Function]}
+        >
+          <svg
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<path d=\\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z\\" fill=\\"currentColor\\"/>",
+              }
+            }
+            focusable={false}
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            style={
+              Object {
+                "transform": "rotate(360deg)",
+              }
+            }
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          />
+        </div>
         <h1>
           Products
         </h1>
-        <div
-          className="form-group"
+        <ul
+          className="list-group"
         >
           <label
-            className=""
-            htmlFor="name"
+            className="list-label"
           >
-            Product's name
+            
           </label>
-          <input
-            className="form-control"
-            id="name"
-            onChange={[Function]}
-            placeholder="Add product's name here!"
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className=""
-            htmlFor="desc"
-          >
-            Product's description
-          </label>
-          <textarea
-            className="form-control"
-            id="desc"
-            onChange={[Function]}
-            placeholder="Add product's description here!"
-            value=""
-          />
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className=""
-            htmlFor="select"
-          >
-            Product's brand
-          </label>
-          <select
-            className="form-control"
-            id="select"
-            name="select"
-            onChange={[Function]}
-            value=""
-          >
-            <option
-              value="default"
-            >
-              Select one
-            </option>
-          </select>
-        </div>
-        <div
-          className="available form-group"
-        >
-          <label
-            className=""
-            htmlFor="available"
-          >
-            Is this product available
-          </label>
-          <input
-            className="form-check-input"
-            defaultChecked={false}
-            id="available"
-            name="available"
-            onChange={[Function]}
-            type="checkbox"
-          />
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className=""
-            htmlFor="date"
-          >
-            Product arriving date
-          </label>
-          <input
-            className="form-control"
-            defaultValue="2020-07-17"
-            id="date"
-            onChange={[Function]}
-            type="date"
-          />
-        </div>
-        <div
-          className="adder"
-        >
-          <label
-            className=""
-          >
-            Product images
-          </label>
-          <button
-            aria-label={null}
-            className="btn btn-dark"
-            onClick={[Function]}
-            type="button"
-          >
-            <svg
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "<path d=\\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z\\" fill=\\"currentColor\\"/>",
-                }
-              }
-              focusable={false}
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "transform": "rotate(360deg)",
-                }
-              }
-              viewBox="0 0 24 24"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            />
-          </button>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className=""
-            htmlFor="select"
-          >
-            Add a product variation
-          </label>
-          <select
-            className="form-control"
-            id="select"
-            name="select"
-            onChange={[Function]}
-            value=""
-          >
-            <option
-              value="default"
-            >
-              Select multiple
-            </option>
-          </select>
-        </div>
+        </ul>
       </div>
     </div>
   </div>

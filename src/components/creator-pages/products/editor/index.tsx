@@ -12,14 +12,15 @@ import ImgUploader from './img-upload'
 import Availabilty from './availability'
 import ArrivingAt from './arriving'
 import Variations from './variations'
+import Price from './price'
 
 import Select from 'components/select'
 import { initialBrand } from 'components/creator-pages/brands'
 import SuccessPage from 'components/success'
 import Name from 'components/creator-pages/name'
 import { Creations } from 'scene/main/creator'
-import Price from './price'
 import usePriceError from 'hooks/usePriceError'
+import { difference } from 'lib/helper'
 
 interface Props {
         providedProduct: boolean
@@ -27,6 +28,10 @@ interface Props {
         allBrands: Brand[]
         allProducts: Product[]
         goBack: () => void
+}
+
+interface ProductFromFs {
+        images: string[]
 }
 
 const ProductEditor: React.FC<Props> = ({
@@ -54,17 +59,30 @@ const ProductEditor: React.FC<Props> = ({
         const handleNameError = useNameError()
         const handlePriceError = usePriceError()
 
-        const products = useFirestore().collection('product')
-        const brands = useFirestore().collection('brand')
+        const fs = useFirestore()
+
+        const products = fs.collection('product')
+        const brands = fs.collection('brand')
+
+        const arrayUnion = useFirestore.FieldValue.arrayUnion
+        const arrayRemove = useFirestore.FieldValue.arrayRemove
 
         useEffect(() => {
                 if (providedProduct) {
                         dispatch({
                                 type: Actions.SET_ALL,
-                                payload: { ...product },
+                                payload: { ...product, allProducts, allBrands },
                         })
                 }
         }, [])
+
+        useEffect(() => {
+                if (success) {
+                        setTimeout(() => {
+                                goBack()
+                        }, 1000)
+                }
+        }, [success])
 
         const handleChangeName = (
                 event: React.ChangeEvent<HTMLInputElement>
@@ -191,14 +209,89 @@ const ProductEditor: React.FC<Props> = ({
                         available,
                         arrivingAt,
                         vars: varsNames,
-                        images: imgs,
+                        imgs,
                         multipleVars,
                         timesPurchased,
                         price,
                 })
+
+                if (brandName) {
+                        brands.doc(brandName).update({
+                                products: arrayUnion(name),
+                        })
+                }
+
+                if (varsNames.length > 0) {
+                        varsNames.forEach((varName) => {
+                                products.doc(varName).update({
+                                        vars: arrayUnion(name),
+                                })
+                        })
+                }
+
+                if (providedProduct) {
+                        checkForUpdate(brandName, varsNames)
+                }
+
+                dispatch({
+                        type: Actions.SET_SUCCESS,
+                        payload: {
+                                success: true,
+                        },
+                })
         }
 
-        const updateDuplicates = () => {}
+        // check for the provided product's former informations and update the firestore datas if needed.
+        const checkForUpdate = (brandName: string, varsNames: string[]) => {
+                const brandIsNotEmpty: boolean =
+                        brandName !== '' && brandName !== undefined
+
+                const brandNameBeforeChangeExist: boolean =
+                        product.brand.name !== undefined &&
+                        product.brand.name !== ''
+
+                const varDifference: string[] = difference(
+                        product.vars.map((variant) => variant.name),
+                        varsNames
+                )
+
+                const removeFromBrand = (brandName: string) => {
+                        brands.doc(brandName).update({
+                                products: arrayRemove(name),
+                        })
+                }
+
+                const removeVariants = (varName: string) => {
+                        products.doc(varName).update({
+                                vars: arrayRemove(name),
+                        })
+                }
+
+                // brands.
+                if (brandIsNotEmpty) {
+                        // remove the product's reference from the product's brand before the change is made.
+                        if (
+                                brandNameBeforeChangeExist &&
+                                product.brand.name !== brandName
+                        ) {
+                                removeFromBrand(product.brand.name)
+                        }
+                } else {
+                        if (brandNameBeforeChangeExist) {
+                                // remove if brand name is not provided in this change but brand name is there before the change.
+                                removeFromBrand(product.brand.name)
+                        }
+                }
+
+                // product variants.
+                if (varDifference.length > 0) {
+                        varDifference.forEach((variant) =>
+                                removeVariants(variant)
+                        )
+                }
+        }
+
+        console.log(vars)
 
         return !success ? (
                 <>
@@ -220,15 +313,20 @@ const ProductEditor: React.FC<Props> = ({
                                 price={price}
                                 handleChange={handleChangePrice}
                         />
-                        <Select
+                        {/* <Select
                                 available={allBrands}
-                                selected={brand === initialBrand ? [] : [brand]}
+                                selected={
+                                        brand === undefined &&
+                                        brand === initialBrand
+                                                ? []
+                                                : [brand]
+                                }
                                 headerText="Product's brand"
                                 selectedText="Product Brand"
                                 handleChange={handleChangeBrand}
                                 handleRemove={handleRemoveBrand}
                                 single
-                        />
+                        /> */}
                         {/* using name as simply a string input here */}
                         <Availabilty
                                 isAvailable={available}

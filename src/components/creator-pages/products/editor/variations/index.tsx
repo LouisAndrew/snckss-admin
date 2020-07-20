@@ -19,16 +19,25 @@ const Variations: React.FC<Props> = ({
         handleChange: dispatchVarsToParent,
 }) => {
         const [available, setAvailable] = useState<Product[]>(allProducts)
+        // selected here is not really a state to render this component.
+        // selected is a temporary container for var names to late be dispatched to parent component
         const [selected, setSelected] = useState<Product[]>([])
 
-        useEffect(() => {
-                // products is the default product variants passed by its parent.
-                if (products.length > 0) {
-                        // set available to an array of elements, that are within available but aren't contained inside products
-                        setAvailable(difference(available, products))
-                        setSelected(products)
-                }
-        }, [])
+        // useEffect(() => {
+        //         // products is the default product variants passed by its parent.
+        //         if (products.length > 0) {
+        //                 // set available to an array of elements, that are within available but aren't contained inside products
+        //                 setAvailable(difference(available, products))
+        //                 setSelected(products)
+        //         }
+        // }, [])
+
+        // useEffect(() => {
+        //         console.log('calling sync')
+        //         if (difference(products, selected).length > 0) {
+        //                 setSelected(products)
+        //         }
+        // })
 
         useEffect(() => {
                 dispatchVarsToParent(selected)
@@ -48,6 +57,7 @@ const Variations: React.FC<Props> = ({
                         setSelected([...selected, items[0]])
                 }
         }
+
         const handleRemove = (key: any) => {
                 const items: Product[] = selected.filter(
                         (product) => product.name === key
@@ -67,7 +77,7 @@ const Variations: React.FC<Props> = ({
                 <Select
                         headerText={headerText}
                         available={available}
-                        selected={selected}
+                        selected={products}
                         handleChange={handleChange}
                         handleRemove={handleRemove}
                 />

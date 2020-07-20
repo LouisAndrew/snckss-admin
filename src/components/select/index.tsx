@@ -70,10 +70,9 @@ const Select: React.FC<Props> = ({
                         {selected.length > 0 && (
                                 <List
                                         items={selected.map((item) => {
-                                                const { name } = item
                                                 const listItem = {
-                                                        text: name,
-                                                        key: name,
+                                                        text: item.name,
+                                                        key: item.name,
                                                 } as ListItem
 
                                                 return listItem

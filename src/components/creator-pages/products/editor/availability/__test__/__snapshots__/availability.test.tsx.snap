@@ -11,8 +11,8 @@ exports[`Availability component on product editor matches snapshot 1`] = `
     Input
   </label>
   <input
+    checked={true}
     className="form-check-input"
-    defaultChecked={true}
     id="available"
     name="available"
     onChange={
