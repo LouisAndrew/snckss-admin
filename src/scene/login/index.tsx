@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useReducer } from 'react'
-import { useAuth, useFirestore } from 'reactfire'
+import { useAuth, useFirestore, useFirebaseApp } from 'reactfire'
 import firebase from 'firebase'
+import { Button } from 'reactstrap'
 
 import { UserContext } from '../../lib/user.context'
+import './styles.scss'
 
 interface State {
         verified: boolean
@@ -59,7 +61,7 @@ const reducer: React.Reducer<State, any> = (state, action): State => {
 // initial state for the reducer
 const initial: State = {
         verified: false,
-        error: true,
+        error: false,
         errMsg: '',
         name: '',
         uid: '',
@@ -140,7 +142,6 @@ const Login: React.FC<Props> = ({}) => {
                 const user = await rq.user
 
                 if (user) {
-                        console.log(user)
                         const { displayName, email } = user
                         const hashed = hashCode(
                                 (displayName ? displayName : '') +
@@ -155,13 +156,20 @@ const Login: React.FC<Props> = ({}) => {
         }
 
         return (
-                <>
-                        <h1>Hello, please login to continue</h1>
-                        <button onClick={handleClick}>Login with google</button>
-                        {verified && <h1>Welcome!!!</h1>}
-                        {error && <h1>Not welcome!</h1>}
-                        {name && <h2>Welcome, {name}</h2>}
-                </>
+                <div className="wrapper">
+                        <div className="login">
+                                <h1>Snckss Admin Panel</h1>
+                                <h3>Please login to continue</h3>
+                                <Button onClick={handleClick} color="primary">
+                                        Login with google
+                                </Button>
+                                {error && errMsg !== '' && (
+                                        <h5 className="error">
+                                                {errMsg}, please try again
+                                        </h5>
+                                )}
+                        </div>
+                </div>
         )
 }
 

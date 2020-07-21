@@ -42,7 +42,7 @@ function App() {
                 }
         }
 
-        skipLogin()
+        // skipLogin()
 
         return (
                 <FirebaseAppProvider firebaseConfig={config}>
