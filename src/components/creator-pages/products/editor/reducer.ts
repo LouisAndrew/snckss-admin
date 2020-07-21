@@ -210,15 +210,13 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                                 desc !== undefined
                                                         ? desc
                                                         : initialState.desc,
-                                        brand:
-                                                brand !== undefined &&
-                                                brand.name !== ''
-                                                        ? allBrands.filter(
-                                                                  (brandName) =>
-                                                                          brandName.name ===
-                                                                          ((brand as unknown) as string)
-                                                          )[0]
-                                                        : initialBrand,
+                                        brand: brand
+                                                ? allBrands.filter(
+                                                          (brandName) =>
+                                                                  brandName.name ===
+                                                                  ((brand as unknown) as string)
+                                                  )[0]
+                                                : initialBrand,
                                         imgs:
                                                 imgs !== undefined
                                                         ? imgs

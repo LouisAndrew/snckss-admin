@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { useFirestore } from 'reactfire'
 
 import { Brand } from 'ts/interfaces/brand'
 import { Product } from 'ts/interfaces/product'
-import { initialBrand } from '../brands'
 import List, { ListItem } from 'components/list'
 import Icons from '../icons'
 import ProductEditor from './editor'
+import useSureQuestion from 'hooks/useSureQuestion'
 
 export const initialProduct: Product = {
         name: '',
@@ -18,7 +19,7 @@ export const initialProduct: Product = {
         timesPurchased: 0,
         multipleVars: false,
         vars: [],
-        brand: initialBrand,
+        brand: ('' as unknown) as Brand,
 }
 
 interface TimestampObjectFirestore {
@@ -38,11 +39,33 @@ const Products: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
         const [provideProduct, setProvideProduct] = useState(false)
         const [toProvide, setToProvide] = useState<Product>(initialProduct)
 
+        const products = useFirestore().collection('product')
+
+        const question = useSureQuestion()
+
         useEffect(() => {
                 setPrd(allProducts)
         }, [])
 
-        const handleRemove = (key: any) => {}
+        const handleRemove = (key: any) => {
+                const isKeyExists: boolean = allProducts.some(
+                        (product) => product.name === key
+                )
+
+                if (isKeyExists) {
+                        const productRef = products.doc(key)
+                        const deleteProduct = () => {
+                                productRef.delete().then(() => doRerender())
+                        }
+
+                        question.apply(
+                                `Are you sure you want to delete ${key}?`,
+                                'products-creator',
+                                deleteProduct,
+                                () => {}
+                        )
+                }
+        }
 
         const handleClick = (key: ListItem['key']) => {
                 if (!isEditing) {

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import renderer from 'react-test-renderer'
 
-import { render, cleanup, fireEvent } from '@testing-library/react'
+import { render, cleanup, fireEvent, getByText } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import Variations from '..'
@@ -12,10 +12,10 @@ import { initialProduct } from 'components/creator-pages/products'
 // not really much to test here, basically just a select component with some additional handling function
 describe('Variation adder on product editor', () => {
         const product1: Product = { ...initialProduct, name: 'mockProduct' }
+        const product2: Product = { ...initialProduct, name: 'mockProduct2' }
         let valueContainer: Product[] = []
 
         const mockHeaderText: string = 'mock'
-        const mockAllProducts: Product[] = [product1]
         const mockHandleChange = jest.fn((vars: Product[]) => {
                 valueContainer = vars
         })
@@ -25,8 +25,8 @@ describe('Variation adder on product editor', () => {
                 <Variations
                         products={[]}
                         headerText={mockHeaderText}
-                        allProducts={mockAllProducts}
                         handleChange={mockHandleChange}
+                        available={[product1, product2]}
                 />
         )
 
@@ -34,8 +34,8 @@ describe('Variation adder on product editor', () => {
                 <Variations
                         products={[product1]}
                         headerText={mockHeaderText}
-                        allProducts={mockAllProducts}
                         handleChange={mockHandleChange}
+                        available={[product2]}
                 />
         )
 
@@ -56,12 +56,12 @@ describe('Variation adder on product editor', () => {
         })
 
         it('should render correctly when given a list of default product', () => {
-                const { getAllByText } = render(elWithProduct)
-                const selectedListElement: HTMLElement[] = getAllByText(
+                const { getByText } = render(elWithProduct)
+                const selectedListElement: HTMLElement = getByText(
                         product1.name
                 )
 
-                expect(selectedListElement.length).toBe(2)
+                expect(selectedListElement).toBeInTheDocument()
         })
 
         it('matches snapshot', () => {

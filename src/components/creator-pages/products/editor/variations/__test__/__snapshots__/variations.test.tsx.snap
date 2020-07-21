@@ -27,6 +27,11 @@ exports[`Variation adder on product editor matches snapshot 1`] = `
     >
       mockProduct
     </option>
+    <option
+      value="mockProduct2"
+    >
+      mockProduct2
+    </option>
   </select>
 </div>
 `;

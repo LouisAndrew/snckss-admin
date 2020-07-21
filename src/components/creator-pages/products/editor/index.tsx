@@ -246,8 +246,11 @@ const ProductEditor: React.FC<Props> = ({
                         product.brand.name !== undefined &&
                         product.brand.name !== ''
 
+                // product.vars is an array of string => object from firestore!!
                 const varDifference: string[] = difference(
-                        product.vars.map((variant) => variant.name),
+                        product.vars.map(
+                                (variant) => (variant as unknown) as string
+                        ), // map product.vars and cast it to string to avoid typecheck error
                         varsNames
                 )
 
@@ -281,9 +284,16 @@ const ProductEditor: React.FC<Props> = ({
 
                 // product variants.
                 if (varDifference.length > 0) {
-                        varDifference.forEach((variant) =>
-                                removeVariants(variant)
-                        )
+                        console.log(varDifference)
+                        varDifference.forEach((variant, i) => {
+                                if (variant) {
+                                        removeVariants(variant)
+                                } else {
+                                        console.log(
+                                                `variant: ${variant} index: ${i}`
+                                        )
+                                }
+                        })
                 }
         }
 
@@ -334,8 +344,11 @@ const ProductEditor: React.FC<Props> = ({
                         />
                         <Variations
                                 headerText="Add a product variation"
-                                allProducts={allProducts}
+                                // allProducts={allProducts}
                                 products={vars}
+                                available={difference(allProducts, vars).filter(
+                                        (product) => product.name !== name
+                                )}
                                 handleChange={handleChangeVars}
                         />
                         <Button

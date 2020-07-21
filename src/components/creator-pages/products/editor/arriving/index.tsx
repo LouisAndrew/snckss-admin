@@ -12,7 +12,7 @@ const ArrivingAt: React.FC<Props> = ({ date, headerText, handleChange }) => {
         const month: number = date.getMonth() + 1
         const defDate: number = date.getDate()
 
-        const defaultDate: string = `${year}-${
+        const dateInString: string = `${year}-${
                 month < 10 ? `0${month}` : month
         }-${defDate < 10 ? `0${defDate}` : defDate}`
 
@@ -23,7 +23,7 @@ const ArrivingAt: React.FC<Props> = ({ date, headerText, handleChange }) => {
                                 type="date"
                                 id="date"
                                 onChange={handleChange}
-                                defaultValue={defaultDate}
+                                value={dateInString}
                         />
                 </FormGroup>
         )
