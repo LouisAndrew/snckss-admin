@@ -30,10 +30,6 @@ interface Props {
         goBack: () => void
 }
 
-interface ProductFromFs {
-        images: string[]
-}
-
 const ProductEditor: React.FC<Props> = ({
         providedProduct,
         product,
@@ -291,8 +287,6 @@ const ProductEditor: React.FC<Props> = ({
                 }
         }
 
-        console.log(vars)
-
         return !success ? (
                 <>
                         <Name
@@ -313,20 +307,15 @@ const ProductEditor: React.FC<Props> = ({
                                 price={price}
                                 handleChange={handleChangePrice}
                         />
-                        {/* <Select
+                        <Select
                                 available={allBrands}
-                                selected={
-                                        brand === undefined &&
-                                        brand === initialBrand
-                                                ? []
-                                                : [brand]
-                                }
+                                selected={brand.name === '' ? [] : [brand]}
                                 headerText="Product's brand"
                                 selectedText="Product Brand"
                                 handleChange={handleChangeBrand}
                                 handleRemove={handleRemoveBrand}
                                 single
-                        /> */}
+                        />
                         {/* using name as simply a string input here */}
                         <Availabilty
                                 isAvailable={available}

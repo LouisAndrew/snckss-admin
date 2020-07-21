@@ -1,14 +1,7 @@
 import { Product } from 'ts/interfaces/product'
-import { initialProduct } from '..'
-// import { initialBrand as initBrand } from 'components/creator-pages/brands'
 import { Brand } from 'ts/interfaces/brand'
-import { difference } from 'lib/helper'
 
-const initialBrand: Brand = {
-        name: '',
-        products: [],
-        category: ,
-}
+import { initialBrand } from 'components/creator-pages/brands'
 
 export interface State extends Product {
         success: boolean
@@ -218,7 +211,8 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                                         ? desc
                                                         : initialState.desc,
                                         brand:
-                                                brand !== undefined
+                                                brand !== undefined &&
+                                                brand.name !== ''
                                                         ? allBrands.filter(
                                                                   (brandName) =>
                                                                           brandName.name ===
