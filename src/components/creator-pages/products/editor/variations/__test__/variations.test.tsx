@@ -56,12 +56,12 @@ describe('Variation adder on product editor', () => {
         })
 
         it('should render correctly when given a list of default product', () => {
-                const { getByText } = render(elWithProduct)
-                const selectedListElement: HTMLElement = getByText(
+                const { getAllByText } = render(elWithProduct)
+                const selectedListElement: HTMLElement[] = getAllByText(
                         product1.name
                 )
 
-                expect(selectedListElement).toBeInTheDocument()
+                expect(selectedListElement.length).toBe(2)
         })
 
         it('matches snapshot', () => {
