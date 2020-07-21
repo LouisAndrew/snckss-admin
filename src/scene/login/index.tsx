@@ -138,16 +138,26 @@ const Login: React.FC<Props> = ({}) => {
          * async function to sign in admin user and checks if the user exists in admin database
          */
         const signIn = async () => {
-                const rq = await auth.signInWithPopup(provider)
-                const user = await rq.user
+                try {
+                        const rq = await auth.signInWithPopup(provider)
+                        const user = await rq.user
 
-                if (user) {
-                        const { displayName, email } = user
-                        const hashed = hashCode(
-                                (displayName ? displayName : '') +
-                                        (email ? email : '')
-                        )
-                        verify(hashed)
+                        if (user) {
+                                const { displayName, email } = user
+                                const hashed = hashCode(
+                                        (displayName ? displayName : '') +
+                                                (email ? email : '')
+                                )
+                                verify(hashed)
+                        }
+                } catch (error) {
+                        const { message } = error
+                        dispatch({
+                                type: Actions.ERROR,
+                                payload: {
+                                        errMsg: message,
+                                },
+                        })
                 }
         }
 
@@ -164,8 +174,11 @@ const Login: React.FC<Props> = ({}) => {
                                         Login with google
                                 </Button>
                                 {error && errMsg !== '' && (
-                                        <h5 className="error">
-                                                {errMsg}, please try again
+                                        <h5
+                                                className="error"
+                                                style={{ fontSize: 'medium' }}
+                                        >
+                                                {errMsg}. Please try again
                                         </h5>
                                 )}
                         </div>
