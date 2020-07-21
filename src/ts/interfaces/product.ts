@@ -16,4 +16,6 @@ export interface Product {
         multipleVars: boolean
         vars: Product[]
         brand: Brand
+        toFullfil: number
+        purchaseLimit: number
 }

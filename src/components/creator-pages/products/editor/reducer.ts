@@ -23,6 +23,8 @@ interface Action {
                 price?: number
                 allProducts?: Product[]
                 allBrands?: Brand[]
+                toFullfil?: number
+                purchaseLimit?: number
         }
 }
 
@@ -52,6 +54,8 @@ export const initialState: State = {
         vars: [],
         brand: initialBrand,
         success: false,
+        toFullfil: 0,
+        purchaseLimit: 0,
 }
 
 export const reducer: React.Reducer<State, Action> = (state, action): State => {
@@ -194,8 +198,10 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                         multipleVars,
                                         timesPurchased,
                                         price,
+                                        toFullfil,
                                         allProducts,
                                         allBrands,
+                                        purchaseLimit,
                                 },
                         } = action
                         // just to make sure all of the attributes is not undefined.
@@ -259,6 +265,14 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                                 price !== undefined
                                                         ? price
                                                         : initialState.price,
+                                        toFullfil:
+                                                toFullfil !== undefined
+                                                        ? toFullfil
+                                                        : initialState.toFullfil,
+                                        purchaseLimit:
+                                                purchaseLimit !== undefined
+                                                        ? purchaseLimit
+                                                        : initialState.purchaseLimit,
                                 }
                         }
                 }

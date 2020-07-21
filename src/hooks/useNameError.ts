@@ -11,7 +11,7 @@ const useNameError = () => {
                 )
 
                 const className: string = 'name-error'
-                if (input && !document.querySelector(`#name + ,${className}`)) {
+                if (input && !document.querySelector(`#name + .${className}`)) {
                         input.style.borderColor = 'red'
 
                         const errMsg = errorElement.returnElement(

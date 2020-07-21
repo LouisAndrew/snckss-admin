@@ -20,6 +20,8 @@ export const initialProduct: Product = {
         multipleVars: false,
         vars: [],
         brand: ('' as unknown) as Brand,
+        toFullfil: 0,
+        purchaseLimit: 0,
 }
 
 interface TimestampObjectFirestore {

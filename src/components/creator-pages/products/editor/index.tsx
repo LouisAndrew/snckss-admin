@@ -50,6 +50,8 @@ const ProductEditor: React.FC<Props> = ({
                 multipleVars,
                 timesPurchased,
                 success,
+                toFullfil,
+                purchaseLimit,
         } = state
 
         const handleNameError = useNameError()
@@ -209,6 +211,8 @@ const ProductEditor: React.FC<Props> = ({
                         multipleVars,
                         timesPurchased,
                         price,
+                        toFullfil,
+                        purchaseLimit,
                 })
 
                 if (brandName) {
