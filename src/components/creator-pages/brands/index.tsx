@@ -44,6 +44,16 @@ const Brands: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
                 setBrd(allBrands)
         }, [])
 
+        const createNameDuplicate = (name: string): string => {
+                let i = 1
+                const names: string[] = brd.map((brand) => brand.name)
+                while (names.includes(`${name}-${i}`)) {
+                        i++
+                }
+
+                return `${name}-${i}`
+        }
+
         const handleRemove = (key: any) => {
                 const isKeyExists: boolean = allBrands.some(
                         (brd) => brd.name === key
@@ -95,6 +105,24 @@ const Brands: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
                 }
         }
 
+        const handleEdit = (key: ListItem['key']) => {
+                if (!isEditing) {
+                        const selectedBrand: Brand = brd.filter(
+                                (brand) => brand.name === key
+                        )[0]
+                        if (selectedBrand) {
+                                setIsEditing(true)
+                                setProvideBrand(true)
+                                setToProvide({
+                                        ...selectedBrand,
+                                        name: createNameDuplicate(
+                                                selectedBrand.name
+                                        ),
+                                })
+                        }
+                }
+        }
+
         const goBack = () => {
                 if (isEditing) {
                         setIsEditing(false)
@@ -139,6 +167,7 @@ const Brands: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
                                         })}
                                         handleRemove={handleRemove}
                                         handleClick={handleClick}
+                                        handleEdit={handleEdit}
                                 />
                         )}
                 </div>

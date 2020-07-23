@@ -43,6 +43,16 @@ const Categories: React.FC<Props> = ({
                 setCtg(allCategories)
         }, [])
 
+        const createNameDuplicate = (name: string): string => {
+                let i = 1
+                const names: string[] = ctg.map((category) => category.name)
+                while (names.includes(`${name}-${i}`)) {
+                        i++
+                }
+
+                return `${name}-${i}`
+        }
+
         const handleRemove = (key: any) => {
                 const isKeyExists: boolean = allCategories.some(
                         (ctg) => ctg.name === key
@@ -98,6 +108,25 @@ const Categories: React.FC<Props> = ({
                 }
         }
 
+        const handleEdit = (key: ListItem['key']) => {
+                if (!isEditing) {
+                        const selectedCategory: Category = ctg.filter(
+                                (category) => category.name === key
+                        )[0]
+
+                        if (selectedCategory) {
+                                setIsEditing(true)
+                                setProvideCategory(true)
+                                setToProvide({
+                                        ...selectedCategory,
+                                        name: createNameDuplicate(
+                                                selectedCategory.name
+                                        ),
+                                })
+                        }
+                }
+        }
+
         const goBack = () => {
                 if (isEditing) {
                         setIsEditing(false)
@@ -144,6 +173,7 @@ const Categories: React.FC<Props> = ({
                                         })}
                                         handleRemove={handleRemove}
                                         handleClick={handleClick}
+                                        handleEdit={handleEdit}
                                 />
                         )}
                 </div>

@@ -62,6 +62,16 @@ const Products: React.FC<Props> = ({
                 setPrd(allProducts)
         }, [])
 
+        const createNameDuplicate = (name: string): string => {
+                let i = 1
+                const names: string[] = prd.map((product) => product.name)
+                while (names.includes(`${name}-${i}`)) {
+                        i++
+                }
+
+                return `${name}-${i}`
+        }
+
         const handleRemove = (key: any) => {
                 const isKeyExists: boolean = allProducts.some(
                         (product) => product.name === key
@@ -130,11 +140,35 @@ const Products: React.FC<Props> = ({
                         const selectedProduct: Product = prd.filter(
                                 (product) => product.name === key
                         )[0]
+
                         if (selectedProduct) {
                                 setIsEditing(true)
                                 setProvideProduct(true)
                                 setToProvide({
                                         ...selectedProduct,
+                                        arrivingAt: new Date(
+                                                ((selectedProduct.arrivingAt as unknown) as TimestampObjectFirestore)
+                                                        .seconds * 1000
+                                        ),
+                                })
+                        }
+                }
+        }
+
+        const handleEdit = (key: ListItem['key']) => {
+                if (!isEditing) {
+                        const selectedProduct: Product = prd.filter(
+                                (product) => product.name === key
+                        )[0]
+
+                        if (selectedProduct) {
+                                setIsEditing(true)
+                                setProvideProduct(true)
+                                setToProvide({
+                                        ...selectedProduct,
+                                        name: createNameDuplicate(
+                                                selectedProduct.name
+                                        ),
                                         arrivingAt: new Date(
                                                 ((selectedProduct.arrivingAt as unknown) as TimestampObjectFirestore)
                                                         .seconds * 1000
@@ -191,6 +225,7 @@ const Products: React.FC<Props> = ({
                                         })}
                                         handleRemove={handleRemove}
                                         handleClick={handleClick}
+                                        handleEdit={handleEdit}
                                 />
                         )}
                 </div>

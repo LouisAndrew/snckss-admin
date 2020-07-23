@@ -20,28 +20,32 @@ exports[`List reusable Component matches snapshot 1`] = `
       item1
     </div>
     <span
-      className="del-item1 delete"
-      onClick={[Function]}
+      className="icons"
     >
-      <svg
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<path d=\\"M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12z\\" fill=\\"currentColor\\"/>",
+      <span
+        className="del-item1 delete list-icon"
+        onClick={[Function]}
+      >
+        <svg
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<path d=\\"M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12z\\" fill=\\"currentColor\\"/>",
+            }
           }
-        }
-        focusable={false}
-        height="1em"
-        preserveAspectRatio="xMidYMid meet"
-        style={
-          Object {
-            "transform": "rotate(360deg)",
-            "verticalAlign": "-0.125em",
+          focusable={false}
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "transform": "rotate(360deg)",
+              "verticalAlign": "-0.125em",
+            }
           }
-        }
-        viewBox="0 0 24 24"
-        width="1em"
-        xmlns="http://www.w3.org/2000/svg"
-      />
+          viewBox="0 0 24 24"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        />
+      </span>
     </span>
   </li>
   <li
@@ -55,28 +59,32 @@ exports[`List reusable Component matches snapshot 1`] = `
       item2
     </div>
     <span
-      className="del-item2 delete"
-      onClick={[Function]}
+      className="icons"
     >
-      <svg
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<path d=\\"M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12z\\" fill=\\"currentColor\\"/>",
+      <span
+        className="del-item2 delete list-icon"
+        onClick={[Function]}
+      >
+        <svg
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<path d=\\"M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12z\\" fill=\\"currentColor\\"/>",
+            }
           }
-        }
-        focusable={false}
-        height="1em"
-        preserveAspectRatio="xMidYMid meet"
-        style={
-          Object {
-            "transform": "rotate(360deg)",
-            "verticalAlign": "-0.125em",
+          focusable={false}
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "transform": "rotate(360deg)",
+              "verticalAlign": "-0.125em",
+            }
           }
-        }
-        viewBox="0 0 24 24"
-        width="1em"
-        xmlns="http://www.w3.org/2000/svg"
-      />
+          viewBox="0 0 24 24"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        />
+      </span>
     </span>
   </li>
 </ul>

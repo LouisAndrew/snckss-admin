@@ -6,12 +6,16 @@
         display: flex !important;
         justify-content: space-between;
 
-        .delete {
-                transition: 0.2s;
+        .icons {
+                display: flex;
 
-                &:hover {
-                        cursor: pointer;
-                        transform: scale(1.5);
+                .list-icon {
+                        transition: 0.2s;
+
+                        &:hover {
+                                cursor: pointer;
+                                transform: scale(1.5);
+                        }
                 }
         }
 
