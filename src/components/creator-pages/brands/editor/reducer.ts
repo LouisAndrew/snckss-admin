@@ -31,17 +31,17 @@ export const reducer: React.Reducer<State, IAction> = (
                                         name: name,
                                 }
                         } else return state
-                case Actions.SET_CTG:
-                        const {
-                                payload: { selectedCtg, availableCtg },
-                        } = action
-                        if (selectedCtg && availableCtg) {
-                                return {
-                                        ...state,
-                                        availableCtg: availableCtg,
-                                        selectedCtg: selectedCtg,
-                                }
-                        } else return state
+                // case Actions.SET_CTG:
+                //         const {
+                //                 payload: { selectedCtg, availableCtg },
+                //         } = action
+                //         if (selectedCtg && availableCtg) {
+                //                 return {
+                //                         ...state,
+                //                         // availableCtg: availableCtg,
+                //                         selectedCtg: selectedCtg,
+                //                 }
+                //         } else return state
                 case Actions.SET_PROD:
                         const {
                                 payload: { selectedProd, availableProd },

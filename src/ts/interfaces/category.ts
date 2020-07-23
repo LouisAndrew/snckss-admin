@@ -1,4 +1,4 @@
-import { Brand } from './brand'
+import { Product } from './product'
 
 /**
  * interface to illustrate how Category works on firestore db.
@@ -6,5 +6,5 @@ import { Brand } from './brand'
  */
 export interface Category {
         name: string
-        brands: Brand[]
+        products: Product[]
 }

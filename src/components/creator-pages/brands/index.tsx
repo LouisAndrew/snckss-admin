@@ -13,14 +13,13 @@ import useSureQuestion from 'hooks/useSureQuestion'
 export const initialBrand: Brand = {
         name: '',
         products: [],
-        category: {
-                name: '',
-                brands: [],
-        },
+        // category: {
+        //         name: '',
+        //         brands: [],
+        // },
 }
 
 interface Props {
-        allCategories: Category[]
         allBrands: Brand[]
         allProducts: Product[]
         doRerender: () => void
@@ -30,18 +29,14 @@ interface Props {
  * Almost the same structure as Categoties. Do I need to combine them just as one reusable component?
  * but if yes -> It's going to be a lot of if statements inside on component....
  */
-const Brands: React.FC<Props> = ({
-        allCategories,
-        allBrands,
-        allProducts,
-        doRerender,
-}) => {
+const Brands: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
         const [isEditing, setIsEditing] = useState(false)
         const [brd, setBrd] = useState<Brand[]>([])
         const [provideBrand, setProvideBrand] = useState(false)
         const [toProvide, setToProvide] = useState<Brand>(initialBrand)
 
         const brands = useFirestore().collection('brand')
+        const products = useFirestore().collection('product')
         const question = useSureQuestion()
 
         // fetch all categories from firestore.
@@ -55,7 +50,24 @@ const Brands: React.FC<Props> = ({
                 )
                 if (isKeyExists) {
                         const brandRef = brands.doc(key)
+                        const toDeleteBrand: Brand = allBrands.filter(
+                                (brand) => brand.name === key
+                        )[0]
+
+                        const deleteProductRef = (productName: string) => {
+                                products.doc(productName).update({
+                                        brand: '',
+                                })
+                        }
+
                         const deleteBrand = () => {
+                                toDeleteBrand.products.forEach((product) => {
+                                        const productName = (product as unknown) as string
+                                        if (productName) {
+                                                deleteProductRef(productName)
+                                        }
+                                })
+
                                 brandRef.delete().then(() => {
                                         doRerender()
                                 })
@@ -112,7 +124,6 @@ const Brands: React.FC<Props> = ({
                                         brand={toProvide}
                                         providedBrand={provideBrand}
                                         goBack={goBack}
-                                        allCategories={allCategories}
                                         allProducts={allProducts}
                                 />
                         ) : (

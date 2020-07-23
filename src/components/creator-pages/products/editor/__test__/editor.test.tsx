@@ -10,10 +10,12 @@ import { Brand } from 'ts/interfaces/brand'
 import { initialProduct } from '../..'
 import { FirebaseAppProvider } from 'reactfire'
 import config from 'lib/firebase-config'
+import { Category } from 'ts/interfaces/category'
 
 describe('Product editor component', () => {
         const allProducts: Product[] = []
         const alLBrands: Brand[] = []
+        const allCategories: Category[] = []
         const providedProduct: boolean = false
         const product: Product = initialProduct
         const goBack = jest.fn(() => {})
@@ -27,6 +29,7 @@ describe('Product editor component', () => {
                                 <ProductEditor
                                         allBrands={alLBrands}
                                         allProducts={allProducts}
+                                        allCategories={allCategories}
                                         providedProduct={providedProduct}
                                         product={product}
                                         goBack={goBack}

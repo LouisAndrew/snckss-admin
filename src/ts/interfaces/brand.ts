@@ -8,5 +8,4 @@ import { Category } from './category'
 export interface Brand {
         name: string
         products: Product[]
-        category: Category
 }

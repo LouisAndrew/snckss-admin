@@ -41,7 +41,7 @@ describe('Brand editor element', () => {
                 <FirebaseAppProvider firebaseConfig={config}>
                         <Suspense fallback={<></>}>
                                 <BrandEditor
-                                        allCategories={mockAllCategories}
+                                        // allCategories={mockAllCategories}
                                         allProducts={mockAllProducts}
                                         brand={mockEmptyBrand}
                                         providedBrand={false}
@@ -54,7 +54,7 @@ describe('Brand editor element', () => {
                 <FirebaseAppProvider firebaseConfig={config}>
                         <Suspense fallback={<></>}>
                                 <BrandEditor
-                                        allCategories={mockAllCategories}
+                                        // allCategories={mockAllCategories}
                                         allProducts={mockAllProducts}
                                         brand={mockBrand}
                                         providedBrand={true}

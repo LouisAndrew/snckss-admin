@@ -27,7 +27,7 @@ Array [
       className=""
       htmlFor="select"
     >
-      Select Brands
+      Select Products
     </label>
     <select
       className="form-control"

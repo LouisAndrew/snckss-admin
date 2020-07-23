@@ -17,15 +17,12 @@ import useNameError from 'hooks/useNameError'
 interface Props {
         providedBrand: boolean
         brand: Brand
-        allCategories: Category[]
         allProducts: Product[]
         goBack: () => void
 }
 
 export interface State {
         name: string
-        availableCtg: Category[]
-        selectedCtg: Category[]
         availableProd: Product[]
         selectedProd: Product[]
         success: boolean
@@ -35,8 +32,6 @@ const initialEmptyProd: Product[] = []
 const initialEmptyCtg: Category[] = []
 const initialState: State = {
         name: '',
-        availableCtg: initialEmptyCtg,
-        selectedCtg: initialEmptyCtg,
         availableProd: initialEmptyProd,
         selectedProd: initialEmptyProd,
         success: false,
@@ -45,19 +40,11 @@ const initialState: State = {
 const BrandEditor: React.FC<Props> = ({
         providedBrand,
         brand,
-        allCategories,
         allProducts,
         goBack,
 }) => {
         const [state, dispatch] = useReducer(reducer, initialState)
-        const {
-                name,
-                availableCtg,
-                selectedCtg,
-                availableProd,
-                selectedProd,
-                success,
-        } = state
+        const { name, availableProd, selectedProd, success } = state
 
         const brands = useFirestore().collection('brand')
         const products = useFirestore().collection('product')
@@ -69,11 +56,7 @@ const BrandEditor: React.FC<Props> = ({
         useEffect(() => {
                 // fetch all brands from firestore
                 if (providedBrand) {
-                        const {
-                                name,
-                                products: passedProducts,
-                                category,
-                        } = brand
+                        const { name, products: passedProducts } = brand
                         dispatch({
                                 type: Actions.SET_NAME,
                                 payload: {
@@ -121,38 +104,38 @@ const BrandEditor: React.FC<Props> = ({
                                 })
                         }
 
-                        if (category) {
-                                const item: Category[] = allCategories.filter(
-                                        (ctg) =>
-                                                ctg.name ===
-                                                ((category as unknown) as string)
-                                )
-                                dispatch({
-                                        type: Actions.SET_CTG,
-                                        payload: {
-                                                availableCtg: difference(
-                                                        allCategories,
-                                                        item
-                                                ),
-                                                selectedCtg: item,
-                                        },
-                                })
-                        } else {
-                                dispatch({
-                                        type: Actions.SET_CTG,
-                                        payload: {
-                                                selectedCtg: [],
-                                                availableCtg: allCategories,
-                                        },
-                                })
-                        }
+                        // if (category) {
+                        //         const item: Category[] = allCategories.filter(
+                        //                 (ctg) =>
+                        //                         ctg.name ===
+                        //                         ((category as unknown) as string)
+                        //         )
+                        //         dispatch({
+                        //                 type: Actions.SET_CTG,
+                        //                 payload: {
+                        //                         availableCtg: difference(
+                        //                                 allCategories,
+                        //                                 item
+                        //                         ),
+                        //                         selectedCtg: item,
+                        //                 },
+                        //         })
+                        // } else {
+                        //         dispatch({
+                        //                 type: Actions.SET_CTG,
+                        //                 payload: {
+                        //                         selectedCtg: [],
+                        //                         availableCtg: allCategories,
+                        //                 },
+                        //         })
+                        // }
                 } else {
                         // assign all categories to available
                         dispatch({
                                 type: Actions.SET_CTG,
                                 payload: {
                                         selectedCtg: [],
-                                        availableCtg: allCategories,
+                                        // availableCtg: allCategories,
                                 },
                         })
                         // assign all products to available
@@ -190,54 +173,54 @@ const BrandEditor: React.FC<Props> = ({
                 })
         }
 
-        const handleChangeCtg = (
-                event: React.ChangeEvent<HTMLInputElement>
-        ) => {
-                const userSelected: Category = availableCtg.filter(
-                        (ctg) => ctg.name === event.target.value
-                )[0]
+        // const handleChangeCtg = (
+        //         event: React.ChangeEvent<HTMLInputElement>
+        // ) => {
+        //         const userSelected: Category = availableCtg.filter(
+        //                 (ctg) => ctg.name === event.target.value
+        //         )[0]
 
-                if (userSelected) {
-                        dispatch({
-                                type: Actions.SET_CTG,
-                                payload: {
-                                        availableCtg: availableCtg.filter(
-                                                (ctg) =>
-                                                        ctg.name !==
-                                                        userSelected.name
-                                        ),
-                                        selectedCtg: [
-                                                ...selectedCtg,
-                                                userSelected,
-                                        ],
-                                },
-                        })
-                }
-        }
-        const handleRemoveCtg = (key: any) => {
-                if (selectedCtg.every((ctg) => ctg.name === key)) {
-                        dispatch({
-                                type: Actions.SET_CTG,
-                                payload: {
-                                        availableCtg: availableCtg.includes(
-                                                selectedCtg[0]
-                                        )
-                                                ? availableCtg
-                                                : [
-                                                          ...availableCtg,
-                                                          selectedCtg[0],
-                                                  ],
-                                        selectedCtg: [],
-                                },
-                        })
-                }
-        }
+        //         if (userSelected) {
+        //                 dispatch({
+        //                         type: Actions.SET_CTG,
+        //                         payload: {
+        //                                 availableCtg: availableCtg.filter(
+        //                                         (ctg) =>
+        //                                                 ctg.name !==
+        //                                                 userSelected.name
+        //                                 ),
+        //                                 selectedCtg: [
+        //                                         ...selectedCtg,
+        //                                         userSelected,
+        //                                 ],
+        //                         },
+        //                 })
+        //         }
+        // }
+        // const handleRemoveCtg = (key: any) => {
+        //         if (selectedCtg.every((ctg) => ctg.name === key)) {
+        //                 dispatch({
+        //                         type: Actions.SET_CTG,
+        //                         payload: {
+        //                                 availableCtg: availableCtg.includes(
+        //                                         selectedCtg[0]
+        //                                 )
+        //                                         ? availableCtg
+        //                                         : [
+        //                                                   ...availableCtg,
+        //                                                   selectedCtg[0],
+        //                                           ],
+        //                                 selectedCtg: [],
+        //                         },
+        //                 })
+        //         }
+        // }
 
         const handleChangeProd = (
                 event: React.ChangeEvent<HTMLInputElement>
         ) => {
                 const userSelected: Product = availableProd.filter(
-                        (ctg) => ctg.name === event.target.value
+                        (product) => product.name === event.target.value
                 )[0]
 
                 if (userSelected) {
@@ -287,8 +270,8 @@ const BrandEditor: React.FC<Props> = ({
                         return
                 }
 
-                const categoryName =
-                        selectedCtg.length > 0 ? selectedCtg[0].name : ''
+                // const categoryName =
+                //         selectedCtg.length > 0 ? selectedCtg[0].name : ''
                 const productNames: string[] =
                         selectedProd.length > 0
                                 ? selectedProd.map((prd) => prd.name)
@@ -296,19 +279,19 @@ const BrandEditor: React.FC<Props> = ({
 
                 brands.doc(name).set({
                         name,
-                        category: categoryName,
+                        // category: categoryName,
                         products: productNames,
                 })
 
-                if (categoryName !== '') {
-                        const categoryRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData> = await categories.doc(
-                                categoryName
-                        )
+                // if (categoryName !== '') {
+                //         const categoryRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData> = await categories.doc(
+                //                 categoryName
+                //         )
 
-                        categoryRef.update({
-                                brands: FieldValue.arrayUnion(categoryName),
-                        })
-                }
+                //         categoryRef.update({
+                //                 brands: FieldValue.arrayUnion(categoryName),
+                //         })
+                // }
 
                 if (productNames.length > 0) {
                         const productRefs: firebase.firestore.DocumentReference<
@@ -340,24 +323,24 @@ const BrandEditor: React.FC<Props> = ({
          * updates data in firestore if any changes needed to be updated
          */
         const checkForUpdate = () => {
-                const isDefaultNotEmpty: boolean =
-                        brand.category.name !== '' &&
-                        brand.category.name !== undefined
-                const isSelectedCtgNotEmpty: boolean = selectedCtg.length > 0
-                const isCategoryChanged: boolean =
-                        isSelectedCtgNotEmpty &&
-                        selectedCtg[0].name !== brand.category.name
+                // const isDefaultNotEmpty: boolean =
+                //         brand.category.name !== '' &&
+                //         brand.category.name !== undefined
+                // const isSelectedCtgNotEmpty: boolean = selectedCtg.length > 0
+                // const isCategoryChanged: boolean =
+                //         isSelectedCtgNotEmpty &&
+                //         selectedCtg[0].name !== brand.category.name
 
                 // first, passed: not an empty string, and ctg is an array containing element and then we can check the equality if the provided category is
                 // changed. second condition: passed: not an empty string and selected is empty: means just reset the passed category
-                if (
-                        (isDefaultNotEmpty && isCategoryChanged) ||
-                        (isDefaultNotEmpty && !isSelectedCtgNotEmpty)
-                ) {
-                        categories.doc(brand.category.name).update({
-                                brands: FieldValue.arrayRemove(name),
-                        })
-                }
+                // if (
+                //         (isDefaultNotEmpty && isCategoryChanged) ||
+                //         (isDefaultNotEmpty && !isSelectedCtgNotEmpty)
+                // ) {
+                //         categories.doc(brand.category.name).update({
+                //                 brands: FieldValue.arrayRemove(name),
+                //         })
+                // }
 
                 // check for product update here?
                 const diff: Product[] = difference(brand.products, selectedProd)
@@ -383,7 +366,7 @@ const BrandEditor: React.FC<Props> = ({
                                 name={name}
                                 handleChange={handleChangeName}
                         />
-                        <Select
+                        {/* <Select
                                 available={availableCtg}
                                 selected={selectedCtg}
                                 headerText="Select brand's category"
@@ -391,7 +374,7 @@ const BrandEditor: React.FC<Props> = ({
                                 handleChange={handleChangeCtg}
                                 handleRemove={handleRemoveCtg}
                                 single
-                        />
+                        /> */}
                         <Select
                                 available={availableProd}
                                 selected={selectedProd}

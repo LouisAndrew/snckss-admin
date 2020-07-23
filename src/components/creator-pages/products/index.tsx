@@ -7,6 +7,8 @@ import List, { ListItem } from 'components/list'
 import Icons from '../icons'
 import ProductEditor from './editor'
 import useSureQuestion from 'hooks/useSureQuestion'
+import { Category } from 'ts/interfaces/category'
+import { initialCategory } from '../categories'
 
 export const initialProduct: Product = {
         name: '',
@@ -22,6 +24,8 @@ export const initialProduct: Product = {
         brand: ('' as unknown) as Brand,
         toFullfil: 0,
         purchaseLimit: 0,
+        category: ('' as unknown) as Category,
+        weight: 0,
 }
 
 interface TimestampObjectFirestore {
@@ -32,16 +36,25 @@ interface TimestampObjectFirestore {
 interface Props {
         allBrands: Brand[]
         allProducts: Product[]
+        allCategories: Category[]
         doRerender: () => void
 }
 
-const Products: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
+const Products: React.FC<Props> = ({
+        allBrands,
+        allProducts,
+        allCategories,
+        doRerender,
+}) => {
         const [isEditing, setIsEditing] = useState(false)
         const [prd, setPrd] = useState<Product[]>([])
         const [provideProduct, setProvideProduct] = useState(false)
         const [toProvide, setToProvide] = useState<Product>(initialProduct)
 
         const products = useFirestore().collection('product')
+        const brands = useFirestore().collection('brand')
+        const categories = useFirestore().collection('categories')
+        const arrayRemove = useFirestore.FieldValue.arrayRemove
 
         const question = useSureQuestion()
 
@@ -56,8 +69,51 @@ const Products: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
 
                 if (isKeyExists) {
                         const productRef = products.doc(key)
+
+                        const toDeleteProduct: Product = allProducts.filter(
+                                (product) => product.name === key
+                        )[0]
+
+                        const removeVariantRefs = (productName: string) => {
+                                products.doc(productName).update({
+                                        vars: arrayRemove(key),
+                                })
+                        }
+
+                        const removeBrandRef = (brandName: string) => {
+                                brands.doc(brandName).update({
+                                        products: arrayRemove(key),
+                                })
+                        }
+
+                        const removeCategoryRef = (categoryName: string) => {
+                                categories.doc(categoryName).update({
+                                        products: arrayRemove(key),
+                                })
+                        }
+
                         const deleteProduct = () => {
-                                productRef.delete().then(() => doRerender())
+                                toDeleteProduct.vars.forEach((variant) => {
+                                        const variantName = (variant as unknown) as string
+                                        if (variantName) {
+                                                removeVariantRefs(variantName)
+                                        }
+                                })
+
+                                const brandName = (toDeleteProduct.brand as unknown) as string
+                                const categoryName = (toDeleteProduct.category as unknown) as string
+
+                                if (brandName) {
+                                        removeBrandRef(brandName)
+                                }
+
+                                if (categoryName) {
+                                        removeCategoryRef(categoryName)
+                                }
+
+                                productRef.delete().then(() => {
+                                        doRerender()
+                                })
                         }
 
                         question.apply(
@@ -119,6 +175,7 @@ const Products: React.FC<Props> = ({ allBrands, allProducts, doRerender }) => {
                                         product={toProvide}
                                         allBrands={allBrands}
                                         allProducts={allProducts}
+                                        allCategories={allCategories}
                                         goBack={goBack}
                                 />
                         ) : (

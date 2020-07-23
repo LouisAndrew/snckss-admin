@@ -10,31 +10,31 @@ import config from '../../../../../lib/firebase-config'
 import Editor from '..'
 import { Category } from 'ts/interfaces/category'
 import { Brand } from 'ts/interfaces/brand'
+import { Product } from 'ts/interfaces/product'
+import { initialProduct } from 'components/creator-pages/products'
 
 describe('Editor component inside categories', () => {
         const mockFn = jest.fn(() => {})
 
         const mockEmptyCategory: Category = {
                 name: '',
-                brands: [],
+                products: [],
         }
 
-        const mockAllBrands: Brand[] = [
+        const mockAllProducts: Product[] = [
                 {
-                        name: 'Brand1',
-                        products: [],
-                        category: mockEmptyCategory,
+                        ...initialProduct,
+                        name: 'Product1',
                 },
                 {
-                        name: 'Brand2',
-                        products: [],
-                        category: mockEmptyCategory,
+                        ...initialProduct,
+                        name: 'Product2',
                 },
         ]
 
         const mockCategory: Category = {
                 name: 'mock',
-                brands: mockAllBrands,
+                products: mockAllProducts,
         }
 
         afterEach(cleanup)
@@ -45,7 +45,8 @@ describe('Editor component inside categories', () => {
                                         goBack={mockFn}
                                         providedCategory={false}
                                         category={mockEmptyCategory}
-                                        allBrands={mockAllBrands}
+                                        allBrands={[]}
+                                        allProducts={[]}
                                 />
                         </Suspense>
                 </FirebaseAppProvider>
@@ -58,7 +59,8 @@ describe('Editor component inside categories', () => {
                                         goBack={mockFn}
                                         category={mockCategory}
                                         providedCategory={true}
-                                        allBrands={mockAllBrands}
+                                        allBrands={[]}
+                                        allProducts={mockAllProducts}
                                 />
                         </Suspense>
                 </FirebaseAppProvider>

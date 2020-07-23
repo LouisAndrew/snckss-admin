@@ -21,12 +21,16 @@ import Name from 'components/creator-pages/name'
 import { Creations } from 'scene/main/creator'
 import usePriceError from 'hooks/usePriceError'
 import { difference } from 'lib/helper'
+import Weight from './weight'
+import { Category } from 'ts/interfaces/category'
+import { initialCategory } from 'components/creator-pages/categories'
 
 interface Props {
         providedProduct: boolean
         product: Product
         allBrands: Brand[]
         allProducts: Product[]
+        allCategories: Category[]
         goBack: () => void
 }
 
@@ -35,6 +39,7 @@ const ProductEditor: React.FC<Props> = ({
         product,
         allBrands,
         allProducts,
+        allCategories,
         goBack,
 }) => {
         const [state, dispatch] = useReducer(reducer, initialState)
@@ -52,6 +57,8 @@ const ProductEditor: React.FC<Props> = ({
                 success,
                 toFullfil,
                 purchaseLimit,
+                weight,
+                category,
         } = state
 
         const handleNameError = useNameError()
@@ -61,6 +68,7 @@ const ProductEditor: React.FC<Props> = ({
 
         const products = fs.collection('product')
         const brands = fs.collection('brand')
+        const categories = fs.collection('categories')
 
         const arrayUnion = useFirestore.FieldValue.arrayUnion
         const arrayRemove = useFirestore.FieldValue.arrayRemove
@@ -69,7 +77,12 @@ const ProductEditor: React.FC<Props> = ({
                 if (providedProduct) {
                         dispatch({
                                 type: Actions.SET_ALL,
-                                payload: { ...product, allProducts, allBrands },
+                                payload: {
+                                        ...product,
+                                        allProducts,
+                                        allBrands,
+                                        allCategories,
+                                },
                         })
                 }
         }, [])
@@ -144,6 +157,31 @@ const ProductEditor: React.FC<Props> = ({
                 })
         }
 
+        const handleChangeCategory = (
+                event: React.ChangeEvent<HTMLInputElement>
+        ) => {
+                const items: Category[] = allCategories.filter(
+                        (category) => category.name === event.target.value
+                )
+                if (items.length > 0) {
+                        dispatch({
+                                type: Actions.SET_CATEGORY,
+                                payload: {
+                                        category: items[0],
+                                },
+                        })
+                }
+        }
+
+        const handleRemoveCategory = () => {
+                dispatch({
+                        type: Actions.SET_CATEGORY,
+                        payload: {
+                                category: initialCategory,
+                        },
+                })
+        }
+
         const handleChangeImgs = (imgUrls: string[]) => {
                 dispatch({
                         type: Actions.SET_IMGS,
@@ -185,6 +223,19 @@ const ProductEditor: React.FC<Props> = ({
                 })
         }
 
+        const handleChangeWeight = (
+                event: React.ChangeEvent<HTMLInputElement>
+        ) => {
+                const newWeight: string = event.target.value
+                console.log(newWeight)
+                dispatch({
+                        type: Actions.SET_WEIGHT,
+                        payload: {
+                                weight: parseInt(newWeight),
+                        },
+                })
+        }
+
         const handleClick = () => {
                 if (name === '') {
                         handleNameError.apply()
@@ -195,6 +246,7 @@ const ProductEditor: React.FC<Props> = ({
                         name
                 )
                 const brandName: string = brand.name
+                const categoryName: string = category.name
                 const varsNames: string[] =
                         vars.length > 0
                                 ? vars.map((variant) => variant.name)
@@ -213,10 +265,18 @@ const ProductEditor: React.FC<Props> = ({
                         price,
                         toFullfil,
                         purchaseLimit,
+                        weight,
+                        category: categoryName,
                 })
 
                 if (brandName) {
                         brands.doc(brandName).update({
+                                products: arrayUnion(name),
+                        })
+                }
+
+                if (categoryName) {
+                        categories.doc(categoryName).update({
                                 products: arrayUnion(name),
                         })
                 }
@@ -230,7 +290,7 @@ const ProductEditor: React.FC<Props> = ({
                 }
 
                 if (providedProduct) {
-                        checkForUpdate(brandName, varsNames)
+                        checkForUpdate(brandName, categoryName, varsNames)
                 }
 
                 dispatch({
@@ -242,13 +302,23 @@ const ProductEditor: React.FC<Props> = ({
         }
 
         // check for the provided product's former informations and update the firestore datas if needed.
-        const checkForUpdate = (brandName: string, varsNames: string[]) => {
+        const checkForUpdate = (
+                brandName: string,
+                categoryName: string,
+                varsNames: string[]
+        ) => {
                 const brandIsNotEmpty: boolean =
                         brandName !== '' && brandName !== undefined
 
                 const brandNameBeforeChangeExist: boolean =
                         product.brand.name !== undefined &&
                         product.brand.name !== ''
+
+                const categoryIsNotEmpty: boolean =
+                        categoryName !== '' && categoryName !== undefined
+                const categoryNameBeforeChangeExist: boolean =
+                        product.category.name !== undefined &&
+                        product.category.name !== ''
 
                 // product.vars is an array of string => object from firestore!!
                 const varDifference: string[] = difference(
@@ -260,6 +330,12 @@ const ProductEditor: React.FC<Props> = ({
 
                 const removeFromBrand = (brandName: string) => {
                         brands.doc(brandName).update({
+                                products: arrayRemove(name),
+                        })
+                }
+
+                const removeFromCategory = (categoryName: string) => {
+                        categories.doc(categoryName).update({
                                 products: arrayRemove(name),
                         })
                 }
@@ -286,9 +362,23 @@ const ProductEditor: React.FC<Props> = ({
                         }
                 }
 
+                if (categoryIsNotEmpty) {
+                        // remove the product's reference from the product's brand before the change is made.
+                        if (
+                                categoryNameBeforeChangeExist &&
+                                product.category.name !== categoryName
+                        ) {
+                                removeFromCategory(product.category.name)
+                        }
+                } else {
+                        if (categoryNameBeforeChangeExist) {
+                                // remove if brand name is not provided in this change but brand name is there before the change.
+                                removeFromCategory(product.category.name)
+                        }
+                }
+
                 // product variants.
                 if (varDifference.length > 0) {
-                        console.log(varDifference)
                         varDifference.forEach((variant, i) => {
                                 if (variant) {
                                         removeVariants(variant)
@@ -329,6 +419,23 @@ const ProductEditor: React.FC<Props> = ({
                                 handleChange={handleChangeBrand}
                                 handleRemove={handleRemoveBrand}
                                 single
+                        />
+                        <Select
+                                available={allCategories}
+                                selected={
+                                        category.name === '' ? [] : [category]
+                                }
+                                headerText="Product's category"
+                                selectedText="Product category"
+                                handleChange={handleChangeCategory}
+                                handleRemove={handleRemoveCategory}
+                                single
+                        />
+                        <Weight
+                                weight={weight}
+                                headerText="Product's weight"
+                                placeholderText="Add product's weight here"
+                                handleChange={handleChangeWeight}
                         />
                         {/* using name as simply a string input here */}
                         <Availabilty

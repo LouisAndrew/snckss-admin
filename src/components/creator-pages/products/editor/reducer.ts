@@ -2,6 +2,9 @@ import { Product } from 'ts/interfaces/product'
 import { Brand } from 'ts/interfaces/brand'
 
 import { initialBrand } from 'components/creator-pages/brands'
+import { initialCategory } from 'components/creator-pages/categories'
+import { Category } from 'ts/interfaces/category'
+import { stat } from 'fs'
 
 export interface State extends Product {
         success: boolean
@@ -25,6 +28,9 @@ interface Action {
                 allBrands?: Brand[]
                 toFullfil?: number
                 purchaseLimit?: number
+                category?: Category
+                weight?: number
+                allCategories?: Category[]
         }
 }
 
@@ -39,6 +45,8 @@ export enum Actions {
         SET_VARS,
         SET_ALL,
         SET_PRICE,
+        SET_WEIGHT,
+        SET_CATEGORY,
 }
 
 export const initialState: State = {
@@ -56,6 +64,8 @@ export const initialState: State = {
         success: false,
         toFullfil: 0,
         purchaseLimit: 0,
+        category: initialCategory,
+        weight: 0,
 }
 
 export const reducer: React.Reducer<State, Action> = (state, action): State => {
@@ -185,6 +195,30 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                         }
                 }
 
+                case Actions.SET_WEIGHT: {
+                        const {
+                                payload: { weight },
+                        } = action
+                        if (weight !== undefined) {
+                                return {
+                                        ...state,
+                                        weight,
+                                }
+                        }
+                }
+
+                case Actions.SET_CATEGORY: {
+                        const {
+                                payload: { category },
+                        } = action
+                        if (category !== undefined) {
+                                return {
+                                        ...state,
+                                        category,
+                                }
+                        }
+                }
+
                 case Actions.SET_ALL: {
                         const {
                                 payload: {
@@ -202,10 +236,13 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                         allProducts,
                                         allBrands,
                                         purchaseLimit,
+                                        weight,
+                                        category,
+                                        allCategories,
                                 },
                         } = action
                         // just to make sure all of the attributes is not undefined.
-                        if (allProducts && allBrands) {
+                        if (allProducts && allBrands && allCategories) {
                                 return {
                                         ...state,
                                         name:
@@ -273,6 +310,17 @@ export const reducer: React.Reducer<State, Action> = (state, action): State => {
                                                 purchaseLimit !== undefined
                                                         ? purchaseLimit
                                                         : initialState.purchaseLimit,
+                                        category: category
+                                                ? allCategories.filter(
+                                                          (categoryName) =>
+                                                                  categoryName.name ===
+                                                                  ((category as unknown) as string)
+                                                  )[0]
+                                                : initialCategory,
+                                        weight:
+                                                weight !== undefined
+                                                        ? weight
+                                                        : initialState.weight,
                                 }
                         }
                 }

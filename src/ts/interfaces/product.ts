@@ -1,4 +1,5 @@
 import { Brand } from './brand'
+import { Category } from './category'
 
 /**
  * Product interface -> product object to illustrate the real product on the firestore.
@@ -18,4 +19,6 @@ export interface Product {
         brand: Brand
         toFullfil: number
         purchaseLimit: number
+        weight: number
+        category: Category
 }

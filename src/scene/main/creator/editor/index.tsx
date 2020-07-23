@@ -83,17 +83,24 @@ const MainEditor: React.FC<Props> = ({ nowCreating }) => {
                                         allCategories={allCategories}
                                         allBrands={allBrands}
                                         doRerender={doRerender}
+                                        allProducts={allProducts}
                                 />
                         )}
                         {!rerender && nowCreating === Creations.BRAND && (
                                 <Brands
+                                        allBrands={allBrands}
+                                        allProducts={allProducts}
+                                        doRerender={doRerender}
+                                />
+                        )}
+                        {!rerender && nowCreating === Creations.PRODUCT && (
+                                <Products
                                         allCategories={allCategories}
                                         allBrands={allBrands}
                                         allProducts={allProducts}
                                         doRerender={doRerender}
                                 />
                         )}
-                        {!rerender && nowCreating === Creations.PRODUCT && <Products allBrands={allBrands} allProducts={allProducts} doRerender={doRerender} />}
                 </>
         )
 }

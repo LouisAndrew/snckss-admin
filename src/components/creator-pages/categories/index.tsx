@@ -8,22 +8,26 @@ import Icons from '../icons'
 import CategoryEditor from './editor'
 import { Brand } from 'ts/interfaces/brand'
 import useSureQuestion from 'hooks/useSureQuestion'
+import { Product } from 'ts/interfaces/product'
 
 const initialCategories: Category[] = []
-const initialCategory: Category = {
+export const initialCategory: Category = {
         name: '',
-        brands: [],
+        // brands: [],
+        products: [],
 }
 
 interface Props {
         allCategories: Category[]
         allBrands: Brand[]
+        allProducts: Product[]
         doRerender: () => void
 }
 
 const Categories: React.FC<Props> = ({
         allCategories,
         allBrands,
+        allProducts,
         doRerender,
 }) => {
         const [isEditing, setIsEditing] = useState(false)
@@ -32,6 +36,7 @@ const Categories: React.FC<Props> = ({
         const [toProvide, setToProvide] = useState(initialCategory)
 
         const categories = useFirestore().collection('categories')
+        const products = useFirestore().collection('product')
         const question = useSureQuestion()
 
         useEffect(() => {
@@ -44,7 +49,28 @@ const Categories: React.FC<Props> = ({
                 )
                 if (isKeyExists) {
                         const categoryRef = categories.doc(key)
+                        const toDelete = allCategories.filter(
+                                (category) => category.name === key
+                        )[0]
+
+                        const deleteCategoryFromProducts = (
+                                productName: string
+                        ) => {
+                                products.doc(productName).update({
+                                        category: '',
+                                })
+                        }
+
                         const deleteCategory = () => {
+                                toDelete.products.forEach((product) => {
+                                        const productName = (product as unknown) as string
+                                        if (productName) {
+                                                deleteCategoryFromProducts(
+                                                        productName
+                                                )
+                                        }
+                                })
+
                                 categoryRef.delete().then(() => {
                                         doRerender()
                                 })
@@ -103,6 +129,7 @@ const Categories: React.FC<Props> = ({
                                         providedCategory={provideCategory}
                                         // allCategories={allCategories}
                                         allBrands={allBrands}
+                                        allProducts={allProducts}
                                 />
                         ) : (
                                 <List

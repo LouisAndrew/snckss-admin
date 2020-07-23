@@ -27,29 +27,6 @@ Array [
       className=""
       htmlFor="select"
     >
-      Select brand's category
-    </label>
-    <select
-      className="form-control"
-      id="select"
-      name="select"
-      onChange={[Function]}
-      value=""
-    >
-      <option
-        value="default"
-      >
-        Select one
-      </option>
-    </select>
-  </div>,
-  <div
-    className="form-group"
-  >
-    <label
-      className=""
-      htmlFor="select"
-    >
       Select prodcuts
     </label>
     <select
