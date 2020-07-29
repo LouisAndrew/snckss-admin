@@ -48,6 +48,7 @@ const Img: React.FC<Props> = ({
                 let formData = new FormData()
                 formData.append('file', file)
                 formData.append('upload_preset', 'u95k3wgx')
+                formData.append('folder', 'snckss')
 
                 const options = { method: 'POST', body: formData }
 
